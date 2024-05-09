@@ -6,6 +6,8 @@
   :root {
     font-family: "Noto Sans", sans-serif;
     box-sizing: border-box;
+    min-height: 100%;
+    width: 100%;
   }
 
   body {
