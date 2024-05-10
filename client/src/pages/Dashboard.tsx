@@ -39,8 +39,8 @@ const Dashboard = () => {
               <div className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white">
                 <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b ">
                   <textarea
-                    className="w-full h-full my-2 ml-1 mt-5  text-lg resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break"
-                    placeholder="Any thoughts..."
+                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break"
+                    placeholder="Create a note..."
                     rows={1}
                     value={val}
                     onChange={(e) => handleChange(e)}
@@ -48,22 +48,22 @@ const Dashboard = () => {
                     style={{ color: "#000" }}
                   ></textarea>
                   <div className="flex items-center my-2">
-                    <HashtagIcon className="w-7 text-gray-600 ml-1" />
-                    <CodeBracketSquareIcon className="w-7 text-gray-600 ml-2" />
-                    <PhotoIcon className="w-7 text-gray-600 ml-2" />
-                    <DocumentCheckIcon className="w-7 text-gray-600 ml-2" />
+                    <HashtagIcon className="w-6 text-gray-600 ml-1" />
+                    <CodeBracketSquareIcon className="w-6 text-gray-600 ml-2" />
+                    <PhotoIcon className="w-6 text-gray-600 ml-2" />
+                    <DocumentCheckIcon className="w-6 text-gray-600 ml-2" />
                   </div>
                 </div>
                 <div className="w-full py-4 flex justify-between items-center">
                   <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border">
                     <BellAlertIcon className="w-5 text-gray-700" />
-                    <p className="text-base font-medium text-gray-700 ml-2">
+                    <p className="text-sm font-medium text-gray-700 ml-2">
                       Reminders
                     </p>
                     <ChevronDoubleDownIcon className="w-5 text-gray-700 ml-2 mt-0.5" />
                   </button>
                   <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border">
-                    <p className="text-base font-medium text-gray-700">Save</p>
+                    <p className="text-sm font-medium text-gray-700">Save</p>
                     <PlusCircleIcon className="w-6 text-gray-700 ml-1" />
                   </button>
                 </div>
