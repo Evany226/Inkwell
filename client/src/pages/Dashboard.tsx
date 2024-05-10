@@ -1,6 +1,7 @@
 import Sidenav from "../components/Sidenav";
 import Post from "../components/Post";
 import { useState, useEffect, useRef } from "react";
+import { getData } from "../firebase";
 import {
   HashtagIcon,
   CodeBracketSquareIcon,
@@ -25,6 +26,7 @@ const Dashboard = () => {
       textAreaRef.current.style.height =
         textAreaRef.current.scrollHeight + "px";
     }
+    getData();
   }, [val]);
 
   return (
@@ -32,7 +34,7 @@ const Dashboard = () => {
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
-          <section className="w-full max-w-7xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0">
+          <section className="w-full max-w-7xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 md:max-w-5xl">
             <div className="w-[calc(100%-16rem)] h-full mb-8">
               <div className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white">
                 <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b ">
