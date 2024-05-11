@@ -1,7 +1,10 @@
 import Sidenav from "../components/Sidenav";
 import Post from "../components/Post";
 import { useState, useEffect, useRef } from "react";
-import { getData } from "../firebase";
+import { getDocs, collection } from "firebase/firestore";
+import { Note } from "../types/noteType";
+
+import { db } from "../firebase";
 import {
   HashtagIcon,
   CodeBracketSquareIcon,
@@ -15,6 +18,7 @@ import {
 const Dashboard = () => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [val, setVal] = useState("");
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setVal(event.target.value);
@@ -26,6 +30,16 @@ const Dashboard = () => {
       textAreaRef.current.style.height =
         textAreaRef.current.scrollHeight + "px";
     }
+
+    const getData = async () => {
+      const querySnapshot = await getDocs(collection(db, "notes"));
+      const documents: Note[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.get("name"),
+        time: doc.get("time"),
+      }));
+      setNotes(documents);
+    };
     getData();
   }, [val]);
 
@@ -34,7 +48,7 @@ const Dashboard = () => {
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
-          <section className="w-full max-w-7xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 md:max-w-5xl">
+          <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 ">
             <div className="w-[calc(100%-16rem)] h-full mb-8">
               <div className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white">
                 <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b ">
@@ -69,19 +83,12 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
+              {notes.map((item) => (
+                <>
+                  <Post />
+                  <div>{item.id}</div>
+                </>
+              ))}
             </div>
             <div className="stick top-0 left-0 w-64 h-full bg-white">
               <p className="h-48">Hello</p>

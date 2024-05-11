@@ -2,7 +2,6 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import { getDocs, collection} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,13 +21,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 
-export const getData = async () => {
-  const querySnapshot = await getDocs(collection(db, "notes"));
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, " => ", doc.data());
-  });
+// const citiesRef = collection(db, "cities");
 
-}
+// await setDoc(doc(citiesRef, "SF"), {
+//     name: "San Francisco", state: "CA", country: "USA",
+//     capital: false, population: 860000,
+//     regions: ["west_coast", "norcal"] });
+// await setDoc(doc(citiesRef, "LA"), {
+//     name: "Los Angeles", state: "CA", country: "USA",
+//     capital: false, population: 3900000,
+//     regions: ["west_coast", "socal"] });
+// await setDoc(doc(citiesRef, "DC"), {
+//     name: "Washington, D.C.", state: null, country: "USA",
+//     capital: true, population: 680000,
+//     regions: ["east_coast"] });
+// await setDoc(doc(citiesRef, "TOK"), {
+//     name: "Tokyo", state: null, country: "Japan",
+//     capital: true, population: 9000000,
+//     regions: ["kanto", "honshu"] });
+// await setDoc(doc(citiesRef, "BJ"), {
+//     name: "Beijing", state: null, country: "China",
+//     capital: true, population: 21500000,
+//     regions: ["jingjinji", "hebei"] });
