@@ -85,8 +85,7 @@ const Dashboard = () => {
 
               {notes.map((item) => (
                 <>
-                  <Post />
-                  <div>{item.id}</div>
+                  <Post name={item.name} time={item.time} />
                 </>
               ))}
             </div>
