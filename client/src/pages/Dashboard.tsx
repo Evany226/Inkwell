@@ -3,8 +3,9 @@ import Post from "../components/Post";
 import { useState, useEffect, useRef } from "react";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import { Note } from "../types/noteType";
+import Notification from "../components/Notification";
 
-import { db } from "../firebase";
+import { db, notesRef } from "../config/firebase";
 import {
   HashtagIcon,
   CodeBracketSquareIcon,
@@ -19,7 +20,8 @@ const Dashboard = () => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [val, setVal] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
-  const [newNote, setNewNote] = useState("");
+  const [newNote, setNewNote] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setVal(event.target.value);
@@ -48,11 +50,24 @@ const Dashboard = () => {
   const addNote = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     const addData = async () => {
-      const docRef = await addDoc(collection(db, "notes"), {
+      const noteObject = {
         name: newNote,
         time: new Date().toString(),
-      });
+      };
+
+      const docRef = await addDoc(notesRef, noteObject);
       console.log("Document written with ID: ", docRef.id);
+
+      const newNoteObject: Note = {
+        id: docRef.id,
+        ...noteObject,
+      };
+
+      setNotes(notes.concat(newNoteObject));
+      setErrorMsg("Created successfully");
+      setTimeout(() => {
+        setErrorMsg("");
+      }, 5000);
     };
     addData();
   };
@@ -62,6 +77,7 @@ const Dashboard = () => {
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
+          <Notification message={errorMsg} setErrorMsg={setErrorMsg} />
           <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 ">
             <div className="w-[calc(100%-16rem)] h-full mb-8">
               <form
@@ -105,7 +121,7 @@ const Dashboard = () => {
 
               {notes.map((item) => (
                 <>
-                  <Post name={item.name} time={item.time} />
+                  <Post name={item.name} time={item.time} key={item.id} />
                 </>
               ))}
             </div>
