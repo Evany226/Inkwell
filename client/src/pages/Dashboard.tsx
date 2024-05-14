@@ -3,7 +3,8 @@ import Post from "../components/Post";
 import { useState, useEffect, useRef } from "react";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import { Note } from "../types/noteType";
-import Notification from "../components/Notification";
+import Success from "../components/notifications/Success";
+import SidePanel from "../components/SidePanel";
 
 import { db, notesRef } from "../config/firebase";
 import {
@@ -21,7 +22,7 @@ const Dashboard = () => {
   const [val, setVal] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
   const [newNote, setNewNote] = useState<string>("");
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [successMsg, setSuccessMsg] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setVal(event.target.value);
@@ -64,10 +65,12 @@ const Dashboard = () => {
       };
 
       setNotes(notes.concat(newNoteObject));
-      setErrorMsg("Created successfully");
+      setSuccessMsg("Created successfully");
       setTimeout(() => {
-        setErrorMsg("");
-      }, 5000);
+        setSuccessMsg("");
+      }, 3000);
+      setNewNote("");
+      setVal("");
     };
     addData();
   };
@@ -77,7 +80,9 @@ const Dashboard = () => {
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
-          <Notification message={errorMsg} setErrorMsg={setErrorMsg} />
+          <div className="absolute mt-6 mr-6 top-0 right-0">
+            <Success message={successMsg} setSuccessMsg={setSuccessMsg} />
+          </div>
           <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 ">
             <div className="w-[calc(100%-16rem)] h-full mb-8">
               <form
@@ -125,9 +130,7 @@ const Dashboard = () => {
                 </>
               ))}
             </div>
-            <div className="stick top-0 left-0 w-64 h-full bg-white">
-              <p className="h-48">Hello</p>
-            </div>
+            <SidePanel />
           </section>
         </main>
       </div>
