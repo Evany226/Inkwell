@@ -1,7 +1,13 @@
 import Sidenav from "../components/Sidenav";
-import Post from "../components/Post";
+import Post from "../components/post/Post";
 import { useState, useEffect, useRef } from "react";
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import {
+  doc,
+  getDocs,
+  collection,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { Note } from "../types/noteType";
 import Success from "../components/notifications/Success";
 import SidePanel from "../components/SidePanel";
@@ -48,7 +54,7 @@ const Dashboard = () => {
     getData();
   }, [val]);
 
-  const addNote = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const addNote = (event: React.ChangeEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const addData = async () => {
       const noteObject = {
@@ -73,6 +79,16 @@ const Dashboard = () => {
       setVal("");
     };
     addData();
+  };
+
+  const deleteNote = (id: string): void => {
+    const deleteData = async () => {
+      await deleteDoc(doc(db, "notes", id));
+      setNotes(notes.filter((item) => item.id !== id));
+      console.log(`Note ${id} has been deleted`);
+    };
+
+    deleteData();
   };
 
   return (
@@ -107,17 +123,14 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="w-full py-4 flex justify-between items-center">
-                  <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border">
+                  <span className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer">
                     <BellAlertIcon className="w-5 text-gray-700" />
                     <p className="text-sm font-medium text-gray-700 ml-2">
                       Reminders
                     </p>
                     <ChevronDoubleDownIcon className="w-5 text-gray-700 ml-2 mt-0.5" />
-                  </button>
-                  <button
-                    className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border"
-                    type="submit"
-                  >
+                  </span>
+                  <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border">
                     <p className="text-sm font-medium text-gray-700">Save</p>
                     <PlusCircleIcon className="w-6 text-gray-700 ml-1" />
                   </button>
@@ -125,9 +138,12 @@ const Dashboard = () => {
               </form>
 
               {notes.map((item) => (
-                <>
-                  <Post name={item.name} time={item.time} key={item.id} />
-                </>
+                <Post
+                  name={item.name}
+                  time={item.time}
+                  key={item.id}
+                  deleteNote={() => deleteNote(item.id)}
+                />
               ))}
             </div>
             <SidePanel />
