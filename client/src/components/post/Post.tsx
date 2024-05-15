@@ -7,10 +7,16 @@ const Post = ({
   name,
   time,
   deleteNote,
+  setNewNote,
+  editNote,
+  editHandleChange,
 }: {
   name: string;
   time: string;
   deleteNote(): void;
+  setNewNote(arg: string): void;
+  editNote(e: React.ChangeEvent<HTMLFormElement>): void;
+  editHandleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
@@ -22,6 +28,7 @@ const Post = ({
   const handleEditOpen = () => {
     setEditOpen(true);
     setOpen(false);
+    setNewNote(name);
   };
 
   return (
@@ -34,7 +41,13 @@ const Post = ({
           ></div>
         </>
       ) : null}
-      {editOpen ? <EditPost /> : null}
+      {editOpen ? (
+        <EditPost
+          editNote={editNote}
+          editHandleChange={editHandleChange}
+          setEditOpen={setEditOpen}
+        />
+      ) : null}
       {open ? (
         <div
           className="fixed top-0 right-0 bottom-0 left-0 z-10"

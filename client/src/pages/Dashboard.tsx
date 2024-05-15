@@ -7,6 +7,8 @@ import {
   collection,
   addDoc,
   deleteDoc,
+  updateDoc,
+  getDoc,
 } from "firebase/firestore";
 import { Note } from "../types/noteType";
 import Success from "../components/notifications/Success";
@@ -32,6 +34,11 @@ const Dashboard = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setVal(event.target.value);
+    setNewNote(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const editHandleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewNote(event.target.value);
     console.log(event.target.value);
   };
@@ -91,6 +98,31 @@ const Dashboard = () => {
     deleteData();
   };
 
+  const editNote = (
+    event: React.ChangeEvent<HTMLFormElement>,
+    id: string
+  ): void => {
+    event.preventDefault();
+    const editData = async () => {
+      const docRef = doc(db, "notes", id);
+      await updateDoc(docRef, {
+        name: newNote,
+      });
+
+      const docSnap = await getDoc(docRef);
+
+      const newObject: Note = {
+        id: docSnap.id,
+        name: docSnap.get("name"),
+        time: docSnap.get("time"),
+      };
+
+      setNotes(notes.map((note) => (note.id !== id ? note : newObject)));
+    };
+
+    editData();
+  };
+
   return (
     <div className="w-full min-h-full">
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
@@ -143,6 +175,9 @@ const Dashboard = () => {
                   time={item.time}
                   key={item.id}
                   deleteNote={() => deleteNote(item.id)}
+                  setNewNote={setNewNote}
+                  editNote={(e) => editNote(e, item.id)}
+                  editHandleChange={(e) => editHandleChange(e)}
                 />
               ))}
             </div>

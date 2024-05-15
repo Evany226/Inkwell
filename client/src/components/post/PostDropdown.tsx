@@ -20,7 +20,7 @@ const PostDropdown = ({
         </span>
         <span
           className="flex items-center mt-2 hover:bg-gray-200 py-1 px-3"
-          onClick={() => handleEditOpen}
+          onClick={handleEditOpen}
         >
           <PencilSquareIcon className="w-5 text-gray-900" />
           <p className="text-gray-700 ml-2 text-sm">Edit</p>
