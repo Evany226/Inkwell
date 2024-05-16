@@ -1,6 +1,6 @@
 import Sidenav from "../components/Sidenav";
 import Post from "../components/post/Post";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   doc,
   getDocs,
@@ -13,16 +13,18 @@ import {
 import { Note } from "../types/noteType";
 import Success from "../components/notifications/Success";
 import SidePanel from "../components/SidePanel";
+import TagModal from "../components/tags/TagModal";
+import TagButton from "../components/post/buttons/TagButton";
 
 import { db, notesRef } from "../config/firebase";
 import {
-  HashtagIcon,
   CodeBracketSquareIcon,
   PhotoIcon,
   DocumentCheckIcon,
   PlusCircleIcon,
   BellAlertIcon,
   ChevronDoubleDownIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 
 const Dashboard = () => {
@@ -31,6 +33,9 @@ const Dashboard = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [newNote, setNewNote] = useState<string>("");
   const [successMsg, setSuccessMsg] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagValue, setTagValue] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setVal(event.target.value);
@@ -40,6 +45,11 @@ const Dashboard = () => {
 
   const editHandleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewNote(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const tagHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTagValue(event.target.value);
     console.log(event.target.value);
   };
 
@@ -123,8 +133,34 @@ const Dashboard = () => {
     editData();
   };
 
+  const addTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && tagValue !== "") {
+      setTags([...tags, tagValue]);
+      setTagValue("");
+    }
+  };
+
+  const removeTags = (tagName: string) => {
+    setTags(tags.filter((tag) => tag !== tagName));
+  };
+
   return (
     <div className="w-full min-h-full">
+      {modalOpen ? (
+        <div
+          className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-black bg-opacity-50"
+          onClick={() => setModalOpen(false)}
+        ></div>
+      ) : null}
+      {modalOpen ? (
+        <TagModal
+          tagValue={tagValue}
+          tagHandleChange={(e) => tagHandleChange(e)}
+          addTags={(e) => addTags(e)}
+          tags={tags}
+          removeTags={removeTags}
+        />
+      ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
@@ -147,8 +183,19 @@ const Dashboard = () => {
                     ref={textAreaRef}
                     style={{ color: "#000" }}
                   ></textarea>
+                  <div className="flex w-full my-1">
+                    {tags.map((tag) => (
+                      <div className="text-base flex items-center bg-gray-200 border border-gray-300 bg-white px-2 rounded-md mx-1">
+                        <p>{tag}</p>
+                        <XMarkIcon
+                          className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
+                          onClick={() => removeTags(tag)}
+                        />
+                      </div>
+                    ))}
+                  </div>
                   <div className="flex items-center my-2">
-                    <HashtagIcon className="w-6 text-gray-600 ml-1" />
+                    <TagButton setModalOpen={setModalOpen} />
                     <CodeBracketSquareIcon className="w-6 text-gray-600 ml-2" />
                     <PhotoIcon className="w-6 text-gray-600 ml-2" />
                     <DocumentCheckIcon className="w-6 text-gray-600 ml-2" />

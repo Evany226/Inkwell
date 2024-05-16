@@ -1,7 +1,7 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
 import PostDropdown from "./PostDropdown";
 import { useState } from "react";
-import EditPost from "./EditPost";
+import EditPostModal from "./EditPostModal";
 
 const Post = ({
   name,
@@ -42,7 +42,7 @@ const Post = ({
         </>
       ) : null}
       {editOpen ? (
-        <EditPost
+        <EditPostModal
           editNote={editNote}
           editHandleChange={editHandleChange}
           setEditOpen={setEditOpen}
