@@ -1,17 +1,19 @@
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const EditPost = ({
   editNote,
   editHandleChange,
   setEditOpen,
+  newContent,
 }: {
   editNote(e: React.FormEvent<HTMLFormElement>): void;
   editHandleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
   setEditOpen(arg: boolean): void;
+  newContent: string;
 }) => {
   return (
     <form
-      className="w-[30rem] bg-white z-20 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 flex-col"
+      className="w-[30rem] bg-white z-20 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 flex-col"
       onSubmit={(e) => {
         editNote(e), setEditOpen(false);
       }}
@@ -24,6 +26,9 @@ const EditPost = ({
           className="bg-slate-100 w-full mt-2 p-1 resize-none text-sm rounded-md outline-none"
           rows={2}
           placeholder="Change your note..."
+          autoFocus
+          onFocus={(e) => e.currentTarget.select()}
+          value={newContent}
           onChange={editHandleChange}
         ></textarea>
       </div>
@@ -33,7 +38,7 @@ const EditPost = ({
           className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border"
         >
           <p className="text-sm font-medium text-gray-700">Save</p>
-          <PlusCircleIcon className="w-6 text-gray-700 ml-1" />
+          <PlusCircleIcon className="w-4 text-gray-600 ml-1" />
         </button>
       </div>
     </form>

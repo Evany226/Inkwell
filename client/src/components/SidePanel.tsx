@@ -2,7 +2,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { HashtagIcon } from "@heroicons/react/24/outline";
 
-const SidePanel = () => {
+const SidePanel = ({ notesLen }: { notesLen: number }) => {
   return (
     <div className="stick top-0 left-0 w-56 h-full bg-slate-100">
       <section className="w-full flex py-1 px-2 rounded-lg bg-white border">
@@ -19,7 +19,7 @@ const SidePanel = () => {
             <BookOpenIcon className="w-4" />
             <p className="text-sm ml-1 text-gray-500 ">Notes</p>
           </div>
-          <p className="text-sm text-gray-500 mr-1">16</p>
+          <p className="text-sm text-gray-500 mr-1">{notesLen}</p>
         </div>
         <div className="flex justify-between items-center mt-1">
           <div className="flex items-center">

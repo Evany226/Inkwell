@@ -21,21 +21,24 @@ import {
   CodeBracketSquareIcon,
   PhotoIcon,
   DocumentCheckIcon,
-  PlusCircleIcon,
   BellAlertIcon,
   ChevronDoubleDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+
+import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const Dashboard = () => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [val, setVal] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
   const [newNote, setNewNote] = useState<string>("");
+  const [newContent, setNewContent] = useState<string>("");
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagValue, setTagValue] = useState<string>("");
+  // const [uniqueTags, setUniqueTags] = useState<string[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setVal(event.target.value);
@@ -44,7 +47,7 @@ const Dashboard = () => {
   };
 
   const editHandleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewNote(event.target.value);
+    setNewContent(event.target.value);
     console.log(event.target.value);
   };
 
@@ -65,6 +68,7 @@ const Dashboard = () => {
         id: doc.id,
         name: doc.get("name"),
         time: doc.get("time"),
+        tagArr: doc.get("tagArr"),
       }));
       setNotes(documents);
     };
@@ -77,6 +81,7 @@ const Dashboard = () => {
       const noteObject = {
         name: newNote,
         time: new Date().toString(),
+        tagArr: tags,
       };
 
       const docRef = await addDoc(notesRef, noteObject);
@@ -94,6 +99,7 @@ const Dashboard = () => {
       }, 3000);
       setNewNote("");
       setVal("");
+      setTags([]);
     };
     addData();
   };
@@ -116,7 +122,7 @@ const Dashboard = () => {
     const editData = async () => {
       const docRef = doc(db, "notes", id);
       await updateDoc(docRef, {
-        name: newNote,
+        name: newContent,
       });
 
       const docSnap = await getDoc(docRef);
@@ -125,6 +131,7 @@ const Dashboard = () => {
         id: docSnap.id,
         name: docSnap.get("name"),
         time: docSnap.get("time"),
+        tagArr: docSnap.get("tagArr"),
       };
 
       setNotes(notes.map((note) => (note.id !== id ? note : newObject)));
@@ -159,6 +166,7 @@ const Dashboard = () => {
           addTags={(e) => addTags(e)}
           tags={tags}
           removeTags={removeTags}
+          setModalOpen={setModalOpen}
         />
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
@@ -183,9 +191,9 @@ const Dashboard = () => {
                     ref={textAreaRef}
                     style={{ color: "#000" }}
                   ></textarea>
-                  <div className="flex w-full my-1">
+                  <div className="flex w-full my-1 space-x-2">
                     {tags.map((tag) => (
-                      <div className="text-base flex items-center bg-gray-200 border border-gray-300 bg-white px-2 rounded-md mx-1">
+                      <div className="text-base flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
                         <p>{tag}</p>
                         <XMarkIcon
                           className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
@@ -211,7 +219,7 @@ const Dashboard = () => {
                   </span>
                   <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border">
                     <p className="text-sm font-medium text-gray-700">Save</p>
-                    <PlusCircleIcon className="w-6 text-gray-700 ml-1" />
+                    <PlusCircleIcon className="w-4 text-gray-600 ml-1 " />
                   </button>
                 </div>
               </form>
@@ -220,15 +228,17 @@ const Dashboard = () => {
                 <Post
                   name={item.name}
                   time={item.time}
+                  tagArr={item.tagArr}
                   key={item.id}
                   deleteNote={() => deleteNote(item.id)}
-                  setNewNote={setNewNote}
+                  newContent={newContent}
+                  setNewContent={setNewContent}
                   editNote={(e) => editNote(e, item.id)}
                   editHandleChange={(e) => editHandleChange(e)}
                 />
               ))}
             </div>
-            <SidePanel />
+            <SidePanel notesLen={notes.length} />
           </section>
         </main>
       </div>
