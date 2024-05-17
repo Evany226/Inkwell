@@ -12,6 +12,8 @@ const Post = ({
   editNote,
   editHandleChange,
   tagArr,
+  newTags,
+  setNewTags,
 }: {
   name: string;
   time: string;
@@ -21,9 +23,12 @@ const Post = ({
   editNote(e: React.ChangeEvent<HTMLFormElement>): void;
   editHandleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
   tagArr: string[];
+  newTags: string[];
+  setNewTags(arg: string[]): void;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
+  const [newTagValue, setNewTagValue] = useState<string>("");
 
   const handleOpen = () => {
     setOpen(!open);
@@ -33,6 +38,24 @@ const Post = ({
     setNewContent(name);
     setEditOpen(true);
     setOpen(false);
+    setNewTags(tagArr);
+  };
+
+  const handleEditTags = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTagValue(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const addEditTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && newTagValue !== "") {
+      setNewTags([...newTags, newTagValue]);
+      setNewTagValue("");
+      console.log("set tags");
+    }
+  };
+
+  const removeEditTags = (tagName: string) => {
+    setNewTags(newTags.filter((tag) => tag !== tagName));
   };
 
   return (
@@ -51,6 +74,11 @@ const Post = ({
           newContent={newContent}
           editHandleChange={editHandleChange}
           setEditOpen={setEditOpen}
+          newTags={newTags}
+          handleEditTags={(e) => handleEditTags(e)}
+          newTagValue={newTagValue}
+          addEditTags={(e) => addEditTags(e)}
+          removeEditTags={removeEditTags}
         />
       ) : null}
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300">
@@ -60,14 +88,19 @@ const Post = ({
             onClick={() => setOpen(false)}
           ></div>
         ) : null}
-        <div className="flex w-full my-1 space-x-2">
-          {tagArr.map((tag) => (
-            <div className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded">
-              <p className="text-sm text-gray-700">{tag}</p>
-            </div>
-          ))}
-        </div>
-        <div className="w-full mt-2">
+        {tagArr.length > 0 ? (
+          <div className="flex w-full my-1 space-x-2 mb-2">
+            {tagArr.map((tag) => (
+              <div
+                className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded"
+                key={tag}
+              >
+                <p className="text-sm text-gray-700">{tag}</p>
+              </div>
+            ))}
+          </div>
+        ) : null}
+        <div className="w-full">
           <p className="text-sm text-gray-400">{time}</p>
         </div>
         <div className="text-base mt-2 text-black break-words">{name}</div>

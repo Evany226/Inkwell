@@ -10,13 +10,16 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../config/firebase";
 import { Note } from "../types/noteType";
 import Success from "../components/notifications/Success";
 import SidePanel from "../components/SidePanel";
 import TagModal from "../components/tags/TagModal";
 import TagButton from "../components/post/buttons/TagButton";
+import { useNavigate } from "react-router-dom";
 
-import { db, notesRef } from "../config/firebase";
+import { db } from "../config/firebase";
 import {
   CodeBracketSquareIcon,
   PhotoIcon,
@@ -25,7 +28,6 @@ import {
   ChevronDoubleDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const Dashboard = () => {
@@ -38,7 +40,12 @@ const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagValue, setTagValue] = useState<string>("");
+
+  const [newTags, setNewTags] = useState<string[]>([]);
   // const [uniqueTags, setUniqueTags] = useState<string[]>([]);
+
+  const navigate = useNavigate();
+  const user = auth.currentUser;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setVal(event.target.value);
@@ -56,14 +63,28 @@ const Dashboard = () => {
     console.log(event.target.value);
   };
 
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+        console.log("Signed out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     if (textAreaRef.current != null) {
       textAreaRef.current.style.height =
         textAreaRef.current.scrollHeight + "px";
     }
 
-    const getData = async () => {
-      const querySnapshot = await getDocs(collection(db, "notes"));
+    const getData = async (uid: string) => {
+      const notesRef = collection(db, "users", uid, "notes");
+      const querySnapshot = await getDocs(notesRef);
       const documents: Note[] = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.get("name"),
@@ -72,18 +93,32 @@ const Dashboard = () => {
       }));
       setNotes(documents);
     };
-    getData();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        getData(user.uid);
+        // ...
+        console.log("uid", user.uid);
+      } else {
+        // User is signed out
+        // ...
+        console.log("user is logged out");
+      }
+    });
   }, [val]);
 
   const addNote = (event: React.ChangeEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const addData = async () => {
+    const addData = async (uid: string) => {
       const noteObject = {
         name: newNote,
         time: new Date().toString(),
         tagArr: tags,
       };
 
+      const notesRef = collection(db, "users", uid, "notes");
       const docRef = await addDoc(notesRef, noteObject);
       console.log("Document written with ID: ", docRef.id);
 
@@ -101,17 +136,22 @@ const Dashboard = () => {
       setVal("");
       setTags([]);
     };
-    addData();
+    if (user) {
+      addData(user.uid);
+    }
   };
 
   const deleteNote = (id: string): void => {
-    const deleteData = async () => {
-      await deleteDoc(doc(db, "notes", id));
+    const deleteData = async (uid: string) => {
+      const notesRef = doc(db, "users", uid, "notes", id);
+      await deleteDoc(notesRef);
       setNotes(notes.filter((item) => item.id !== id));
       console.log(`Note ${id} has been deleted`);
     };
 
-    deleteData();
+    if (user) {
+      deleteData(user.uid);
+    }
   };
 
   const editNote = (
@@ -119,10 +159,11 @@ const Dashboard = () => {
     id: string
   ): void => {
     event.preventDefault();
-    const editData = async () => {
-      const docRef = doc(db, "notes", id);
+    const editData = async (uid: string) => {
+      const docRef = doc(db, "users", uid, "notes", id);
       await updateDoc(docRef, {
         name: newContent,
+        tagArr: newTags,
       });
 
       const docSnap = await getDoc(docRef);
@@ -137,7 +178,9 @@ const Dashboard = () => {
       setNotes(notes.map((note) => (note.id !== id ? note : newObject)));
     };
 
-    editData();
+    if (user) {
+      editData(user.uid);
+    }
   };
 
   const addTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -171,6 +214,7 @@ const Dashboard = () => {
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
+        <button onClick={handleLogout}>Logout</button>
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
           <div className="absolute mt-6 mr-6 top-0 right-0">
             <Success message={successMsg} setSuccessMsg={setSuccessMsg} />
@@ -235,6 +279,8 @@ const Dashboard = () => {
                   setNewContent={setNewContent}
                   editNote={(e) => editNote(e, item.id)}
                   editHandleChange={(e) => editHandleChange(e)}
+                  newTags={newTags}
+                  setNewTags={setNewTags}
                 />
               ))}
             </div>
