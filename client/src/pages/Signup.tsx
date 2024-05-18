@@ -54,7 +54,7 @@ const Signup = () => {
     <section className="flex flex-col items-center rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] ">
       <div className="flex items-center">
         <div className="w-20 h-20">
-          <img className="w-full h-auto" src="../../clear.png"></img>
+          <img className="w-full h-auto" src="../../logo-clear.png"></img>
         </div>
         <h1 className="text-6xl font-bold font-DancingScript ml-2">Inkwell</h1>
       </div>

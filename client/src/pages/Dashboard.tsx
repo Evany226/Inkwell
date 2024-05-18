@@ -34,15 +34,21 @@ const Dashboard = () => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [val, setVal] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
+  const [filtered, setFiltered] = useState<Note[]>([]);
+  const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [newNote, setNewNote] = useState<string>("");
   const [newContent, setNewContent] = useState<string>("");
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagValue, setTagValue] = useState<string>("");
-
   const [newTags, setNewTags] = useState<string[]>([]);
-  // const [uniqueTags, setUniqueTags] = useState<string[]>([]);
+
+  const uniqueTags: string[] = [];
+  notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
+
+  const tagItems = [...new Set(uniqueTags)];
+  console.log(tagItems);
 
   const navigate = useNavigate();
   const user = auth.currentUser;
@@ -92,6 +98,7 @@ const Dashboard = () => {
         tagArr: doc.get("tagArr"),
       }));
       setNotes(documents);
+      setFiltered(documents);
     };
 
     onAuthStateChanged(auth, (user) => {
@@ -194,6 +201,16 @@ const Dashboard = () => {
     setTags(tags.filter((tag) => tag !== tagName));
   };
 
+  const filterTags = (tag: string) => {
+    setFilterOpen(true);
+
+    const newItem = filtered.filter((note) => {
+      return note.tagArr.includes(tag) ? note : null;
+      // comparing category for displaying data
+    });
+    setFiltered(newItem);
+  };
+
   return (
     <div className="w-full min-h-full">
       {modalOpen ? (
@@ -267,23 +284,66 @@ const Dashboard = () => {
                 </div>
               </form>
 
-              {notes.map((item) => (
-                <Post
-                  name={item.name}
-                  time={item.time}
-                  tagArr={item.tagArr}
-                  key={item.id}
-                  deleteNote={() => deleteNote(item.id)}
-                  newContent={newContent}
-                  setNewContent={setNewContent}
-                  editNote={(e) => editNote(e, item.id)}
-                  editHandleChange={(e) => editHandleChange(e)}
-                  newTags={newTags}
-                  setNewTags={setNewTags}
-                />
-              ))}
+              {filterOpen ? (
+                <div className="px-4 py-1 mt-4 w-full flex items-center">
+                  <p className="text-sm">Filters:</p>
+                  <div className="ml-3 w-full flex">
+                    <button
+                      className="bg-red-300 px-3 py-0.5 rounded"
+                      onClick={() => {
+                        setFilterOpen(false);
+                        setFiltered(notes);
+                      }}
+                    >
+                      <p className="text-sm text-red-800 font-medium">Reset</p>
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+
+              {filterOpen ? (
+                <div>
+                  {filtered.map((item) => (
+                    <Post
+                      name={item.name}
+                      time={item.time}
+                      tagArr={item.tagArr}
+                      key={item.id}
+                      deleteNote={() => deleteNote(item.id)}
+                      newContent={newContent}
+                      setNewContent={setNewContent}
+                      editNote={(e) => editNote(e, item.id)}
+                      editHandleChange={(e) => editHandleChange(e)}
+                      newTags={newTags}
+                      setNewTags={setNewTags}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  {notes.map((item) => (
+                    <Post
+                      name={item.name}
+                      time={item.time}
+                      tagArr={item.tagArr}
+                      key={item.id}
+                      deleteNote={() => deleteNote(item.id)}
+                      newContent={newContent}
+                      setNewContent={setNewContent}
+                      editNote={(e) => editNote(e, item.id)}
+                      editHandleChange={(e) => editHandleChange(e)}
+                      newTags={newTags}
+                      setNewTags={setNewTags}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-            <SidePanel notesLen={notes.length} />
+            <SidePanel
+              notes={notes}
+              tagItems={tagItems}
+              filterTags={filterTags}
+            />
           </section>
         </main>
       </div>
