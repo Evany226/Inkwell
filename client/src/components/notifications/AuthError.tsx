@@ -4,7 +4,7 @@ const AuthError = ({ errorMsg }: { errorMsg: string }) => {
   }
 
   return (
-    <div className="flex justify-center mt-2">
+    <div className="flex justify-center mt-2 ease-in duration-300 translate-y-0.5">
       <p className="text-red-600 font-medium">{errorMsg}</p>
     </div>
   );

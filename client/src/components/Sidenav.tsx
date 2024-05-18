@@ -7,14 +7,19 @@ import {
   ArrowLeftStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
-const Sidenav = () => {
+const Sidenav = ({ handleLogout }: { handleLogout(): void }) => {
   return (
-    <aside className="bg-white flex-col justify-center items-center fixed border-r w-60 px-4 top-0 left-0 h-full z-2">
-      <div className="flex justify-center ">
-        <img src="../../full-logo.png" className="w-32 mr-6 my-6 mt-8"></img>
+    <aside className="bg-gray-50 flex-col justify-center items-center fixed border-r w-60 px-4 top-0 left-0 h-full z-2">
+      <div className="flex items-center px-6 mt-10">
+        <div className="w-9 h-9 bg-gray-200 rounded-xl ">
+          <img src="../../clear.png" className="w-full h-auto"></img>
+        </div>
+        <div className=" text-lg font-semibold ml-2 font-MeowScript">
+          Evan Yang
+        </div>
       </div>
 
-      <ul className="relative flex-col items-center text-center w-full px-2 py h-full">
+      <ul className="relative flex-col items-center text-center w-full px-2 h-full mt-4">
         <li className="flex items-center px-4 py-2 rounded-xl mt-2">
           <ClipboardDocumentListIcon className="w-8 text-gray-800" />
           <p className="text-lg text-gray-800 ml-3 font-medium">Notes</p>
@@ -35,7 +40,10 @@ const Sidenav = () => {
           <Cog8ToothIcon className="w-8 text-gray-800 " />
           <p className="text-lg text-gray-800 ml-3 font-medium">Settings</p>
         </li>
-        <li className="flex items-center px-4 py-2 rounded-xl mt-2">
+        <li
+          className="flex items-center px-4 py-2 rounded-xl mt-2 cursor-pointer"
+          onClick={handleLogout}
+        >
           <ArrowLeftStartOnRectangleIcon className="w-8 text-red-700 " />
           <p className="text-lg text-red-700 ml-3 font-medium">Logout</p>
         </li>

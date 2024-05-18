@@ -213,7 +213,7 @@ const Dashboard = () => {
         />
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
-        <Sidenav />
+        <Sidenav handleLogout={handleLogout} />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
           <div className="absolute mt-6 mr-6 top-0 right-0">
             <Success message={successMsg} setSuccessMsg={setSuccessMsg} />

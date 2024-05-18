@@ -27,12 +27,20 @@ const Login = () => {
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
         setErrorMsg(errorHandle(errorMessage));
+        setTimeout(() => {
+          setErrorMsg("");
+        }, 5000);
       });
   };
 
   return (
     <section className="flex flex-col items-center rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] ">
-      <img src="../../full-logo.png" className="w-52"></img>
+      <div className="flex items-center">
+        <div className="w-20 h-20">
+          <img className="w-full h-auto" src="../../clear.png"></img>
+        </div>
+        <h1 className="text-6xl font-bold font-DancingScript ml-2">Inkwell</h1>
+      </div>
       <div className="flex flex-col w-full h-full bg-white rounded-lg shadow p-8 mt-8">
         <h2 className="text-2xl font-bold">Sign in to your account</h2>
         <form className="mt-4 space-y-4" onSubmit={onLogin}>
@@ -54,7 +62,8 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             ></input>
           </div>
-          <div className="pt-4 pb">
+          <AuthError errorMsg={errorMsg} />
+          <div className="pt-1 pb">
             <button
               type="submit"
               className="w-full bg-violet-600 text-white py-1.5 text-sm font-medium rounded-md hover:bg-violet-800"
@@ -63,7 +72,6 @@ const Login = () => {
             </button>
           </div>
         </form>
-        <AuthError errorMsg={errorMsg} />
         <div className="flex justify-center pb-6 mt-4">
           <p className="text-black text-sm font-medium">
             Don't have an account?{" "}

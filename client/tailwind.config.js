@@ -17,6 +17,9 @@ export default {
           "logo-red": "#ea4335",
         },
       },
+      fontFamily: {
+        DancingScript: ["Dancing Script", "cursive"],
+      },
     },
   },
   plugins: [],
