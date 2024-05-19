@@ -15,15 +15,16 @@ import { auth } from "../config/firebase";
 import { Note } from "../types/noteType";
 import Success from "../components/notifications/Success";
 import SidePanel from "../components/SidePanel";
-import TagModal from "../components/tags/TagModal";
+import TagModal from "../components/post/modals/TagModal";
+import CheckListModal from "../components/post/modals/CheckListModal";
 import TagButton from "../components/post/buttons/TagButton";
+import CheckListButton from "../components/post/buttons/CheckListButton";
+import PhotoButton from "../components/post/buttons/PhotoButton";
+import CodeButton from "../components/post/buttons/CodeButton";
 import { useNavigate } from "react-router-dom";
 
 import { db } from "../config/firebase";
 import {
-  CodeBracketSquareIcon,
-  PhotoIcon,
-  DocumentCheckIcon,
   BellAlertIcon,
   ChevronDoubleDownIcon,
   XMarkIcon,
@@ -43,12 +44,14 @@ const Dashboard = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [tagValue, setTagValue] = useState<string>("");
   const [newTags, setNewTags] = useState<string[]>([]);
+  const [listOpen, setListOpen] = useState<boolean>(false);
+  const [checkList, setCheckList] = useState<string[]>([]);
+  const [listValue, setListValue] = useState<string>("");
 
   const uniqueTags: string[] = [];
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
 
   const tagItems = [...new Set(uniqueTags)];
-  console.log(tagItems);
 
   const navigate = useNavigate();
   const user = auth.currentUser;
@@ -66,6 +69,11 @@ const Dashboard = () => {
 
   const tagHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagValue(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const listHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setListValue(event.target.value);
     console.log(event.target.value);
   };
 
@@ -211,8 +219,30 @@ const Dashboard = () => {
     setFiltered(newItem);
   };
 
+  const addList = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && listValue !== "") {
+      setCheckList([...checkList, listValue]);
+      setListValue("");
+    }
+  };
+
   return (
     <div className="w-full min-h-full">
+      {listOpen ? (
+        <div
+          className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-black bg-opacity-50"
+          onClick={() => setListOpen(false)}
+        ></div>
+      ) : null}
+      {listOpen ? (
+        <CheckListModal
+          setListOpen={setListOpen}
+          listValue={listValue}
+          listHandleChange={listHandleChange}
+          checkList={checkList}
+          addList={(e) => addList(e)}
+        />
+      ) : null}
       {modalOpen ? (
         <div
           className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-black bg-opacity-50"
@@ -264,9 +294,9 @@ const Dashboard = () => {
                   </div>
                   <div className="flex items-center my-2">
                     <TagButton setModalOpen={setModalOpen} />
-                    <CodeBracketSquareIcon className="w-6 text-gray-600 ml-2" />
-                    <PhotoIcon className="w-6 text-gray-600 ml-2" />
-                    <DocumentCheckIcon className="w-6 text-gray-600 ml-2" />
+                    <CodeButton />
+                    <PhotoButton />
+                    <CheckListButton setListOpen={setListOpen} />
                   </div>
                 </div>
                 <div className="w-full py-4 flex justify-between items-center">

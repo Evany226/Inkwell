@@ -1,5 +1,4 @@
-import { XMarkIcon } from "@heroicons/react/16/solid";
-import { XCircleIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
 const TagModal = ({
@@ -19,9 +18,7 @@ const TagModal = ({
 }) => {
   return (
     <div className="min-w-[30rem] bg-white z-20 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col">
-      <h1 className="text-black text-lg font-semibold ml-1 mt-2">
-        Add a tag...
-      </h1>
+      <h1 className="text-black text-lg font-semibold ml-1 mt-2">Add a tag</h1>
       <p className="text-black text-base ml-1 font-normal mt-1 mb-3">
         Press Enter after each tag
       </p>
@@ -37,7 +34,7 @@ const TagModal = ({
         ))}
         <input
           type="text"
-          className="resize-none bg-white outline-none px-0 py-1 w-32"
+          className="resize-none bg-white outline-none px-0 py-1 w-32 text-sm"
           placeholder="Enter tags.."
           value={tagValue}
           onChange={tagHandleChange}
