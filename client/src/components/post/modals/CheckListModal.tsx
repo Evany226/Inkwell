@@ -1,4 +1,5 @@
 import { XCircleIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const CheckListModal = ({
   setListOpen,
@@ -6,12 +7,14 @@ const CheckListModal = ({
   listHandleChange,
   checkList,
   addList,
+  removeList,
 }: {
   setListOpen(arg: boolean): void;
   listValue: string;
   listHandleChange(e: React.ChangeEvent<HTMLInputElement>): void;
   checkList: string[];
   addList(e: React.KeyboardEvent<HTMLInputElement>): void;
+  removeList(arg: string): void;
 }) => {
   return (
     <div className="min-w-[30rem] bg-white z-20 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col">
@@ -21,11 +24,22 @@ const CheckListModal = ({
       <p className="text-black text-base ml-1 font-normal mt-1 mb-1 border-b-2 border-gray-300 pb-2">
         Press enter after each list item
       </p>
-      <div className="flex flex-col w-full px-1 ">
+      <div className="flex flex-col justify-center w-full px-1 ">
         {checkList.map((item) => (
-          <div className="flex items-center mb-4">
-
-      </div>
+          <div className="flex items-center mb-2 outline-none">
+            <input
+              disabled
+              type="checkbox"
+              className="w-4 h-4 border-gray-500"
+            ></input>
+            <label className="ms-2 text-base text-black font-normal">
+              {item}
+            </label>
+            <XMarkIcon
+              className="w-4 text-gray-600 ml-1 cursor-pointer mt-0.5"
+              onClick={() => removeList(item)}
+            />
+          </div>
         ))}
       </div>
       <div className="flex items-center w-full mt-2 px-2 py-1 bg-white border border-slate-700 rounded-md space-x-2">

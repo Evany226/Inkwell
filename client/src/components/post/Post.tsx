@@ -1,7 +1,8 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
 import PostDropdown from "./PostDropdown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EditPostModal from "./EditPostModal";
+import { CheckBox } from "../../types/checkedType";
 
 const Post = ({
   name,
@@ -14,6 +15,7 @@ const Post = ({
   tagArr,
   newTags,
   setNewTags,
+  checkListArr,
 }: {
   name: string;
   time: string;
@@ -25,10 +27,21 @@ const Post = ({
   tagArr: string[];
   newTags: string[];
   setNewTags(arg: string[]): void;
+  checkListArr: string[];
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [newTagValue, setNewTagValue] = useState<string>("");
+  const [checked, setChecked] = useState<CheckBox[]>([]);
+
+  useEffect(() => {
+    const newObject: CheckBox[] = checkListArr.map((item) => ({
+      listItem: item,
+      checked: false,
+    }));
+
+    console.log(newObject);
+  }, [checkListArr]);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -104,6 +117,16 @@ const Post = ({
           <p className="text-sm text-gray-400">{time}</p>
         </div>
         <div className="text-base mt-2 text-black break-words">{name}</div>
+        <div className="flex flex-col justify-center w-full px-2 mt-1">
+          {checkListArr.map((item) => (
+            <div className="flex items-center outline-none">
+              <input type="checkbox" className=" border-gray-500"></input>
+              <label className="ms-2 text-base text-black font-normal">
+                {item}
+              </label>
+            </div>
+          ))}
+        </div>
         <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">
           <EllipsisVerticalIcon
             className="w-4 text-gray-600"
