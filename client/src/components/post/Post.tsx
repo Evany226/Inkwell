@@ -1,8 +1,9 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
 import PostDropdown from "./PostDropdown";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import EditPostModal from "./EditPostModal";
 import { CheckBox } from "../../types/checkedType";
+import CheckListItem from "./CheckListItem";
 
 const Post = ({
   name,
@@ -34,14 +35,19 @@ const Post = ({
   const [newTagValue, setNewTagValue] = useState<string>("");
   const [checked, setChecked] = useState<CheckBox[]>([]);
 
-  useEffect(() => {
-    const newObject: CheckBox[] = checkListArr.map((item) => ({
-      listItem: item,
-      checked: false,
-    }));
+  // useEffect(() => {
+  //   const newObject: CheckBox[] = checkListArr.map((item) => ({
+  //     listItem: item,
+  //     id: uuidv4(),
+  //   }));
 
-    console.log(newObject);
-  }, [checkListArr]);
+  //   localStorage.setItem("items", JSON.stringify(newObject));
+
+  //   const saved = localStorage.getItem("items");
+  //   if (saved) {
+  //     setChecked(JSON.parse(saved));
+  //   }
+  // }, [checkListArr]);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -119,12 +125,7 @@ const Post = ({
         <div className="text-base mt-2 text-black break-words">{name}</div>
         <div className="flex flex-col justify-center w-full px-2 mt-1">
           {checkListArr.map((item) => (
-            <div className="flex items-center outline-none">
-              <input type="checkbox" className=" border-gray-500"></input>
-              <label className="ms-2 text-base text-black font-normal">
-                {item}
-              </label>
-            </div>
+            <CheckListItem listItem={item} />
           ))}
         </div>
         <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">

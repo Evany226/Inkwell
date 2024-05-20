@@ -1,4 +1,4 @@
 export interface CheckBox {
   listItem: string;
-  checked: boolean;
+  id: string;
 }

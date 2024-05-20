@@ -152,6 +152,7 @@ const Dashboard = () => {
       setNewNote("");
       setVal("");
       setTags([]);
+      setCheckList([]);
     };
     if (user) {
       addData(user.uid);
