@@ -1,7 +1,13 @@
 import { useLocalStorage } from "../../config/localStorage";
 
-const CheckListItem = ({ listItem }: { listItem: string }) => {
-  const [checked, setChecked] = useLocalStorage(`checked-${listItem}`, false);
+const CheckListItem = ({
+  listItem,
+  listId,
+}: {
+  listItem: string;
+  listId: string;
+}) => {
+  const [checked, setChecked] = useLocalStorage(`checked-${listId}`, false);
 
   return (
     <div className="flex items-center outline-none">

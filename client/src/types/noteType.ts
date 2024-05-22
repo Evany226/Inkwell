@@ -3,5 +3,4 @@ export interface Note {
   name: string;
   time: string;
   tagArr: string[];
-  checkListArr: string[];
 }

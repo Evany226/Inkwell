@@ -1,9 +1,12 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
 import PostDropdown from "./PostDropdown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EditPostModal from "./EditPostModal";
-import { CheckBox } from "../../types/checkedType";
+
 import CheckListItem from "./CheckListItem";
+import { db, auth } from "../../config/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { CheckBox } from "../../types/checkedType";
 
 const Post = ({
   name,
@@ -16,7 +19,7 @@ const Post = ({
   tagArr,
   newTags,
   setNewTags,
-  checkListArr,
+  id,
 }: {
   name: string;
   time: string;
@@ -28,26 +31,30 @@ const Post = ({
   tagArr: string[];
   newTags: string[];
   setNewTags(arg: string[]): void;
-  checkListArr: string[];
+  id: string;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [newTagValue, setNewTagValue] = useState<string>("");
   const [checked, setChecked] = useState<CheckBox[]>([]);
 
-  // useEffect(() => {
-  //   const newObject: CheckBox[] = checkListArr.map((item) => ({
-  //     listItem: item,
-  //     id: uuidv4(),
-  //   }));
+  const user = auth.currentUser;
 
-  //   localStorage.setItem("items", JSON.stringify(newObject));
+  useEffect(() => {
+    const getData = async (uid: string) => {
+      const checkRef = collection(db, "users", uid, "notes", id, "checkList");
+      const querySnapshot = await getDocs(checkRef);
+      const documents: CheckBox[] = querySnapshot.docs.map((doc) => ({
+        listItem: doc.get("listItem"),
+        listId: doc.get("listId"),
+      }));
+      setChecked(documents);
+    };
 
-  //   const saved = localStorage.getItem("items");
-  //   if (saved) {
-  //     setChecked(JSON.parse(saved));
-  //   }
-  // }, [checkListArr]);
+    if (user) {
+      getData(user.uid);
+    }
+  }, [id, user]);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -124,8 +131,8 @@ const Post = ({
         </div>
         <div className="text-base mt-2 text-black break-words">{name}</div>
         <div className="flex flex-col justify-center w-full px-2 mt-1">
-          {checkListArr.map((item) => (
-            <CheckListItem listItem={item} />
+          {checked.map((item) => (
+            <CheckListItem listItem={item.listItem} listId={item.listId} />
           ))}
         </div>
         <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">

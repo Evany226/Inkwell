@@ -104,7 +104,6 @@ const Dashboard = () => {
         name: doc.get("name"),
         time: doc.get("time"),
         tagArr: doc.get("tagArr"),
-        checkListArr: doc.get("checkListArr"),
       }));
       setNotes(documents);
       setFiltered(documents);
@@ -132,12 +131,22 @@ const Dashboard = () => {
         name: newNote,
         time: new Date().toString(),
         tagArr: tags,
-        checkListArr: checkList,
       };
 
       const notesRef = collection(db, "users", uid, "notes");
       const docRef = await addDoc(notesRef, noteObject);
-      console.log("Document written with ID: ", docRef.id);
+      const checkRef = collection(
+        db,
+        "users",
+        uid,
+        "notes",
+        docRef.id,
+        "checkList"
+      );
+      checkList.forEach((item) => {
+        addDoc(checkRef, { listItem: item, listId: checkRef.id });
+      });
+      console.log("Document written with ID: ", docRef.id, checkRef.id);
 
       const newNoteObject: Note = {
         id: docRef.id,
@@ -191,7 +200,6 @@ const Dashboard = () => {
         name: docSnap.get("name"),
         time: docSnap.get("time"),
         tagArr: docSnap.get("tagArr"),
-        checkListArr: docSnap.get("checkList"),
       };
 
       setNotes(notes.map((note) => (note.id !== id ? note : newObject)));
@@ -370,6 +378,7 @@ const Dashboard = () => {
                       time={item.time}
                       tagArr={item.tagArr}
                       key={item.id}
+                      id={item.id}
                       deleteNote={() => deleteNote(item.id)}
                       newContent={newContent}
                       setNewContent={setNewContent}
@@ -377,7 +386,6 @@ const Dashboard = () => {
                       editHandleChange={(e) => editHandleChange(e)}
                       newTags={newTags}
                       setNewTags={setNewTags}
-                      checkListArr={item.checkListArr}
                     />
                   ))}
                 </div>
@@ -388,6 +396,7 @@ const Dashboard = () => {
                       name={item.name}
                       time={item.time}
                       tagArr={item.tagArr}
+                      id={item.id}
                       key={item.id}
                       deleteNote={() => deleteNote(item.id)}
                       newContent={newContent}
@@ -396,7 +405,6 @@ const Dashboard = () => {
                       editHandleChange={(e) => editHandleChange(e)}
                       newTags={newTags}
                       setNewTags={setNewTags}
-                      checkListArr={item.checkListArr}
                     />
                   ))}
                 </div>
