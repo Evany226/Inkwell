@@ -22,6 +22,7 @@ import CheckListButton from "../components/post/buttons/CheckListButton";
 import PhotoButton from "../components/post/buttons/PhotoButton";
 import CodeButton from "../components/post/buttons/CodeButton";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import { db } from "../config/firebase";
 import {
@@ -144,9 +145,8 @@ const Dashboard = () => {
         "checkList"
       );
       checkList.forEach((item) => {
-        addDoc(checkRef, { listItem: item, listId: checkRef.id });
+        addDoc(checkRef, { listItem: item, listId: uuidv4() });
       });
-      console.log("Document written with ID: ", docRef.id, checkRef.id);
 
       const newNoteObject: Note = {
         id: docRef.id,
