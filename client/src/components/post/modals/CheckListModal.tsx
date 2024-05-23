@@ -21,7 +21,7 @@ const CheckListModal = ({
       <h1 className="text-black text-lg font-semibold ml-1 mt-2">
         Add a checklist
       </h1>
-      <p className="text-black text-base ml-1 font-normal mt-1 mb-1 border-b-2 border-gray-300 pb-2">
+      <p className="text-black text-base ml-1 font-normal mt-1 mb-1 pb-0">
         Press enter after each list item
       </p>
       <div className="flex flex-col justify-center w-full px-1 ">

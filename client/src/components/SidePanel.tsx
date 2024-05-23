@@ -39,7 +39,7 @@ const SidePanel = ({
         </div>
       </section>
 
-      <section className="w-full bg-white h-24 mt-4 py-2 px-3 rounded-lg border">
+      <section className="w-full bg-white mt-4 py-2 px-3 rounded-lg border">
         <h2 className="text-sm text-gray-500 font-semibold">Tags</h2>
         <div className="flex flex-wrap mt-1">
           {tagItems.map((tag) => (

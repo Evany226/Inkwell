@@ -169,15 +169,25 @@ const Dashboard = () => {
   };
 
   const deleteNote = (id: string): void => {
-    const deleteData = async (uid: string) => {
+    const deleteData = async (uid: string, id: string) => {
       const notesRef = doc(db, "users", uid, "notes", id);
+      const checkRef = collection(db, "users", uid, "notes", id, "checkList");
+      const querySnapshot = await getDocs(checkRef);
+
+      const deletePromises = querySnapshot.docs.map((document) =>
+        deleteDoc(doc(db, "users", uid, "notes", id, "checkList", document.id))
+      );
+
+      await Promise.all(deletePromises);
       await deleteDoc(notesRef);
+
       setNotes(notes.filter((item) => item.id !== id));
+
       console.log(`Note ${id} has been deleted`);
     };
 
     if (user) {
-      deleteData(user.uid);
+      deleteData(user.uid, id);
     }
   };
 

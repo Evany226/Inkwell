@@ -23,7 +23,7 @@ const Post = ({
 }: {
   name: string;
   time: string;
-  deleteNote(): void;
+  deleteNote(noteId: string, checkId: string): void;
   newContent: string;
   setNewContent(arg: string): void;
   editNote(e: React.ChangeEvent<HTMLFormElement>): void;
