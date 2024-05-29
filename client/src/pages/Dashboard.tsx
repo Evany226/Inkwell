@@ -21,6 +21,7 @@ import TagButton from "../components/post/buttons/TagButton";
 import CheckListButton from "../components/post/buttons/CheckListButton";
 import PhotoButton from "../components/post/buttons/PhotoButton";
 import CodeButton from "../components/post/buttons/CodeButton";
+import CodeModal from "../components/post/modals/CodeModal";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
@@ -48,6 +49,7 @@ const Dashboard = () => {
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [checkList, setCheckList] = useState<string[]>([]);
   const [listValue, setListValue] = useState<string>("");
+  const [codeOpen, setCodeOpen] = useState<boolean>(false);
 
   const uniqueTags: string[] = [];
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
@@ -330,6 +332,10 @@ const Dashboard = () => {
                     </div>
                   </div>
 
+                  <div className="flex w-full px-1 mb-1 space-x-2">
+                    {codeOpen ? <CodeModal setCodeOpen={setCodeOpen} /> : null}
+                  </div>
+
                   <div className="flex w-full my-1 px-1 space-x-2">
                     {tags.map((tag) => (
                       <div className="text-base flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
@@ -343,7 +349,7 @@ const Dashboard = () => {
                   </div>
                   <div className="flex items-center my-2">
                     <TagButton setModalOpen={setModalOpen} />
-                    <CodeButton />
+                    <CodeButton setCodeOpen={setCodeOpen} />
                     <PhotoButton />
                     <CheckListButton setListOpen={setListOpen} />
                   </div>
