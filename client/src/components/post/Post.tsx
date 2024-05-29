@@ -7,6 +7,9 @@ import CheckListItem from "./CheckListItem";
 import { db, auth } from "../../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { CheckBox } from "../../types/checkedType";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 
 const Post = ({
   name,
@@ -20,6 +23,7 @@ const Post = ({
   newTags,
   setNewTags,
   id,
+  codeText,
 }: {
   name: string;
   time: string;
@@ -32,6 +36,7 @@ const Post = ({
   newTags: string[];
   setNewTags(arg: string[]): void;
   id: string;
+  codeText: string;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
@@ -130,11 +135,22 @@ const Post = ({
           <p className="text-sm text-gray-400">{time}</p>
         </div>
         <div className="text-base mt-2 text-black break-words">{name}</div>
-        <div className="flex flex-col justify-center w-full px-2 mt-1">
-          {checked.map((item) => (
-            <CheckListItem listItem={item.listItem} listId={item.listId} />
-          ))}
-        </div>
+        {checked.length > 0 ? (
+          <div className="flex flex-col justify-center w-full px-1 mt-1">
+            {checked.map((item) => (
+              <CheckListItem listItem={item.listItem} listId={item.listId} />
+            ))}
+          </div>
+        ) : null}
+        {codeText ? (
+          <CodeMirror
+            value={codeText}
+            theme={tokyoNight}
+            extensions={[javascript({ jsx: true })]}
+            readOnly={true}
+            style={{ width: "100%", marginTop: "0.25rem" }}
+          />
+        ) : null}
         <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">
           <EllipsisVerticalIcon
             className="w-4 text-gray-600"

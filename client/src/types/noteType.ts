@@ -3,4 +3,5 @@ export interface Note {
   name: string;
   time: string;
   tagArr: string[];
+  codeText: string;
 }

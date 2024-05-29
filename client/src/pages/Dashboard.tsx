@@ -50,6 +50,7 @@ const Dashboard = () => {
   const [checkList, setCheckList] = useState<string[]>([]);
   const [listValue, setListValue] = useState<string>("");
   const [codeOpen, setCodeOpen] = useState<boolean>(false);
+  const [code, setCode] = useState<string>("");
 
   const uniqueTags: string[] = [];
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
@@ -107,6 +108,7 @@ const Dashboard = () => {
         name: doc.get("name"),
         time: doc.get("time"),
         tagArr: doc.get("tagArr"),
+        codeText: doc.get("codeText"),
       }));
       setNotes(documents);
       setFiltered(documents);
@@ -134,6 +136,7 @@ const Dashboard = () => {
         name: newNote,
         time: new Date().toString(),
         tagArr: tags,
+        codeText: code,
       };
 
       const notesRef = collection(db, "users", uid, "notes");
@@ -164,6 +167,8 @@ const Dashboard = () => {
       setVal("");
       setTags([]);
       setCheckList([]);
+      setCode("");
+      setCodeOpen(false);
     };
     if (user) {
       addData(user.uid);
@@ -212,6 +217,7 @@ const Dashboard = () => {
         name: docSnap.get("name"),
         time: docSnap.get("time"),
         tagArr: docSnap.get("tagArr"),
+        codeText: docSnap.get("codeText"),
       };
 
       setNotes(notes.map((note) => (note.id !== id ? note : newObject)));
@@ -311,42 +317,52 @@ const Dashboard = () => {
                     style={{ color: "#000" }}
                   ></textarea>
 
-                  <div className="flex w-full px-1 mb-1 space-x-2">
-                    <div className="flex flex-col w-full px-1 ">
-                      {checkList.map((item) => (
-                        <div className="flex items-center mb-2 outline-none">
-                          <input
-                            disabled
-                            type="checkbox"
-                            className="w-4 h-4 border-gray-500"
-                          ></input>
-                          <label className="ms-2 text-base text-black font-normal">
-                            {item}
-                          </label>
+                  {checkList.length > 0 ? (
+                    <div className="flex w-full px-1 mb-1 space-x-2">
+                      <div className="flex flex-col w-full px-1 ">
+                        {checkList.map((item) => (
+                          <div className="flex items-center mb-2 outline-none">
+                            <input
+                              disabled
+                              type="checkbox"
+                              className="w-4 h-4 border-gray-500"
+                            ></input>
+                            <label className="ms-2 text-base text-black font-normal">
+                              {item}
+                            </label>
+                            <XMarkIcon
+                              className="w-4 text-gray-600 ml-1 cursor-pointer mt-0.5"
+                              onClick={() => removeList(item)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {codeOpen ? (
+                    <div className="w-full px-1 mb-1 space-x-2">
+                      <CodeModal
+                        setCodeOpen={setCodeOpen}
+                        code={code}
+                        setCode={setCode}
+                      />
+                    </div>
+                  ) : null}
+
+                  {tags.length > 0 ? (
+                    <div className="flex w-full my-1 px-1 space-x-2">
+                      {tags.map((tag) => (
+                        <div className="text-base flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
+                          <p>{tag}</p>
                           <XMarkIcon
-                            className="w-4 text-gray-600 ml-1 cursor-pointer mt-0.5"
-                            onClick={() => removeList(item)}
+                            className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
+                            onClick={() => removeTags(tag)}
                           />
                         </div>
                       ))}
                     </div>
-                  </div>
-
-                  <div className="flex w-full px-1 mb-1 space-x-2">
-                    {codeOpen ? <CodeModal setCodeOpen={setCodeOpen} /> : null}
-                  </div>
-
-                  <div className="flex w-full my-1 px-1 space-x-2">
-                    {tags.map((tag) => (
-                      <div className="text-base flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
-                        <p>{tag}</p>
-                        <XMarkIcon
-                          className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
-                          onClick={() => removeTags(tag)}
-                        />
-                      </div>
-                    ))}
-                  </div>
+                  ) : null}
                   <div className="flex items-center my-2">
                     <TagButton setModalOpen={setModalOpen} />
                     <CodeButton setCodeOpen={setCodeOpen} />
@@ -394,6 +410,7 @@ const Dashboard = () => {
                       time={item.time}
                       tagArr={item.tagArr}
                       key={item.id}
+                      codeText={item.codeText}
                       id={item.id}
                       deleteNote={() => deleteNote(item.id)}
                       newContent={newContent}
@@ -412,6 +429,7 @@ const Dashboard = () => {
                       name={item.name}
                       time={item.time}
                       tagArr={item.tagArr}
+                      codeText={item.codeText}
                       id={item.id}
                       key={item.id}
                       deleteNote={() => deleteNote(item.id)}
