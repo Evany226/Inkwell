@@ -24,7 +24,7 @@ const TagModal = ({
       </p>
       <div className="flex items-center w-full mt-2 px-2 py-1 bg-white border border-slate-700 rounded-md space-x-2">
         {tags.map((tag) => (
-          <div className="text-base flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
+          <div className="text-sm flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
             <p>{tag}</p>
             <XMarkIcon
               className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
@@ -46,7 +46,7 @@ const TagModal = ({
           {Math.max(5 - tags.length, 0)} tags remaining
         </p>
         <div className="flex items-center">
-          <button className="flex justify-center items-center bg-red-300 hover:bg-red-500 py-1 px-2 rounded-md border border-red-400">
+          <button className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400">
             <p className="text-sm font-medium text-red-800">Remove All</p>
             <TrashIcon className="w-4 text-red-800 ml-1" />
           </button>

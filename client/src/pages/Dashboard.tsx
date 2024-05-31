@@ -51,6 +51,7 @@ const Dashboard = () => {
   const [listValue, setListValue] = useState<string>("");
   const [codeOpen, setCodeOpen] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
+  const [newCode, setNewCode] = useState<string>("");
 
   const uniqueTags: string[] = [];
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
@@ -208,6 +209,7 @@ const Dashboard = () => {
       await updateDoc(docRef, {
         name: newContent,
         tagArr: newTags,
+        codeText: newCode,
       });
 
       const docSnap = await getDoc(docRef);
@@ -353,7 +355,7 @@ const Dashboard = () => {
                   {tags.length > 0 ? (
                     <div className="flex w-full my-1 px-1 space-x-2">
                       {tags.map((tag) => (
-                        <div className="text-base flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
+                        <div className="text-sm flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
                           <p>{tag}</p>
                           <XMarkIcon
                             className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
@@ -419,6 +421,8 @@ const Dashboard = () => {
                       editHandleChange={(e) => editHandleChange(e)}
                       newTags={newTags}
                       setNewTags={setNewTags}
+                      newCode={newCode}
+                      setNewCode={setNewCode}
                     />
                   ))}
                 </div>
@@ -439,6 +443,8 @@ const Dashboard = () => {
                       editHandleChange={(e) => editHandleChange(e)}
                       newTags={newTags}
                       setNewTags={setNewTags}
+                      newCode={newCode}
+                      setNewCode={setNewCode}
                     />
                   ))}
                 </div>

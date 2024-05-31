@@ -24,6 +24,8 @@ const Post = ({
   setNewTags,
   id,
   codeText,
+  newCode,
+  setNewCode,
 }: {
   name: string;
   time: string;
@@ -37,6 +39,8 @@ const Post = ({
   setNewTags(arg: string[]): void;
   id: string;
   codeText: string;
+  newCode: string;
+  setNewCode(arg: string): void;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
@@ -70,11 +74,17 @@ const Post = ({
     setEditOpen(true);
     setOpen(false);
     setNewTags(tagArr);
+    setNewCode(codeText);
   };
 
   const handleEditTags = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTagValue(e.target.value);
     console.log(e.target.value);
+  };
+
+  const cancelEdit = () => {
+    setEditOpen(false);
+    setNewTags([]);
   };
 
   const addEditTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -95,7 +105,7 @@ const Post = ({
         <>
           <div
             className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-black bg-opacity-50"
-            onClick={() => setEditOpen(false)}
+            onClick={cancelEdit}
           ></div>
         </>
       ) : null}
@@ -110,6 +120,9 @@ const Post = ({
           newTagValue={newTagValue}
           addEditTags={(e) => addEditTags(e)}
           removeEditTags={removeEditTags}
+          cancelEdit={cancelEdit}
+          newCode={newCode}
+          setNewCode={setNewCode}
         />
       ) : null}
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300">
