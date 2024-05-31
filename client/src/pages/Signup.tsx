@@ -2,7 +2,10 @@ import GoogleButton from "../components/post/buttons/GoogleButton";
 import GithubButton from "../components/post/buttons/GithubButton";
 import { useNavigate, Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth, db } from "../config/firebase";
 import { useState } from "react";
 import AuthError from "../components/notifications/AuthError";
@@ -36,6 +39,8 @@ const Signup = () => {
             await setDoc(doc(db, "users", user.uid), data);
           };
           createUserDB();
+
+          sendEmailVerification(user);
 
           navigate("/login");
           // ...

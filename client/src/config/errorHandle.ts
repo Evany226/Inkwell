@@ -7,6 +7,8 @@ export const errorHandle = (errorMessage: string) => {
     errorMessage.includes(AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER)
   ) {
     return "Too many attempts try again later or reset password";
+  } else if (errorMessage.includes(AuthErrorCodes.INVALID_EMAIL)) {
+    return "Invalid email address";
   } else {
     return "Something went wrong";
   }

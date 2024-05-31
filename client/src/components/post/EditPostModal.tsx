@@ -23,7 +23,7 @@ const EditPost = ({
   removeEditTags(arg: string): void;
 }) => {
   return (
-    <div className="min-w-[30rem] bg-white z-20 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 flex-col">
+    <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 flex-col">
       <form
         className="flex-col py-2"
         id="my-form"
@@ -35,7 +35,7 @@ const EditPost = ({
           Edit note
         </h1>
         <textarea
-          className="bg-slate-100 w-full mt-2 p-1 resize-none text-sm rounded-md outline-none border"
+          className="bg-slate-100 w-full mt-2 p-1 resize-none rounded-md outline-none border text-sm"
           rows={2}
           placeholder="Change your note..."
           autoFocus
@@ -59,7 +59,7 @@ const EditPost = ({
         ))}
         <input
           type="text"
-          className="resize-none bg-white outline-none px-0 py-1 w-32"
+          className="resize-none bg-white outline-none px-0 py-1 w-32 text-sm"
           placeholder="Enter tags.."
           value={newTagValue}
           onChange={handleEditTags}

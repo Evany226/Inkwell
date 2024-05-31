@@ -17,7 +17,7 @@ const TagModal = ({
   setModalOpen(arg: boolean): void;
 }) => {
   return (
-    <div className="min-w-[30rem] bg-white z-20 absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col">
+    <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col">
       <h1 className="text-black text-lg font-semibold ml-1 mt-2">Add a tag</h1>
       <p className="text-black text-base ml-1 font-normal mt-1 mb-3">
         Press Enter after each tag

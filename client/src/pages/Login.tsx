@@ -19,8 +19,14 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigate("/dashboard");
-        console.log(user);
+        if (user.emailVerified) {
+          navigate("/dashboard");
+        } else {
+          setErrorMsg("Email not verified, please check your email");
+          setTimeout(() => {
+            setErrorMsg("");
+          }, 5000);
+        }
       })
       .catch((error) => {
         const errorCode = error.code;

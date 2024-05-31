@@ -148,7 +148,11 @@ const Post = ({
             theme={tokyoNight}
             extensions={[javascript({ jsx: true })]}
             readOnly={true}
-            style={{ width: "100%", marginTop: "0.25rem" }}
+            style={{
+              width: "100%",
+              marginTop: "0.25rem",
+              fontSize: "0.875rem",
+            }}
           />
         ) : null}
         <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">
