@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { auth, db } from "../config/firebase";
 import { useState } from "react";
@@ -13,6 +14,7 @@ import AuthError from "../components/notifications/AuthError";
 const Signup = () => {
   const navigate = useNavigate();
 
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirm, setConfirm] = useState<string>("");
@@ -30,6 +32,10 @@ const Signup = () => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
+
+          updateProfile(user, {
+            displayName: username,
+          });
 
           const createUserDB = async () => {
             const data = {
@@ -66,6 +72,15 @@ const Signup = () => {
       <div className="flex flex-col w-full h-full bg-white rounded-lg shadow p-8 mt-8">
         <h2 className="text-2xl font-bold">Create an account</h2>
         <form className="mt-4 space-y-4 " onSubmit={createAcc}>
+          <div className="flex flex-col space-y-3">
+            <label className="text-sm font-medium">Username</label>
+            <input
+              className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
+              placeholder="RacoonMan57"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            ></input>
+          </div>
           <div className="flex flex-col space-y-3">
             <label className="text-sm font-medium">Email Address</label>
             <input

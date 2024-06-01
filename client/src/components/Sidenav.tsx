@@ -14,7 +14,7 @@ import { signOut } from "firebase/auth";
 const Sidenav = () => {
   const navigate = useNavigate();
 
-  // const user = auth.currentUser;
+  const user = auth.currentUser;
 
   const handleLogout = () => {
     signOut(auth)
@@ -31,12 +31,12 @@ const Sidenav = () => {
 
   return (
     <aside className="bg-gray-50 flex-col justify-center items-center fixed border-r w-60 px-4 top-0 left-0 h-full z-2">
-      <div className="flex items-center px-6 mt-10">
+      <div className="flex items-center ml-4 mt-10">
         <div className="w-9 h-9 bg-gray-200 rounded-xl ">
           <img src="../../logo-clear.png" className="w-full h-auto"></img>
         </div>
         <div className=" text-lg font-semibold ml-2 font-MeowScript">
-          Evan Yang
+          {user?.displayName}
         </div>
       </div>
 
