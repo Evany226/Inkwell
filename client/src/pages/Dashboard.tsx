@@ -10,7 +10,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { Note } from "../types/noteType";
 import Success from "../components/notifications/Success";
@@ -22,7 +22,6 @@ import CheckListButton from "../components/post/buttons/CheckListButton";
 import PhotoButton from "../components/post/buttons/PhotoButton";
 import CodeButton from "../components/post/buttons/CodeButton";
 import CodeModal from "../components/post/modals/CodeModal";
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import { db } from "../config/firebase";
@@ -58,7 +57,6 @@ const Dashboard = () => {
 
   const tagItems = [...new Set(uniqueTags)];
 
-  const navigate = useNavigate();
   const user = auth.currentUser;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -80,19 +78,6 @@ const Dashboard = () => {
   const listHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setListValue(event.target.value);
     console.log(event.target.value);
-  };
-
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/");
-        console.log("Signed out successfully");
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log(error);
-      });
   };
 
   useEffect(() => {
@@ -297,7 +282,7 @@ const Dashboard = () => {
         />
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
-        <Sidenav handleLogout={handleLogout} />
+        <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
           <div className="absolute mt-6 mr-6 top-0 right-0">
             <Success message={successMsg} setSuccessMsg={setSuccessMsg} />

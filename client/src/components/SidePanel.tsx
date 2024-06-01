@@ -42,14 +42,18 @@ const SidePanel = ({
       <section className="w-full bg-white mt-4 py-2 px-3 rounded-lg border">
         <h2 className="text-sm text-gray-500 font-semibold">Tags</h2>
         <div className="flex flex-wrap mt-1">
-          {tagItems.map((tag) => (
-            <div
-              className="text-sm text-gray-700 mr-2 mt-1 cursor-pointer"
-              onClick={() => filterTags(tag)}
-            >
-              #{tag}
-            </div>
-          ))}
+          {tagItems.length > 0 ? (
+            tagItems.map((tag) => (
+              <p
+                className="text-sm text-gray-700 mr-2 mt-1 cursor-pointer"
+                onClick={() => filterTags(tag)}
+              >
+                #{tag}
+              </p>
+            ))
+          ) : (
+            <p className="text-sm text-gray-700 ">None</p>
+          )}
         </div>
       </section>
     </div>
