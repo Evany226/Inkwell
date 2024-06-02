@@ -8,6 +8,19 @@ const Settings = () => {
   const user = auth.currentUser;
   const [editOpen, setEditOpen] = useState<boolean>(false);
 
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  const handleSetup = () => {
+    setEditOpen(true);
+    const displayName = user?.displayName;
+    const emailAddr = user?.email;
+    if (displayName && emailAddr) {
+      setUsername(displayName);
+      setEmail(emailAddr);
+    }
+  };
+
   return (
     <div className="w-full min-h-full">
       {editOpen ? (
@@ -17,7 +30,15 @@ const Settings = () => {
         ></div>
       ) : null}
 
-      {editOpen ? <EditSettings /> : null}
+      {editOpen ? (
+        <EditSettings
+          username={username}
+          setUsername={setUsername}
+          email={email}
+          setEmail={setEmail}
+          setEditOpen={setEditOpen}
+        />
+      ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center bg-gray-100">
@@ -30,7 +51,7 @@ const Settings = () => {
                   <h2 className="text-base font-medium">Account Information</h2>
                   <button
                     className="flex cursor-pointer items-center"
-                    onClick={() => setEditOpen(true)}
+                    onClick={handleSetup}
                   >
                     <p className="text-sm">Edit </p>
                     <PencilSquareIcon className="w-4 ml-1 text-gray-600" />
