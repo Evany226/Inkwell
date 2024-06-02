@@ -2,6 +2,7 @@ import Sidenav from "../components/Sidenav";
 import { auth } from "../config/firebase";
 import { PencilSquareIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
+import { updateProfile, updateEmail } from "firebase/auth";
 import EditSettings from "../components/settings/EditSettings";
 
 const Settings = () => {
@@ -21,6 +22,16 @@ const Settings = () => {
     }
   };
 
+  const updateAccount = () => {
+    if (user) {
+      updateProfile(user, {
+        displayName: username,
+      });
+      updateEmail(user, email);
+      setEditOpen(false);
+    }
+  };
+
   return (
     <div className="w-full min-h-full">
       {editOpen ? (
@@ -37,6 +48,7 @@ const Settings = () => {
           email={email}
           setEmail={setEmail}
           setEditOpen={setEditOpen}
+          updateAccount={updateAccount}
         />
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">

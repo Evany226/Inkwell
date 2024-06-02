@@ -1,4 +1,3 @@
-import { XCircleIcon } from "@heroicons/react/16/solid";
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const EditSettings = ({
@@ -7,12 +6,14 @@ const EditSettings = ({
   email,
   setEmail,
   setEditOpen,
+  updateAccount,
 }: {
   username: string;
   setUsername(arg: string): void;
   email: string;
   setEmail(arg: string): void;
   setEditOpen(arg: boolean): void;
+  updateAccount(): void;
 }) => {
   return (
     <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col space-y-4">
@@ -39,7 +40,7 @@ const EditSettings = ({
         </p>
         <div className="flex items-center w-full mt-1 px-2 py-0.5 bg-white border border-slate-700 rounded-md space-x-2">
           <input
-            type="text"
+            type="email"
             className="w-full bg-white outline-none px-0 py-1 w-32 text-sm"
             placeholder="name@website.com"
             value={email}
@@ -61,11 +62,16 @@ const EditSettings = ({
 
       <div className="flex justify-end items-center mt-2 py-0.5 ">
         <div className="flex items-center">
-          <button className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border" onClick={() => setEditOpen(false)}>
-            <p className="text-sm font-medium text-gray-700">Close</p>
-            <XCircleIcon className="w-4 text-gray-700 ml-1" />
+          <button
+            onClick={() => setEditOpen(false)}
+            className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400"
+          >
+            <p className="text-sm font-medium text-red-800">Cancel</p>
           </button>
-          <button className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border">
+          <button
+            onClick={updateAccount}
+            className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border"
+          >
             <p className="text-sm font-medium text-gray-700">Save</p>
             <PlusCircleIcon className="w-4 text-gray-700 ml-1" />
           </button>
