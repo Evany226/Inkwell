@@ -1,4 +1,4 @@
-import Sidenav from "../components/Sidenav";
+import Sidenav from "../components/sidenav/Sidenav";
 import Post from "../components/post/Post";
 import React, { useState, useEffect, useRef } from "react";
 import {

@@ -1,13 +1,13 @@
 import {
   ClipboardDocumentListIcon,
-  AdjustmentsVerticalIcon,
   TrashIcon,
   Cog8ToothIcon,
   ArrowLeftStartOnRectangleIcon,
+  BellAlertIcon,
 } from "@heroicons/react/24/outline";
 
 import { NavLink } from "react-router-dom";
-import { auth } from "../config/firebase";
+import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 
@@ -56,7 +56,7 @@ const Sidenav = () => {
           )}
         </NavLink>
 
-        <NavLink to="/timeline">
+        <NavLink to="/reminders">
           {({ isActive }) => (
             <li
               className={
@@ -65,8 +65,10 @@ const Sidenav = () => {
                   : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent"
               }
             >
-              <AdjustmentsVerticalIcon className="w-8 text-gray-800" />
-              <p className="text-lg text-gray-800 ml-3 font-medium">Timeline</p>
+              <BellAlertIcon className="w-8 text-gray-800" />
+              <p className="text-lg text-gray-800 ml-3 font-medium">
+                Reminders
+              </p>
             </li>
           )}
         </NavLink>

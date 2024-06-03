@@ -1,9 +1,9 @@
-import Sidenav from "../components/Sidenav";
+import Sidenav from "../components/sidenav/Sidenav";
 import { auth } from "../config/firebase";
 import { PencilSquareIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 import { updateProfile, updateEmail } from "firebase/auth";
-import EditSettings from "../components/settings/EditSettings";
+import EditSettings from "../components/sidenav/EditSettings";
 
 const Settings = () => {
   const user = auth.currentUser;
