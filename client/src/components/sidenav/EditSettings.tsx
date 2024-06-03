@@ -1,22 +1,25 @@
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const EditSettings = ({
-  username,
-  setUsername,
-  email,
-  setEmail,
+  newName,
+  setNewName,
+  newEmail,
+  setNewEmail,
   setEditOpen,
   updateAccount,
 }: {
-  username: string;
-  setUsername(arg: string): void;
-  email: string;
-  setEmail(arg: string): void;
+  newName: string;
+  setNewName(arg: string): void;
+  newEmail: string;
+  setNewEmail(arg: string): void;
   setEditOpen(arg: boolean): void;
-  updateAccount(): void;
+  updateAccount(event: React.ChangeEvent<HTMLFormElement>): void;
 }) => {
   return (
-    <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col space-y-4">
+    <form
+      onSubmit={updateAccount}
+      className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col space-y-4"
+    >
       <h1 className="text-black text-lg font-semibold ml-1 mt-2">
         Update Account Information
       </h1>
@@ -28,8 +31,8 @@ const EditSettings = ({
             type="text"
             className="w-full bg-white outline-none px-0 py-1 w-32 text-sm"
             placeholder="RacoonMan67"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
           ></input>
         </div>
       </div>
@@ -43,8 +46,8 @@ const EditSettings = ({
             type="email"
             className="w-full bg-white outline-none px-0 py-1 w-32 text-sm"
             placeholder="name@website.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
           ></input>
         </div>
       </div>
@@ -69,7 +72,7 @@ const EditSettings = ({
             <p className="text-sm font-medium text-red-800">Cancel</p>
           </button>
           <button
-            onClick={updateAccount}
+            type="submit"
             className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border"
           >
             <p className="text-sm font-medium text-gray-700">Save</p>
@@ -77,7 +80,7 @@ const EditSettings = ({
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

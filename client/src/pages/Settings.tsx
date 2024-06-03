@@ -1,36 +1,68 @@
 import Sidenav from "../components/sidenav/Sidenav";
 import { auth } from "../config/firebase";
 import { PencilSquareIcon } from "@heroicons/react/16/solid";
-import { useState } from "react";
-import { updateProfile, updateEmail } from "firebase/auth";
+import { useState, useEffect } from "react";
+import {
+  updateProfile,
+  updateEmail,
+  onAuthStateChanged,
+  getAuth,
+} from "firebase/auth";
 import EditSettings from "../components/sidenav/EditSettings";
 
 const Settings = () => {
-  const user = auth.currentUser;
+  const authTest = getAuth();
+  const authUser = authTest.currentUser;
+
   const [editOpen, setEditOpen] = useState<boolean>(false);
 
+  //what's actually displayed on screen and triggers component refresh
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
+  const [newName, setNewName] = useState<string>("");
+  const [newEmail, setNewEmail] = useState<string>("");
+
   const handleSetup = () => {
     setEditOpen(true);
-    const displayName = user?.displayName;
-    const emailAddr = user?.email;
-    if (displayName && emailAddr) {
-      setUsername(displayName);
-      setEmail(emailAddr);
-    }
+    setNewName(username);
+    setNewEmail(email);
   };
 
-  const updateAccount = () => {
-    if (user) {
-      updateProfile(user, {
-        displayName: username,
-      });
-      updateEmail(user, email);
-      setEditOpen(false);
-    }
+  const updateAccount = (event: React.ChangeEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const updateData = async () => {
+      if (authUser) {
+        await updateProfile(authUser, {
+          displayName: newName,
+        });
+        await updateEmail(authUser, newEmail);
+        setEditOpen(false);
+      }
+    };
+    updateData();
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log("uid", user.uid);
+        if (user.displayName) {
+          setUsername(user.displayName);
+        }
+
+        if (user.email) {
+          setEmail(user.email);
+        }
+      } else {
+        // User is signed out
+        // ...
+        console.log("user is logged out");
+      }
+    });
+  }, []);
 
   return (
     <div className="w-full min-h-full">
@@ -43,10 +75,10 @@ const Settings = () => {
 
       {editOpen ? (
         <EditSettings
-          username={username}
-          setUsername={setUsername}
-          email={email}
-          setEmail={setEmail}
+          newName={newName}
+          setNewName={setNewName}
+          newEmail={newEmail}
+          setNewEmail={setNewEmail}
           setEditOpen={setEditOpen}
           updateAccount={updateAccount}
         />
@@ -75,7 +107,7 @@ const Settings = () => {
                       Username:
                     </label>
                     <p className="text-[0.9rem] font-normal">
-                      {user?.displayName}
+                      {authUser?.displayName}
                     </p>
                   </div>
 
@@ -83,7 +115,9 @@ const Settings = () => {
                     <label className="text-[0.9rem] mr-2 font-medium text-gray-600">
                       Email Address:
                     </label>
-                    <p className="text-[0.9rem] font-normal">{user?.email}</p>
+                    <p className="text-[0.9rem] font-normal">
+                      {authUser?.email}
+                    </p>
                   </div>
 
                   <div className="flex">
@@ -91,7 +125,7 @@ const Settings = () => {
                       Phone Number:
                     </label>
                     <p className="text-[0.9rem] font-normal">
-                      {user?.phoneNumber ? user?.phoneNumber : "None"}
+                      {authUser?.phoneNumber ? authUser?.phoneNumber : "None"}
                     </p>
                   </div>
 

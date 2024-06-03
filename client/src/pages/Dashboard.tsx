@@ -22,6 +22,7 @@ import CheckListButton from "../components/post/buttons/CheckListButton";
 import PhotoButton from "../components/post/buttons/PhotoButton";
 import CodeButton from "../components/post/buttons/CodeButton";
 import CodeModal from "../components/post/modals/CodeModal";
+import LoadingSpinner from "../components/post/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 
 import { db } from "../config/firebase";
@@ -51,6 +52,7 @@ const Dashboard = () => {
   const [codeOpen, setCodeOpen] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
   const [newCode, setNewCode] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const uniqueTags: string[] = [];
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
@@ -98,6 +100,7 @@ const Dashboard = () => {
       }));
       setNotes(documents);
       setFiltered(documents);
+      setIsLoading(false);
     };
 
     onAuthStateChanged(auth, (user) => {
@@ -389,7 +392,11 @@ const Dashboard = () => {
                 </div>
               ) : null}
 
-              {filterOpen ? (
+              {isLoading ? (
+                <div className="w-full flex justify-center mt-4">
+                  <LoadingSpinner />
+                </div>
+              ) : filterOpen ? (
                 <div>
                   {filtered.map((item) => (
                     <Post
