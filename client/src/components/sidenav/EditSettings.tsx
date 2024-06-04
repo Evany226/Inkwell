@@ -52,7 +52,7 @@ const EditSettings = ({
         </div>
       </div>
 
-      <div className="flex-col">
+      {/* <div className="flex-col">
         <p className="text-black text-base ml-1 font-medium mt-1 ">Password</p>
         <div className="flex items-center w-full mt-1 px-2 py-0.5 bg-white border border-slate-700 rounded-md space-x-2">
           <input
@@ -61,7 +61,7 @@ const EditSettings = ({
             placeholder="Password"
           ></input>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex justify-end items-center mt-2 py-0.5 ">
         <div className="flex items-center">

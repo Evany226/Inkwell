@@ -2,7 +2,14 @@ import Sidenav from "../components/sidenav/Sidenav";
 import { useEffect, useState } from "react";
 import { Note } from "../types/noteType";
 import { db, auth } from "../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import TrashPost from "../components/trash/TrashPost";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -10,6 +17,9 @@ import LoadingSpinner from "../components/LoadingSpinner";
 const Trash = () => {
   const [trash, setTrash] = useState<Note[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const user = auth.currentUser;
 
   useEffect(() => {
     console.log("Test");
@@ -43,6 +53,72 @@ const Trash = () => {
     });
   }, []);
 
+  const restoreNote = (id: string): void => {
+    const restoreData = async (uid: string, id: string) => {
+      const trashRef = doc(db, "users", uid, "trash", id);
+      const checkRef = collection(db, "users", uid, "trash", id, "checkList");
+
+      const notesRef = collection(db, "users", uid, "notes");
+
+      const trashSnapshot = await getDoc(trashRef);
+      const newRef = await addDoc(notesRef, trashSnapshot.data());
+
+      const checkRefCopy = collection(
+        db,
+        "users",
+        uid,
+        "notes",
+        newRef.id,
+        "checkList"
+      );
+
+      const querySnapshot = await getDocs(checkRef);
+
+      const addPromises = querySnapshot.docs.map((document) => {
+        addDoc(checkRefCopy, document.data());
+      });
+
+      const deletePromises = querySnapshot.docs.map((document) =>
+        deleteDoc(doc(db, "users", uid, "trash", id, "checkList", document.id))
+      );
+
+      await Promise.all(addPromises);
+      await Promise.all(deletePromises);
+      await deleteDoc(trashRef);
+
+      setTrash(trash.filter((item) => item.id !== id));
+
+      console.log(`Trash ${id} has been restored`);
+    };
+
+    if (user) {
+      restoreData(user.uid, id);
+    }
+  };
+
+  const deleteNote = (id: string) => {
+    const deleteData = async (uid: string, id: string) => {
+      const trashRef = doc(db, "users", uid, "trash", id);
+      const checkRef = collection(db, "users", uid, "trash", id, "checkList");
+
+      const querySnapshot = await getDocs(checkRef);
+
+      const deletePromises = querySnapshot.docs.map((document) =>
+        deleteDoc(doc(db, "users", uid, "trash", id, "checkList", document.id))
+      );
+
+      await Promise.all(deletePromises);
+      await deleteDoc(trashRef);
+
+      setTrash(trash.filter((item) => item.id !== id));
+      console.log(`Trash ${id} has been deleted`);
+    };
+
+    if (user) {
+      deleteData(user.uid, id);
+    }
+  };
+
   return (
     <>
       <div className="w-full min-h-full">
@@ -70,7 +146,13 @@ const Trash = () => {
                 ) : (
                   <>
                     {trash.map((item) => (
-                      <TrashPost item={item} />
+                      <TrashPost
+                        item={item}
+                        restoreNote={restoreNote}
+                        deleteNote={deleteNote}
+                        setModalOpen={setModalOpen}
+                        modalOpen={modalOpen}
+                      />
                     ))}
                   </>
                 )}

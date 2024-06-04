@@ -129,12 +129,12 @@ const Settings = () => {
                     </p>
                   </div>
 
-                  <div className="flex">
+                  {/* <div className="flex">
                     <label className="text-[0.9rem] mr-2 font-medium text-gray-600">
                       Password
                     </label>
                     <p className="text-[0.9rem] font-normal">••••••••</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
