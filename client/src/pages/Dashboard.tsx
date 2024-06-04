@@ -22,7 +22,7 @@ import CheckListButton from "../components/post/buttons/CheckListButton";
 import PhotoButton from "../components/post/buttons/PhotoButton";
 import CodeButton from "../components/post/buttons/CodeButton";
 import CodeModal from "../components/post/modals/CodeModal";
-import LoadingSpinner from "../components/post/LoadingSpinner";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 
 import { db } from "../config/firebase";
@@ -413,9 +413,7 @@ const Dashboard = () => {
               ) : null}
 
               {isLoading ? (
-                <div className="w-full flex justify-center mt-4">
-                  <LoadingSpinner />
-                </div>
+                <LoadingSpinner />
               ) : filterOpen ? (
                 <div>
                   {filtered.map((item) => (

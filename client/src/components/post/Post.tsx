@@ -133,7 +133,7 @@ const Post = ({
           ></div>
         ) : null}
         {tagArr.length > 0 ? (
-          <div className="flex w-full my-1 space-x-2 mb-2">
+          <div className="flex w-full mb-1 space-x-2 mb-2">
             {tagArr.map((tag) => (
               <div
                 className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded"
@@ -147,7 +147,7 @@ const Post = ({
         <div className="w-full">
           <p className="text-sm text-gray-400">{time}</p>
         </div>
-        <div className="text-base mt-2 text-black break-words">{name}</div>
+        <div className="text-base mt-1 text-black break-words">{name}</div>
         {checked.length > 0 ? (
           <div className="flex flex-col justify-center w-full px-1 mt-1">
             {checked.map((item) => (
