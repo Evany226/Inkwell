@@ -168,12 +168,32 @@ const Dashboard = () => {
     const deleteData = async (uid: string, id: string) => {
       const notesRef = doc(db, "users", uid, "notes", id);
       const checkRef = collection(db, "users", uid, "notes", id, "checkList");
+
+      const trashRef = collection(db, "users", uid, "trash");
+
+      const noteSnapshot = await getDoc(notesRef);
+      const newRef = await addDoc(trashRef, noteSnapshot.data());
+
+      const checkRefCopy = collection(
+        db,
+        "users",
+        uid,
+        "trash",
+        newRef.id,
+        "checkList"
+      );
+
       const querySnapshot = await getDocs(checkRef);
+
+      const addPromises = querySnapshot.docs.map((document) => {
+        addDoc(checkRefCopy, document.data());
+      });
 
       const deletePromises = querySnapshot.docs.map((document) =>
         deleteDoc(doc(db, "users", uid, "notes", id, "checkList", document.id))
       );
 
+      await Promise.all(addPromises);
       await Promise.all(deletePromises);
       await deleteDoc(notesRef);
 
