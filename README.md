@@ -11,7 +11,7 @@ A note taking app made to be simple and efficient. Created using React, Typescri
 ## Technologies
 
 <div>
-![](https://img.shields.io/badge/Tools-GitHub-informational?style=flat&logo=GitHub&color=181717)
+![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
   
 
 </div>
