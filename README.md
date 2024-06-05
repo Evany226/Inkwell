@@ -5,8 +5,8 @@ A note taking app made to be simple and efficient. Created using React, Typescri
 ## Features
 
 * User authentication/authorization using Firebase Auth
-* Create, read, update, delete notes
-* Code block using React Code Mirror
+* Create, read, update, delete notes using Firestore
+* Simple and clean UI made using Tailwind 
 
 ## Technologies
 
