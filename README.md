@@ -27,5 +27,5 @@ A note taking app made to be simple and efficient. Created using React, Typescri
 
 [https://inkwell1.vercel.app/](https://inkwell1.vercel.app/)
 
-![Login page](/login.jpg) ![Home page](/homepage.jpg)
+![Login page](./login.jpg) ![Home page](./homepage.jpg)
 
