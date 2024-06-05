@@ -3,7 +3,7 @@ import {
   TrashIcon,
   Cog8ToothIcon,
   ArrowLeftStartOnRectangleIcon,
-  BellAlertIcon,
+  // BellAlertIcon,
 } from "@heroicons/react/24/outline";
 
 import { NavLink } from "react-router-dom";
@@ -56,7 +56,7 @@ const Sidenav = () => {
           )}
         </NavLink>
 
-        <NavLink to="/reminders">
+        {/* <NavLink to="/reminders">
           {({ isActive }) => (
             <li
               className={
@@ -71,7 +71,7 @@ const Sidenav = () => {
               </p>
             </li>
           )}
-        </NavLink>
+        </NavLink> */}
 
         <NavLink to="/trash">
           {({ isActive }) => (

@@ -19,7 +19,7 @@ import TagModal from "../components/post/modals/TagModal";
 import CheckListModal from "../components/post/modals/CheckListModal";
 import TagButton from "../components/post/buttons/TagButton";
 import CheckListButton from "../components/post/buttons/CheckListButton";
-import PhotoButton from "../components/post/buttons/PhotoButton";
+// import PhotoButton from "../components/post/buttons/PhotoButton";
 import CodeButton from "../components/post/buttons/CodeButton";
 import CodeModal from "../components/post/modals/CodeModal";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -376,7 +376,7 @@ const Dashboard = () => {
                   <div className="flex items-center my-2">
                     <TagButton setModalOpen={setModalOpen} />
                     <CodeButton setCodeOpen={setCodeOpen} />
-                    <PhotoButton />
+                    {/* <PhotoButton /> */}
                     <CheckListButton setListOpen={setListOpen} />
                   </div>
                 </div>
