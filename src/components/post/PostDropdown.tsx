@@ -31,7 +31,7 @@ const PostDropdown = ({
           onClick={deleteNote}
         >
           <TrashIcon className="w-5 text-red-700" />
-          <p className="text-red-700 ml-2 text-sm">Delete</p>
+          <p className="text-red-700 ml-2 text-sm">Trash</p>
         </span>
       </div>
     </>
