@@ -24,6 +24,7 @@ import CodeButton from "../components/post/buttons/CodeButton";
 import CodeModal from "../components/post/modals/CodeModal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
+import { CheckBox } from "../types/checkedType";
 
 import { db } from "../config/firebase";
 import {
@@ -48,6 +49,7 @@ const Dashboard = () => {
   const [newTags, setNewTags] = useState<string[]>([]);
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [checkList, setCheckList] = useState<string[]>([]);
+  const [newCheckList, setNewCheckList] = useState<CheckBox[]>([]);
   const [listValue, setListValue] = useState<string>("");
   const [codeOpen, setCodeOpen] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
@@ -229,6 +231,21 @@ const Dashboard = () => {
         tagArr: docSnap.get("tagArr"),
         codeText: docSnap.get("codeText"),
       };
+
+      const checkRef = collection(db, "users", uid, "notes", id, "checkList");
+
+      const querySnapshot = await getDocs(checkRef);
+
+      const removePromises = querySnapshot.docs.map((document) => {
+        deleteDoc(doc(db, "users", uid, "notes", id, "checkList", document.id));
+      });
+
+      const updatePromises = newCheckList.map((item) => {
+        addDoc(checkRef, { listItem: item.listItem, listId: item.listId });
+      });
+
+      await Promise.all(removePromises);
+      await Promise.all(updatePromises);
 
       setNotes(notes.map((note) => (note.id !== id ? note : newObject)));
     };
@@ -433,6 +450,8 @@ const Dashboard = () => {
                       setNewTags={setNewTags}
                       newCode={newCode}
                       setNewCode={setNewCode}
+                      newCheckList={newCheckList}
+                      setNewCheckList={setNewCheckList}
                     />
                   ))}
                 </div>
@@ -455,6 +474,8 @@ const Dashboard = () => {
                       setNewTags={setNewTags}
                       newCode={newCode}
                       setNewCode={setNewCode}
+                      newCheckList={newCheckList}
+                      setNewCheckList={setNewCheckList}
                     />
                   ))}
                 </div>

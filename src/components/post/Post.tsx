@@ -10,6 +10,7 @@ import { CheckBox } from "../../types/checkedType";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
+import { v4 as uuidv4 } from "uuid";
 
 const Post = ({
   name,
@@ -26,6 +27,8 @@ const Post = ({
   codeText,
   newCode,
   setNewCode,
+  newCheckList,
+  setNewCheckList,
 }: {
   name: string;
   time: string;
@@ -41,11 +44,14 @@ const Post = ({
   codeText: string;
   newCode: string;
   setNewCode(arg: string): void;
+  newCheckList: CheckBox[];
+  setNewCheckList(arg: CheckBox[]): void;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [newTagValue, setNewTagValue] = useState<string>("");
   const [checked, setChecked] = useState<CheckBox[]>([]);
+  const [newCheckValue, setNewCheckValue] = useState<string>("");
 
   const user = auth.currentUser;
 
@@ -75,6 +81,7 @@ const Post = ({
     setOpen(false);
     setNewTags(tagArr);
     setNewCode(codeText);
+    setNewCheckList(checked);
   };
 
   const handleEditTags = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,6 +104,24 @@ const Post = ({
 
   const removeEditTags = (tagName: string) => {
     setNewTags(newTags.filter((tag) => tag !== tagName));
+  };
+
+  const handleEditCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewCheckValue(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const addEditCheck = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && newCheckValue !== "") {
+      setNewCheckList(
+        newCheckList.concat({ listItem: newCheckValue, listId: uuidv4() })
+      );
+      setNewCheckValue("");
+    }
+  };
+
+  const removeEditCheck = (listId: string) => {
+    setNewCheckList(newCheckList.filter((item) => item.listId != listId));
   };
 
   return (
@@ -123,6 +148,11 @@ const Post = ({
           cancelEdit={cancelEdit}
           newCode={newCode}
           setNewCode={setNewCode}
+          newCheckList={newCheckList}
+          newCheckValue={newCheckValue}
+          addEditCheck={(e) => addEditCheck(e)}
+          handleEditCheck={(e) => handleEditCheck(e)}
+          removeEditCheck={removeEditCheck}
         />
       ) : null}
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300">
@@ -163,7 +193,7 @@ const Post = ({
             readOnly={true}
             style={{
               width: "100%",
-              marginTop: "0.25rem",
+              marginTop: "0.5rem",
               fontSize: "0.875rem",
             }}
           />
