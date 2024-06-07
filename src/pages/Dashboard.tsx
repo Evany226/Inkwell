@@ -25,6 +25,7 @@ import CodeModal from "../components/post/modals/CodeModal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import { CheckBox } from "../types/checkedType";
+import { useTheme } from "../functions/useTheme";
 
 import { db } from "../config/firebase";
 import {
@@ -55,6 +56,7 @@ const Dashboard = () => {
   const [code, setCode] = useState<string>("");
   const [newCode, setNewCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { theme } = useTheme();
 
   const uniqueTags: string[] = [];
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
@@ -90,6 +92,8 @@ const Dashboard = () => {
         textAreaRef.current.scrollHeight + "px";
     }
 
+    console.log(theme);
+
     const getData = async (uid: string) => {
       const notesRef = collection(db, "users", uid, "notes");
       const querySnapshot = await getDocs(notesRef);
@@ -118,7 +122,7 @@ const Dashboard = () => {
         console.log("user is logged out");
       }
     });
-  }, [val]);
+  }, [val, theme]);
 
   const addNote = (event: React.ChangeEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -323,7 +327,7 @@ const Dashboard = () => {
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
-        <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100">
+        <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100 dark:bg-black">
           <div className="absolute mt-6 mr-6 top-0 right-0">
             <Success message={successMsg} setSuccessMsg={setSuccessMsg} />
           </div>

@@ -47,6 +47,7 @@ const SidePanel = ({
               <p
                 className="text-sm text-gray-700 mr-2 mt-1 cursor-pointer"
                 onClick={() => filterTags(tag)}
+                key={tag}
               >
                 #{tag}
               </p>

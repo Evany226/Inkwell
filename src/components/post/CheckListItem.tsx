@@ -20,9 +20,15 @@ const CheckListItem = ({
           console.log(e.target.checked);
         }}
       ></input>
-      <label className="ms-2 text-base text-black font-normal">
-        {listItem}
-      </label>
+      {checked ? (
+        <label className="ms-2 text-base text-black font-normal line-through">
+          {listItem}
+        </label>
+      ) : (
+        <label className="ms-2 text-base text-black font-normal">
+          {listItem}
+        </label>
+      )}
     </div>
   );
 };

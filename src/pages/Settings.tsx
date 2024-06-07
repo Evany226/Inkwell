@@ -9,12 +9,14 @@ import {
   getAuth,
 } from "firebase/auth";
 import EditSettings from "../components/sidenav/EditSettings";
+import { useTheme } from "../functions/useTheme";
 
 const Settings = () => {
   const authTest = getAuth();
   const authUser = authTest.currentUser;
 
   const [editOpen, setEditOpen] = useState<boolean>(false);
+  const { toggleTheme } = useTheme();
 
   //what's actually displayed on screen and triggers component refresh
   const [username, setUsername] = useState<string>("");
@@ -85,7 +87,7 @@ const Settings = () => {
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
-        <main className="w-full h-auto flex flex-col items-center justify-center bg-gray-100">
+        <main className="w-full h-auto flex flex-col items-center justify-center bg-gray-100 dark:bg-black">
           <section className="w-full max-w-5xl px-4 flex p-6 mb-0 pb-0">
             <div className="w-[calc(100%-16rem)] h-full bg-white rounded-lg border py-6 px-8 flex flex-col space-y-5">
               <h1 className="text-xl font-semibold text-gray-800">Settings</h1>
@@ -146,6 +148,7 @@ const Settings = () => {
                       Theme:
                     </label>
                     <p className="text-[0.9rem] font-normal">Light</p>
+                    <button onClick={toggleTheme}>Change</button>
                   </div>
 
                   <div className="flex">

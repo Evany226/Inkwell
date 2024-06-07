@@ -23,6 +23,7 @@ const EditPost = ({
   addEditCheck,
   handleEditCheck,
   removeEditCheck,
+  setChecked,
 }: {
   editNote(e: React.FormEvent<HTMLFormElement>): void;
   editHandleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
@@ -41,6 +42,7 @@ const EditPost = ({
   addEditCheck(e: React.KeyboardEvent<HTMLInputElement>): void;
   handleEditCheck(e: React.ChangeEvent<HTMLInputElement>): void;
   removeEditCheck(arg: string): void;
+  setChecked(arg: CheckBox[]): void;
 }) => {
   return (
     <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 flex-col">
@@ -49,6 +51,7 @@ const EditPost = ({
         id="my-form"
         onSubmit={(e) => {
           editNote(e), setEditOpen(false);
+          setChecked(newCheckList);
         }}
       >
         <h1 className="text-black text-lg font-semibold ml-1 mt-2">
@@ -87,7 +90,7 @@ const EditPost = ({
         <input
           type="text"
           className="w-full bg-white outline-none px-0 py-1 w-32 text-sm "
-          placeholder="Enter items.."
+          placeholder="Enter checklist items.."
           value={newCheckValue}
           onChange={handleEditCheck}
           onKeyDown={addEditCheck}

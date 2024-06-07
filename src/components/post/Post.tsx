@@ -153,6 +153,7 @@ const Post = ({
           addEditCheck={(e) => addEditCheck(e)}
           handleEditCheck={(e) => handleEditCheck(e)}
           removeEditCheck={removeEditCheck}
+          setChecked={setChecked}
         />
       ) : null}
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300">
@@ -181,7 +182,11 @@ const Post = ({
         {checked.length > 0 ? (
           <div className="flex flex-col justify-center w-full px-1 mt-1">
             {checked.map((item) => (
-              <CheckListItem listItem={item.listItem} listId={item.listId} />
+              <CheckListItem
+                key={item.listId}
+                listItem={item.listItem}
+                listId={item.listId}
+              />
             ))}
           </div>
         ) : null}
