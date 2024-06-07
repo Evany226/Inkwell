@@ -1,4 +1,4 @@
-import Sidenav from "../components/sidenav/Sidenav";
+import Sidenav from "../components/nav/Sidenav";
 
 const Reminders = () => {
   return <Sidenav />;

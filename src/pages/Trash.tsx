@@ -1,4 +1,4 @@
-import Sidenav from "../components/sidenav/Sidenav";
+import Sidenav from "../components/nav/Sidenav";
 import { useEffect, useState } from "react";
 import { Note } from "../types/noteType";
 import { db, auth } from "../config/firebase";
@@ -11,7 +11,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import TrashPost from "../components/trash/TrashPost";
+import TrashPost from "../components/nav/TrashPost";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Trash = () => {
@@ -22,8 +22,6 @@ const Trash = () => {
   const user = auth.currentUser;
 
   useEffect(() => {
-    console.log("Test");
-
     const getData = async (uid: string) => {
       const trashRef = collection(db, "users", uid, "trash");
       const querySnapshot = await getDocs(trashRef);
@@ -122,11 +120,11 @@ const Trash = () => {
   return (
     <>
       <div className="w-full min-h-full">
-        <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
+        <div className="w-full transition-all mx-auto flex flex-col justify-center items-center pl-60 xs:pl-0 sm:pl-0">
           <Sidenav />
           <main className="w-full h-auto flex flex-col items-center justify-center bg-gray-100 dark:bg-zinc-900">
             <section className="w-full max-w-5xl px-4 flex-col p-6 mb-0 pb-0">
-              <div className="w-[85%] h-full rounded-lg bg-white border py-6 px-8 flex flex-col space-y-2 dark:bg-zinc-800 dark:border-zinc-700">
+              <div className="w-[85%] h-full rounded-lg bg-white border py-6 px-8 flex flex-col space-y-2 dark:bg-zinc-800 dark:border-zinc-700 xs:w-full sm:w-full">
                 <div className="bg-white dark:bg-zinc-800">
                   <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-300">
                     Trash
@@ -140,7 +138,7 @@ const Trash = () => {
                 </div>
               </div>
 
-              <div className="w-[85%] h-full">
+              <div className="w-[85%] h-full xs:w-full sm:w-full ">
                 {isLoading ? (
                   <div>
                     <LoadingSpinner />
@@ -149,6 +147,7 @@ const Trash = () => {
                   <>
                     {trash.map((item) => (
                       <TrashPost
+                        key={item.id}
                         item={item}
                         restoreNote={restoreNote}
                         deleteNote={deleteNote}

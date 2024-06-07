@@ -1,4 +1,4 @@
-import Sidenav from "../components/sidenav/Sidenav";
+import Sidenav from "../components/nav/Sidenav";
 import Post from "../components/post/Post";
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -325,14 +325,14 @@ const Dashboard = () => {
           setModalOpen={setModalOpen}
         />
       ) : null}
-      <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
+      <div className="w-full transition-all mx-auto flex flex-col justify-center items-center pl-60 xs:pl-0 sm:pl-0">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100 dark:bg-zinc-900">
           <div className="absolute mt-6 mr-6 top-0 right-0">
             <Success message={successMsg} setSuccessMsg={setSuccessMsg} />
           </div>
-          <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 dark:bg-zinc-900">
-            <div className="w-[calc(100%-16rem)] h-full mb-8 ">
+          <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 dark:bg-zinc-900 xs:max-w-full xs:pt-3">
+            <div className="w-[calc(100%-16rem)] h-full mb-8 xs:w-full ">
               <form
                 className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white dark:bg-zinc-800 dark:border-zinc-700"
                 onSubmit={addNote}

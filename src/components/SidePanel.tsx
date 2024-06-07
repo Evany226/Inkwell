@@ -13,7 +13,7 @@ const SidePanel = ({
   filterTags(arg: string): void;
 }) => {
   return (
-    <div className="stick top-0 left-0 w-56 h-full ">
+    <div className="stick top-0 left-0 w-56 h-full xs:hidden">
       <section className="w-full flex py-1 px-2 rounded-lg bg-white border dark:bg-zinc-900 dark:border-zinc-700">
         <MagnifyingGlassIcon className="w-4 text-gray-500 py-1" />
         <input

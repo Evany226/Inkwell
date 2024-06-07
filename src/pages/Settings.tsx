@@ -1,4 +1,4 @@
-import Sidenav from "../components/sidenav/Sidenav";
+import Sidenav from "../components/nav/Sidenav";
 import { auth } from "../config/firebase";
 import { PencilSquareIcon } from "@heroicons/react/16/solid";
 import { useState, useEffect } from "react";
@@ -8,15 +8,14 @@ import {
   onAuthStateChanged,
   getAuth,
 } from "firebase/auth";
-import EditSettings from "../components/sidenav/EditSettings";
-import { useTheme } from "../functions/useTheme";
+import EditSettings from "../components/nav/EditSettings";
+import ThemeSwitch from "../components/nav/ThemeSwitch";
 
 const Settings = () => {
   const authTest = getAuth();
   const authUser = authTest.currentUser;
 
   const [editOpen, setEditOpen] = useState<boolean>(false);
-  const { theme, toggleTheme } = useTheme();
 
   //what's actually displayed on screen and triggers component refresh
   const [username, setUsername] = useState<string>("");
@@ -85,11 +84,11 @@ const Settings = () => {
           updateAccount={updateAccount}
         />
       ) : null}
-      <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
+      <div className="w-full transition-all mx-auto flex flex-col justify-center items-center pl-60 xs:pl-0 sm:pl-0">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center bg-gray-100 dark:bg-zinc-900">
-          <section className="w-full max-w-5xl px-4 flex p-6 mb-0 pb-0">
-            <div className="w-[calc(100%-16rem)] h-full bg-white rounded-lg border py-6 px-8 flex flex-col space-y-5 dark:bg-zinc-800 dark:border-zinc-700">
+          <section className="w-full max-w-5xl px-4 flex p-6 mb-0 pb-0 ">
+            <div className="w-[80%] h-full bg-white rounded-lg border py-6 px-8 flex flex-col space-y-5 dark:bg-zinc-800 dark:border-zinc-700 xs:w-full sm:w-full">
               <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-300">
                 Settings
               </h1>
@@ -119,7 +118,7 @@ const Settings = () => {
 
                   <div className="flex">
                     <label className="text-[0.9rem] mr-2 font-medium text-gray-600 dark:text-gray-400">
-                      Email Address:
+                      Email:
                     </label>
                     <p className="text-[0.9rem] font-normal dark:text-gray-300">
                       {authUser?.email}
@@ -151,18 +150,10 @@ const Settings = () => {
                 <div className="flex flex-col bg-gray-50 px-4 py-2 border rounded-md space-y-2 dark:bg-zinc-900 dark:border-zinc-700">
                   <div className="flex">
                     <label className="text-[0.9rem] mr-2 font-medium text-gray-600 dark:text-gray-400">
-                      Theme:
+                      Dark Theme:
                     </label>
                     <p className="text-[0.9rem] font-normal dark:text-gray-300"></p>
-                    <label className="inline-flex items-center cursor-pointer ml-2">
-                      <input
-                        type="checkbox"
-                        value=""
-                        className="sr-only peer"
-                        onClick={toggleTheme}
-                      ></input>
-                      <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    </label>
+                    <ThemeSwitch />
                   </div>
 
                   <div className="flex">
