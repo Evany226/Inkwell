@@ -156,7 +156,7 @@ const Post = ({
           setChecked={setChecked}
         />
       ) : null}
-      <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300">
+      <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:ring-zinc-700">
         {open ? (
           <div
             className="fixed top-0 right-0 bottom-0 left-0 z-10"
@@ -167,18 +167,22 @@ const Post = ({
           <div className="flex w-full mb-1 space-x-2 mb-2">
             {tagArr.map((tag) => (
               <div
-                className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded"
+                className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded dark:bg-neutral-700 dark:border-zinc-700"
                 key={tag}
               >
-                <p className="text-sm text-gray-700">{tag}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-400">
+                  {tag}
+                </p>
               </div>
             ))}
           </div>
         ) : null}
         <div className="w-full">
-          <p className="text-sm text-gray-400">{time}</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500">{time}</p>
         </div>
-        <div className="text-base mt-1 text-black break-words">{name}</div>
+        <div className="text-base mt-1 text-black break-words dark:text-gray-300">
+          {name}
+        </div>
         {checked.length > 0 ? (
           <div className="flex flex-col justify-center w-full px-1 mt-1">
             {checked.map((item) => (

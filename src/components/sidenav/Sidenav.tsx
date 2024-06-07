@@ -30,12 +30,12 @@ const Sidenav = () => {
   };
 
   return (
-    <aside className="bg-gray-50 flex-col justify-center items-center fixed border-r w-60 px-4 top-0 left-0 h-full z-2">
+    <aside className="bg-gray-50 flex-col justify-center items-center fixed border-r w-60 px-4 top-0 left-0 h-full z-2 dark:bg-[#1e1e21] dark:border-zinc-800">
       <div className="flex items-center ml-4 mt-10">
-        <div className="w-9 h-9 bg-gray-200 rounded-xl ">
+        <div className="w-9 h-9 bg-gray-200 rounded-xl dark:bg-zinc-900">
           <img src="../../logo-clear.png" className="w-full h-auto"></img>
         </div>
-        <div className=" text-lg font-semibold ml-2 font-MeowScript">
+        <div className=" text-lg font-semibold ml-2 font-MeowScript dark:text-gray-300">
           {user?.displayName}
         </div>
       </div>
@@ -46,12 +46,14 @@ const Sidenav = () => {
             <li
               className={
                 isActive
-                  ? "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-white border"
-                  : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent"
+                  ? "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-white border dark:bg-zinc-800 dark:border-zinc-700"
+                  : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent dark:bg-[#1e1e21] "
               }
             >
-              <ClipboardDocumentListIcon className="w-8 text-gray-800" />
-              <p className="text-lg text-gray-800 ml-3 font-medium">Notes</p>
+              <ClipboardDocumentListIcon className="w-8 text-gray-800 dark:text-gray-400" />
+              <p className="text-lg text-gray-800 ml-3 font-medium dark:text-gray-400">
+                Notes
+              </p>
             </li>
           )}
         </NavLink>
@@ -78,12 +80,14 @@ const Sidenav = () => {
             <li
               className={
                 isActive
-                  ? "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-white border"
-                  : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent"
+                  ? "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-white border dark:bg-zinc-800 dark:border-zinc-700"
+                  : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent dark:bg-[#1e1e21]"
               }
             >
-              <TrashIcon className="w-8 text-gray-800 " />
-              <p className="text-lg text-gray-800 ml-3 font-medium">Trash</p>
+              <TrashIcon className="w-8 text-gray-800 dark:text-gray-400" />
+              <p className="text-lg text-gray-800 ml-3 font-medium dark:text-gray-400">
+                Trash
+              </p>
             </li>
           )}
         </NavLink>
@@ -93,12 +97,14 @@ const Sidenav = () => {
             <li
               className={
                 isActive
-                  ? "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-white border"
-                  : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent"
+                  ? "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-white border dark:bg-zinc-800 dark:border-zinc-700"
+                  : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent dark:bg-[#1e1e21]"
               }
             >
-              <Cog8ToothIcon className="w-8 text-gray-800 " />
-              <p className="text-lg text-gray-800 ml-3 font-medium">Settings</p>
+              <Cog8ToothIcon className="w-8 text-gray-800 dark:text-gray-400" />
+              <p className="text-lg text-gray-800 ml-3 font-medium dark:text-gray-400">
+                Settings
+              </p>
             </li>
           )}
         </NavLink>

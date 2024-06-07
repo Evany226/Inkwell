@@ -124,14 +124,16 @@ const Trash = () => {
       <div className="w-full min-h-full">
         <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
           <Sidenav />
-          <main className="w-full h-auto flex flex-col items-center justify-center bg-gray-100">
+          <main className="w-full h-auto flex flex-col items-center justify-center bg-gray-100 dark:bg-zinc-900">
             <section className="w-full max-w-5xl px-4 flex-col p-6 mb-0 pb-0">
-              <div className="w-[85%] h-full rounded-lg bg-white border py-6 px-8 flex flex-col space-y-2">
-                <div className="bg-white">
-                  <h1 className="text-xl font-semibold text-gray-800">Trash</h1>
+              <div className="w-[85%] h-full rounded-lg bg-white border py-6 px-8 flex flex-col space-y-2 dark:bg-zinc-800 dark:border-zinc-700">
+                <div className="bg-white dark:bg-zinc-800">
+                  <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-300">
+                    Trash
+                  </h1>
 
                   <div className="w-full flex-col ">
-                    <h2 className="text-base text-gray-700 font-medium">
+                    <h2 className="text-base text-gray-700 font-medium dark:text-gray-400">
                       All items here will be deleted automatically in 30 days.
                     </h2>
                   </div>

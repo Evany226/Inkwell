@@ -21,11 +21,11 @@ const CheckListItem = ({
         }}
       ></input>
       {checked ? (
-        <label className="ms-2 text-base text-black font-normal line-through">
+        <label className="ms-2 text-base text-black font-normal line-through dark:text-gray-400">
           {listItem}
         </label>
       ) : (
-        <label className="ms-2 text-base text-black font-normal">
+        <label className="ms-2 text-base text-black font-normal dark:text-gray-400">
           {listItem}
         </label>
       )}

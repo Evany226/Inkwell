@@ -65,23 +65,29 @@ const TrashPost = ({
           setModalOpen={setModalOpen}
         />
       ) : null}
-      <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300">
+      <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:ring-zinc-700">
         {item.tagArr.length > 0 ? (
           <div className="flex w-full mb-1 space-x-2 mb-2">
             {item.tagArr.map((tag) => (
               <div
-                className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded"
+                className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded dark:bg-neutral-700 dark:border-zinc-700"
                 key={tag}
               >
-                <p className="text-sm text-gray-700">{tag}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-400">
+                  {tag}
+                </p>
               </div>
             ))}
           </div>
         ) : null}
         <div className="w-full">
-          <p className="text-sm text-gray-400">{item.time}</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500">
+            {item.time}
+          </p>
         </div>
-        <div className="text-base mt-1 text-black break-words">{item.name}</div>
+        <div className="text-base mt-1 text-black break-words dark:text-gray-300">
+          {item.name}
+        </div>
         {checked.length > 0 ? (
           <div className="flex flex-col justify-center w-full px-1 mt-1">
             {checked.map((item) => (
@@ -105,11 +111,11 @@ const TrashPost = ({
         <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">
           <div className="flex items-center">
             <ArrowUpCircleIcon
-              className="w-4 text-gray-700 mr-1"
+              className="w-4 text-gray-700 mr-1 dark:text-gray-400"
               onClick={() => restoreNote(item.id)}
             />
             <TrashIcon
-              className="w-4 text-gray-700"
+              className="w-4 text-gray-700 dark:text-gray-400"
               onClick={() => setModalOpen(true)}
             />
           </div>

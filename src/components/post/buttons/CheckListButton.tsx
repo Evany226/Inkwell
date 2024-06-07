@@ -10,7 +10,7 @@ const CheckListButton = ({
 }) => {
   return (
     <div className="relative group transition-all ml-2 ">
-      <ClipboardDocumentCheckIcon className="w-6 text-gray-600 mb-1 " />
+      <ClipboardDocumentCheckIcon className="w-6 text-gray-600 mb-1 dark:text-gray-400" />
       <span
         onClick={() => setListOpen(true)}
         className="group-hover:flex hover:bg-gray-200 hidden fixed flex items-center bg-white py-1 px-3 rounded-md border border-gray-400 shadow-md shadow-gray-300 cursor-pointer"

@@ -327,19 +327,19 @@ const Dashboard = () => {
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-row justify-center items-center pl-60">
         <Sidenav />
-        <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100 dark:bg-black">
+        <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100 dark:bg-zinc-900">
           <div className="absolute mt-6 mr-6 top-0 right-0">
             <Success message={successMsg} setSuccessMsg={setSuccessMsg} />
           </div>
-          <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 ">
-            <div className="w-[calc(100%-16rem)] h-full mb-8">
+          <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 dark:bg-zinc-900">
+            <div className="w-[calc(100%-16rem)] h-full mb-8 ">
               <form
-                className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white"
+                className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white dark:bg-zinc-800 dark:border-zinc-700"
                 onSubmit={addNote}
               >
-                <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b ">
+                <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b dark:border-zinc-700">
                   <textarea
-                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break"
+                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break caret-white"
                     placeholder="Create a note..."
                     rows={1}
                     value={val}
@@ -402,16 +402,18 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="w-full py-4 flex justify-between items-center">
-                  <span className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer">
-                    <BellAlertIcon className="w-5 text-gray-700" />
-                    <p className="text-sm font-medium text-gray-700 ml-2">
+                  <span className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer dark:bg-zinc-950 dark:border-zinc-700">
+                    <BellAlertIcon className="w-5 text-gray-700 dark:text-gray-300" />
+                    <p className="text-sm font-medium text-gray-700 ml-2 dark:text-gray-300">
                       Reminders
                     </p>
-                    <ChevronDoubleDownIcon className="w-5 text-gray-700 ml-2 mt-0.5" />
+                    <ChevronDoubleDownIcon className="w-5 text-gray-700 ml-2 mt-0.5 dark:text-gray-300" />
                   </span>
-                  <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border">
-                    <p className="text-sm font-medium text-gray-700">Save</p>
-                    <PlusCircleIcon className="w-4 text-gray-600 ml-1 " />
+                  <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border dark:bg-zinc-950 dark:border-zinc-700">
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Save
+                    </p>
+                    <PlusCircleIcon className="w-4 text-gray-600 ml-1 dark:text-gray-300" />
                   </button>
                 </div>
               </form>

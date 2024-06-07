@@ -13,5 +13,6 @@
   body {
     background-color: #f1f5f9;
     min-height: 100svh;
+    @apply dark:bg-zinc-900;
   }
 }
