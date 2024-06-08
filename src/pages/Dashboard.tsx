@@ -339,13 +339,12 @@ const Dashboard = () => {
               >
                 <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b dark:border-zinc-700">
                   <textarea
-                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break caret-white"
+                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break caret-white dark:text-gray-300"
                     placeholder="Create a note..."
                     rows={1}
                     value={val}
                     onChange={(e) => handleChange(e)}
                     ref={textAreaRef}
-                    style={{ color: "#000" }}
                   ></textarea>
 
                   {checkList.length > 0 ? (

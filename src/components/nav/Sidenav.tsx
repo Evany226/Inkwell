@@ -19,7 +19,7 @@ const Sidenav = () => {
 
   const user = auth.currentUser;
 
-  const [navOpen, setNavOpen] = useState<boolean>(true);
+  const [navOpen, setNavOpen] = useState<boolean>(false);
 
   const handleLogout = () => {
     signOut(auth)

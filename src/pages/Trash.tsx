@@ -17,7 +17,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 const Trash = () => {
   const [trash, setTrash] = useState<Note[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  // const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const user = auth.currentUser;
 
@@ -151,8 +151,8 @@ const Trash = () => {
                         item={item}
                         restoreNote={restoreNote}
                         deleteNote={deleteNote}
-                        setModalOpen={setModalOpen}
-                        modalOpen={modalOpen}
+                        // setModalOpen={setModalOpen}
+                        // modalOpen={modalOpen}
                       />
                     ))}
                   </>
