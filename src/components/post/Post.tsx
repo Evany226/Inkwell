@@ -170,7 +170,7 @@ const Post = ({
                 className=" flex items-center bg-gray-100 border border-gray-300 px-2 rounded dark:bg-neutral-700 dark:border-zinc-700"
                 key={tag}
               >
-                <p className="text-sm text-gray-700 dark:text-gray-400">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   {tag}
                 </p>
               </div>

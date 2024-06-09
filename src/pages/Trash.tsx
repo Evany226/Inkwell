@@ -13,15 +13,18 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import TrashPost from "../components/nav/TrashPost";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useTheme } from "../functions/useTheme";
 
 const Trash = () => {
   const [trash, setTrash] = useState<Note[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { theme } = useTheme();
   // const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const user = auth.currentUser;
 
   useEffect(() => {
+    console.log(theme);
     const getData = async (uid: string) => {
       const trashRef = collection(db, "users", uid, "trash");
       const querySnapshot = await getDocs(trashRef);
@@ -49,7 +52,7 @@ const Trash = () => {
         console.log("user is logged out");
       }
     });
-  }, []);
+  }, [theme]);
 
   const restoreNote = (id: string): void => {
     const restoreData = async (uid: string, id: string) => {

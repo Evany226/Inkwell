@@ -45,7 +45,7 @@ const EditPost = ({
   setChecked(arg: CheckBox[]): void;
 }) => {
   return (
-    <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 flex-col">
+    <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 flex-col dark:bg-zinc-800 dark:border-zinc-700">
       <form
         className="flex-col py-2"
         id="my-form"
@@ -54,11 +54,11 @@ const EditPost = ({
           setChecked(newCheckList);
         }}
       >
-        <h1 className="text-black text-lg font-semibold ml-1 mt-2">
+        <h1 className="text-black text-lg font-semibold ml-1 mt-2 dark:text-gray-300">
           Edit note
         </h1>
         <textarea
-          className="bg-slate-100 w-full mt-2 p-1 resize-none rounded-md outline-none border text-sm"
+          className="bg-slate-100 w-full mt-2 p-1 resize-none rounded-md outline-none border text-sm dark:bg-zinc-900 dark:text-gray-300 dark:border-zinc-700"
           rows={2}
           placeholder="Change your note..."
           autoFocus
@@ -74,9 +74,9 @@ const EditPost = ({
             <input
               disabled
               type="checkbox"
-              className="w-4 h-4 border-gray-500"
+              className="w-4 h-4 border-gray-500 "
             ></input>
-            <label className="ms-2 text-base text-black font-normal">
+            <label className="ms-2 text-base text-black font-normal dark:text-gray-300">
               {item.listItem}
             </label>
             <XMarkIcon
@@ -86,10 +86,10 @@ const EditPost = ({
           </div>
         ))}
       </div>
-      <div className="flex items-center w-full mt-2 px-2 py-1 bg-white border border-gray-400 rounded-md space-x-2">
+      <div className="flex items-center w-full mt-2 px-2 py-1 bg-white border border-gray-400 rounded-md space-x-2 dark:bg-zinc-900 dark:border-zinc-700">
         <input
           type="text"
-          className="w-full bg-white outline-none px-0 py-1 w-32 text-sm "
+          className="w-full bg-white outline-none px-0 py-1 w-32 text-sm dark:bg-zinc-900 dark:text-gray-300"
           placeholder="Enter checklist items.."
           value={newCheckValue}
           onChange={handleEditCheck}
@@ -111,13 +111,13 @@ const EditPost = ({
         />
       </div>
 
-      <div className="flex items-center w-full px-2 py-1 bg-white border border-gray-400 rounded-md space-x-2 mt-3">
+      <div className="flex items-center w-full px-2 py-1 bg-white border border-gray-400 rounded-md space-x-2 mt-3 dark:bg-zinc-900 dark:border-zinc-700">
         {newTags.map((tag) => (
           <div
-            className="text-sm flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md"
+            className="text-sm flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md dark:bg-neutral-700 dark:border-zinc-700"
             key={tag}
           >
-            <p>{tag}</p>
+            <p className="dark:text-gray-300">{tag}</p>
             <XMarkIcon
               className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500 "
               onClick={() => removeEditTags(tag)}
@@ -126,7 +126,7 @@ const EditPost = ({
         ))}
         <input
           type="text"
-          className="resize-none bg-white outline-none px-0 py-1 w-32 text-sm"
+          className="resize-none bg-white outline-none px-0 py-1 w-32 text-sm dark:bg-zinc-900 dark:text-gray-300 dark:border-zinc-700 dark:text-gray-300"
           placeholder="Enter tags.."
           value={newTagValue}
           onChange={handleEditTags}
@@ -135,23 +135,25 @@ const EditPost = ({
       </div>
 
       <div className="flex justify-between items-center py-1 ">
-        <p className="text-sm ml-1 text-gray-700">
+        <p className="text-sm ml-1 text-gray-700 dark:text-gray-300">
           {Math.max(5 - newTags.length, 0)} tags remaining
         </p>
         <div className="flex items-center py-3">
           <button
             onClick={cancelEdit}
-            className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400"
+            className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-400 dark:hover:bg-red-300 "
           >
-            <p className="text-sm font-medium text-red-800">Cancel</p>
+            <p className="text-sm font-medium text-red-900">Cancel</p>
           </button>
           <button
             form="my-form"
             type="submit"
-            className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border outline-none ml-2"
+            className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border outline-none ml-2 dark:bg-zinc-900 dark:border-zinc-700 dark:hover:bg-zinc-800"
           >
-            <p className="text-sm font-medium text-gray-700">Save</p>
-            <PlusCircleIcon className="w-4 text-gray-600 ml-1" />
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Save
+            </p>
+            <PlusCircleIcon className="w-4 text-gray-600 ml-1 dark:text-gray-300" />
           </button>
         </div>
       </div>

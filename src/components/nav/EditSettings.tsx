@@ -69,15 +69,15 @@ const EditSettings = ({
         <div className="flex items-center">
           <button
             onClick={() => setEditOpen(false)}
-            className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 border-0 dark:bg-red-600 dark:hover:bg-red-400"
+            className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-500 dark:bg-red-600 dark:hover:bg-red-400"
           >
-            <p className="text-sm font-medium text-red-800 dark:text-red-300">
+            <p className="text-sm font-medium text-red-800 dark:text-red-200">
               Cancel
             </p>
           </button>
           <button
             type="submit"
-            className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border border-gray-400 dark:bg-zinc-950 dark:border-zinc-700 dark:hover:bg-zinc-700"
+            className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border border-gray-400 dark:bg-zinc-900 dark:border-zinc-700 dark:hover:bg-zinc-700"
           >
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Save

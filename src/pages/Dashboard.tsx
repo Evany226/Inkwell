@@ -357,7 +357,7 @@ const Dashboard = () => {
                               type="checkbox"
                               className="w-4 h-4 border-gray-500"
                             ></input>
-                            <label className="ms-2 text-base text-black font-normal">
+                            <label className="ms-2 text-base text-black font-normal dark:text-gray-400">
                               {item}
                             </label>
                             <XMarkIcon
@@ -383,8 +383,8 @@ const Dashboard = () => {
                   {tags.length > 0 ? (
                     <div className="flex w-full my-1 px-1 space-x-2">
                       {tags.map((tag) => (
-                        <div className="text-sm flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md">
-                          <p>{tag}</p>
+                        <div className="text-sm flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md dark:bg-neutral-700 dark:border-zinc-700">
+                          <p className="dark:text-gray-300">{tag}</p>
                           <XMarkIcon
                             className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
                             onClick={() => removeTags(tag)}
@@ -401,14 +401,14 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="w-full py-4 flex justify-between items-center">
-                  <span className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer dark:bg-zinc-950 dark:border-zinc-700">
+                  <span className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer dark:bg-zinc-900 dark:border-zinc-700">
                     <BellAlertIcon className="w-5 text-gray-700 dark:text-gray-300" />
                     <p className="text-sm font-medium text-gray-700 ml-2 dark:text-gray-300">
                       Reminders
                     </p>
                     <ChevronDoubleDownIcon className="w-5 text-gray-700 ml-2 mt-0.5 dark:text-gray-300" />
                   </span>
-                  <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border dark:bg-zinc-950 dark:border-zinc-700">
+                  <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border dark:bg-zinc-900 dark:border-zinc-700 dark:hover:bg-zinc-700">
                     <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       Save
                     </p>

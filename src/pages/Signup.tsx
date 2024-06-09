@@ -62,82 +62,86 @@ const Signup = () => {
   };
 
   return (
-    <section className="flex flex-col items-center rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] ">
-      <div className="flex items-center">
-        <div className="w-20 h-20">
-          <img className="w-full h-auto" src="../../logo-clear.png"></img>
+    <div className="w-[100vw] h-[100vh] bg-[#f1f5f9]">
+      <section className="flex flex-col items-center rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] ">
+        <div className="flex items-center">
+          <div className="w-20 h-20">
+            <img className="w-full h-auto" src="../../logo-clear.png"></img>
+          </div>
+          <h1 className="text-6xl font-bold font-DancingScript ml-2">
+            Inkwell
+          </h1>
         </div>
-        <h1 className="text-6xl font-bold font-DancingScript ml-2">Inkwell</h1>
-      </div>
-      <div className="flex flex-col w-full h-full bg-white rounded-lg shadow p-8 mt-8">
-        <h2 className="text-2xl font-bold">Create an account</h2>
-        <form className="mt-4 space-y-4 " onSubmit={createAcc}>
-          <div className="flex flex-col space-y-3">
-            <label className="text-sm font-medium">Username</label>
-            <input
-              className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
-              placeholder="RacoonMan57"
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            ></input>
+        <div className="flex flex-col w-full h-full bg-white rounded-lg shadow p-8 mt-8">
+          <h2 className="text-2xl font-bold">Create an account</h2>
+          <form className="mt-4 space-y-4 " onSubmit={createAcc}>
+            <div className="flex flex-col space-y-3">
+              <label className="text-sm font-medium">Username</label>
+              <input
+                className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
+                placeholder="RacoonMan57"
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              ></input>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <label className="text-sm font-medium">Email Address</label>
+              <input
+                type="email"
+                className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
+                placeholder="name@website.com"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              ></input>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <label className="text-sm font-medium">Password</label>
+              <input
+                type="password"
+                className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
+                placeholder="••••••••"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              ></input>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <label className="text-sm font-medium">Confirm password</label>
+              <input
+                type="password"
+                className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
+                placeholder="••••••••"
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+              ></input>
+            </div>
+            <div className="pt-4 pb-0">
+              <button
+                type="submit"
+                className="w-full bg-violet-600 text-white py-1.5 text-sm font-medium rounded-md hover:bg-violet-800"
+              >
+                Sign up
+              </button>
+            </div>
+          </form>
+          <AuthError errorMsg={errorMsg} />
+          <div className="flex justify-center pb-6 mt-4">
+            <p className="text-black text-sm font-medium">
+              Already have an account?{" "}
+              <Link to="/login" className="ml-1 text-violet-700 font-semibold">
+                Log in
+              </Link>
+            </p>
           </div>
-          <div className="flex flex-col space-y-3">
-            <label className="text-sm font-medium">Email Address</label>
-            <input
-              type="email"
-              className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
-              placeholder="name@website.com"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            ></input>
+          <div className="fter:h-px flex items-center before:h-px before:flex-1  before:bg-gray-300 before:content-[''] after:h-px after:flex-1 after:bg-gray-300  after:content-['']">
+            <p className="text-sm px-3 font-medium">Or continue with </p>
           </div>
-          <div className="flex flex-col space-y-3">
-            <label className="text-sm font-medium">Password</label>
-            <input
-              type="password"
-              className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
-              placeholder="••••••••"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            ></input>
+          <div className="flex mt-4 justify-center space-x-4">
+            <GoogleButton />
+            <GithubButton />
           </div>
-          <div className="flex flex-col space-y-3">
-            <label className="text-sm font-medium">Confirm password</label>
-            <input
-              type="password"
-              className="border border-gray-400 px-2 py-2 rounded-md text-sm focus:outline-violet-600 "
-              placeholder="••••••••"
-              onChange={(e) => setConfirm(e.target.value)}
-              required
-            ></input>
-          </div>
-          <div className="pt-4 pb-0">
-            <button
-              type="submit"
-              className="w-full bg-violet-600 text-white py-1.5 text-sm font-medium rounded-md hover:bg-violet-800"
-            >
-              Sign up
-            </button>
-          </div>
-        </form>
-        <AuthError errorMsg={errorMsg} />
-        <div className="flex justify-center pb-6 mt-4">
-          <p className="text-black text-sm font-medium">
-            Already have an account?{" "}
-            <Link to="/login" className="ml-1 text-violet-700 font-semibold">
-              Log in
-            </Link>
-          </p>
         </div>
-        <div className="fter:h-px flex items-center before:h-px before:flex-1  before:bg-gray-300 before:content-[''] after:h-px after:flex-1 after:bg-gray-300  after:content-['']">
-          <p className="text-sm px-3 font-medium">Or continue with </p>
-        </div>
-        <div className="flex mt-4 justify-center space-x-4">
-          <GoogleButton />
-          <GithubButton />
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 

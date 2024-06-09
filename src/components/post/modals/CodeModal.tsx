@@ -1,8 +1,8 @@
-import { TrashIcon } from "@heroicons/react/16/solid";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 import { langNames } from "@uiw/codemirror-extensions-langs";
+import { XMarkIcon } from "@heroicons/react/16/solid";
 
 const CodeModal = ({
   setCodeOpen,
@@ -24,7 +24,7 @@ const CodeModal = ({
           style={{ width: "100%", fontSize: "0.875rem" }}
         />
         <select
-          className="border border-gray-300 outline-0 bg-gray-100 mt-2 text-sm rounded-normal "
+          className="border border-gray-300 outline-0 bg-gray-100 mt-2 text-sm rounded-sm dark:bg-zinc-800 dark:border-zinc-700 dark:text-gray-300"
           defaultValue={"javascript"}
         >
           {langNames.map((theme, index) => {
@@ -44,7 +44,7 @@ const CodeModal = ({
           setCode("");
         }}
       >
-        <TrashIcon className="w-5 text-red-700" />
+        <XMarkIcon className="w-5 text-gray-700 dark:text-gray-300" />
       </button>
     </div>
   );

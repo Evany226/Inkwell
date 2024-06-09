@@ -121,8 +121,10 @@ const Sidenav = () => {
             className="flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer"
             onClick={handleLogout}
           >
-            <ArrowLeftStartOnRectangleIcon className="w-8 text-red-700" />
-            <p className="text-lg text-red-700 ml-3 font-medium">Logout</p>
+            <ArrowLeftStartOnRectangleIcon className="w-8 text-red-700 dark:text-red-500" />
+            <p className="text-lg text-red-700 ml-3 font-medium dark:text-red-500">
+              Logout
+            </p>
           </li>
         </ul>
       </aside>
