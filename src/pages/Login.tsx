@@ -93,8 +93,8 @@ const Login = () => {
             <p className="text-sm px-3 font-medium">Or continue with </p>
           </div>
           <div className="flex mt-4 justify-center space-x-4">
-            <GoogleButton />
-            <GithubButton />
+            <GoogleButton setErrorMsg={setErrorMsg} />
+            <GithubButton setErrorMsg={setErrorMsg} />
           </div>
         </div>
       </section>

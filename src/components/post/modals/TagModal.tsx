@@ -8,6 +8,7 @@ const TagModal = ({
   tags,
   removeTags,
   setModalOpen,
+  tagValid,
 }: {
   tagValue: string;
   tagHandleChange(e: React.ChangeEvent<HTMLInputElement>): void;
@@ -15,6 +16,7 @@ const TagModal = ({
   tags: string[];
   removeTags(arg: string): void;
   setModalOpen(arg: boolean): void;
+  tagValid: boolean;
 }) => {
   return (
     <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col dark:bg-zinc-800">
@@ -43,9 +45,16 @@ const TagModal = ({
           onKeyDown={addTags}
         ></input>
       </div>
+
+      {tagValid ? null : (
+        <p className="ml-1 text-red-600 text-sm mt-1">
+          No more tags remaining.
+        </p>
+      )}
+
       <div className="flex justify-between items-center mt-2 py-1 ">
         <p className="text-sm ml-1 text-gray-700 dark:text-gray-300">
-          {Math.max(5 - tags.length, 0)} tags remaining
+          {Math.max(3 - tags.length, 0)} tags remaining
         </p>
         <div className="flex items-center">
           <button className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-400 dark:hover:bg-red-300 ">

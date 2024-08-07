@@ -52,6 +52,7 @@ const Post = ({
   const [newTagValue, setNewTagValue] = useState<string>("");
   const [checked, setChecked] = useState<CheckBox[]>([]);
   const [newCheckValue, setNewCheckValue] = useState<string>("");
+  const [editTagValid, setEditTagValid] = useState<boolean>(true);
 
   const user = auth.currentUser;
 
@@ -96,9 +97,15 @@ const Post = ({
 
   const addEditTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && newTagValue !== "") {
-      setNewTags([...newTags, newTagValue]);
-      setNewTagValue("");
-      console.log("set tags");
+      if (newTags.length < 3) {
+        setNewTags([...newTags, newTagValue]);
+        setNewTagValue("");
+      } else {
+        setEditTagValid(false);
+        setTimeout(() => {
+          setEditTagValid(true);
+        }, 2000);
+      }
     }
   };
 
@@ -154,6 +161,7 @@ const Post = ({
           handleEditCheck={(e) => handleEditCheck(e)}
           removeEditCheck={removeEditCheck}
           setChecked={setChecked}
+          editTagValid={editTagValid}
         />
       ) : null}
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:ring-zinc-700">

@@ -56,6 +56,7 @@ const Dashboard = () => {
   const [code, setCode] = useState<string>("");
   const [newCode, setNewCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tagValid, setTagValid] = useState<boolean>(true);
   const { theme } = useTheme();
 
   const uniqueTags: string[] = [];
@@ -261,8 +262,15 @@ const Dashboard = () => {
 
   const addTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && tagValue !== "") {
-      setTags([...tags, tagValue]);
-      setTagValue("");
+      if (tags.length < 3) {
+        setTags([...tags, tagValue]);
+        setTagValue("");
+      } else {
+        setTagValid(false);
+        setTimeout(() => {
+          setTagValid(true);
+        }, 2000);
+      }
     }
   };
 
@@ -323,6 +331,7 @@ const Dashboard = () => {
           tags={tags}
           removeTags={removeTags}
           setModalOpen={setModalOpen}
+          tagValid={tagValid}
         />
       ) : null}
       <div className="w-full transition-all mx-auto flex flex-col justify-center items-center pl-60 xs:pl-0 sm:pl-0">

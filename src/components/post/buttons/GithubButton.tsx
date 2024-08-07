@@ -1,8 +1,41 @@
-const GithubButton = () => {
+import { signInWithPopup, GithubAuthProvider } from "firebase/auth";
+import { auth } from "../../../config/firebase";
+import { useNavigate } from "react-router-dom";
+
+const GithubButton = ({ setErrorMsg }: { setErrorMsg(arg: string): void }) => {
+  const provider = new GithubAuthProvider();
+  const navigate = useNavigate();
+
+  const githubSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        const credential = GithubAuthProvider.credentialFromResult(result);
+
+        console.log(credential);
+        const user = result.user;
+
+        if (user.emailVerified) {
+          navigate("/dashboard");
+        } else {
+          setErrorMsg("Email not verified, please check your email");
+          setTimeout(() => {
+            setErrorMsg("");
+          }, 5000);
+        }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        console.log(error.message);
+        setErrorMsg(error.message);
+      });
+  };
+
   return (
     <button
       aria-label="Sign in with Github"
       className="group flex items-center bg-white border border-gray-300 rounded-md p-0.5 pr-3 hover:bg-gray-100"
+      onClick={() => githubSignIn()}
     >
       <div className="flex items-center justify-center bg-white w-9 h-9 rounded-l group-hover:bg-gray-100">
         <svg

@@ -1,8 +1,41 @@
-const GoogleButton = () => {
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../../../config/firebase";
+import { useNavigate } from "react-router-dom";
+
+const GoogleButton = ({ setErrorMsg }: { setErrorMsg(arg: string): void }) => {
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
+
+  const googleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        console.log(credential);
+        const user = result.user;
+
+        if (user.emailVerified) {
+          navigate("/dashboard");
+        } else {
+          setErrorMsg("Email not verified, please check your email");
+          setTimeout(() => {
+            setErrorMsg("");
+          }, 5000);
+        }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        console.log(error.message);
+        setErrorMsg("An error has occured: " + error.message);
+        // ...
+      });
+  };
+
   return (
     <button
       aria-label="Sign in with Google"
       className="group flex items-center bg-white border border-gray-300 rounded-md p-0.5 pr-3 hover:bg-gray-100"
+      onClick={() => googleSignIn()}
     >
       <div className="flex items-center justify-center bg-white w-9 h-9 rounded-l group-hover:bg-gray-100">
         <svg
