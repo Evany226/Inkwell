@@ -1,5 +1,5 @@
-import GoogleButton from "../components/post/buttons/GoogleButton";
-import GithubButton from "../components/post/buttons/GithubButton";
+import GoogleButton from "../components/login/GoogleButton";
+import GithubButton from "../components/login/GithubButton";
 import { useNavigate, Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import {
@@ -136,8 +136,8 @@ const Signup = () => {
             <p className="text-sm px-3 font-medium">Or continue with </p>
           </div>
           <div className="flex mt-4 justify-center space-x-4">
-            <GoogleButton />
-            <GithubButton />
+            <GoogleButton setErrorMsg={setErrorMsg} />
+            <GithubButton setErrorMsg={setErrorMsg} />
           </div>
         </div>
       </section>

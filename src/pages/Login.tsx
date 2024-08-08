@@ -1,5 +1,5 @@
-import GoogleButton from "../components/post/buttons/GoogleButton";
-import GithubButton from "../components/post/buttons/GithubButton";
+import GoogleButton from "../components/login/GoogleButton";
+import GithubButton from "../components/login/GithubButton";
 import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
