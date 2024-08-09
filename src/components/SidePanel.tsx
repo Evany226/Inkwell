@@ -7,10 +7,12 @@ const SidePanel = ({
   notes,
   tagItems,
   filterTags,
+  selectedTags,
 }: {
   notes: Note[];
   tagItems: string[];
   filterTags(arg: string): void;
+  selectedTags: string[];
 }) => {
   return (
     <div className="stick top-0 left-0 w-56 h-full xs:hidden">
@@ -53,7 +55,9 @@ const SidePanel = ({
           {tagItems.length > 0 ? (
             tagItems.map((tag) => (
               <p
-                className="text-sm text-gray-700 mr-2 mt-1 cursor-pointer dark:text-gray-400"
+                className={`text-sm text-gray-700 mr-2 mt-1 cursor-pointer 
+                  ${selectedTags.includes(tag) ? "line-through" : ""}
+                dark:text-gray-400`}
                 onClick={() => filterTags(tag)}
                 key={tag}
               >

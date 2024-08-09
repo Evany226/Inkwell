@@ -39,8 +39,6 @@ const Dashboard = () => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [val, setVal] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
-  const [filtered, setFiltered] = useState<Note[]>([]);
-  const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [newNote, setNewNote] = useState<string>("");
   const [newContent, setNewContent] = useState<string>("");
   const [successMsg, setSuccessMsg] = useState<string>("");
@@ -57,12 +55,21 @@ const Dashboard = () => {
   const [newCode, setNewCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [tagValid, setTagValid] = useState<boolean>(true);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const { theme } = useTheme();
 
+  //finding out all available tags
   const uniqueTags: string[] = [];
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
-
   const tagItems = [...new Set(uniqueTags)];
+
+  //filtered tags
+  const filteredItems =
+    selectedTags.length === 0
+      ? notes
+      : notes.filter((note) =>
+          selectedTags.every((tag) => note.tagArr.includes(tag))
+        );
 
   const user = auth.currentUser;
 
@@ -106,7 +113,6 @@ const Dashboard = () => {
         codeText: doc.get("codeText"),
       }));
       setNotes(documents);
-      setFiltered(documents);
       setIsLoading(false);
     };
 
@@ -279,13 +285,16 @@ const Dashboard = () => {
   };
 
   const filterTags = (tag: string) => {
-    setFilterOpen(true);
+    if (!selectedTags.includes(tag)) {
+      // If the tag is not selected, add it to the selected tags (filter)
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
 
-    const newItem = filtered.filter((note) => {
-      return note.tagArr.includes(tag) ? note : null;
-      // comparing category for displaying data
-    });
-    setFiltered(newItem);
+  const unfilterTags = (tag: string) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    }
   };
 
   const addList = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -426,15 +435,28 @@ const Dashboard = () => {
                 </div>
               </form>
 
-              {filterOpen ? (
+              {selectedTags.length !== 0 ? (
                 <div className="px-4 py-1 mt-4 w-full flex items-center">
-                  <p className="text-sm">Filters:</p>
-                  <div className="ml-3 w-full flex">
+                  <p className="text-sm dark:text-white">Filters:</p>
+                  <div className="ml-3 w-full flex items-center gap-x-3">
+                    {selectedTags.map((tag) => {
+                      return (
+                        <div
+                          className="flex items-center bg-white border border-gray-300 px-2 py-0.5 rounded cursor-pointer dark:bg-neutral-700 dark:border-zinc-700 dark:text-white"
+                          key={tag}
+                          onClick={() => unfilterTags(tag)}
+                        >
+                          <p className="text-sm text-gray-700 dark:text-gray-300">
+                            {tag}
+                          </p>
+                          <XMarkIcon className="w-4 ml-1 text-gray-500 dark:text-white" />
+                        </div>
+                      );
+                    })}
                     <button
                       className="bg-red-300 px-3 py-0.5 rounded"
                       onClick={() => {
-                        setFilterOpen(false);
-                        setFiltered(notes);
+                        setSelectedTags([]);
                       }}
                     >
                       <p className="text-sm text-red-800 font-medium">Reset</p>
@@ -445,33 +467,9 @@ const Dashboard = () => {
 
               {isLoading ? (
                 <LoadingSpinner />
-              ) : filterOpen ? (
-                <div>
-                  {filtered.map((item) => (
-                    <Post
-                      name={item.name}
-                      time={item.time}
-                      tagArr={item.tagArr}
-                      key={item.id}
-                      codeText={item.codeText}
-                      id={item.id}
-                      deleteNote={() => deleteNote(item.id)}
-                      newContent={newContent}
-                      setNewContent={setNewContent}
-                      editNote={(e) => editNote(e, item.id)}
-                      editHandleChange={(e) => editHandleChange(e)}
-                      newTags={newTags}
-                      setNewTags={setNewTags}
-                      newCode={newCode}
-                      setNewCode={setNewCode}
-                      newCheckList={newCheckList}
-                      setNewCheckList={setNewCheckList}
-                    />
-                  ))}
-                </div>
               ) : (
                 <div>
-                  {notes.map((item) => (
+                  {filteredItems.map((item) => (
                     <Post
                       name={item.name}
                       time={item.time}
@@ -499,6 +497,7 @@ const Dashboard = () => {
               notes={notes}
               tagItems={tagItems}
               filterTags={filterTags}
+              selectedTags={selectedTags}
             />
           </section>
         </main>
