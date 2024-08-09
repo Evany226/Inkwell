@@ -3,17 +3,23 @@ import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { HashtagIcon } from "@heroicons/react/24/outline";
 import { Note } from "../types/noteType";
 
+interface SidePanelProps {
+  notes: Note[];
+  tagItems: string[];
+  filterTags(arg: string): void;
+  selectedTags: string[];
+  searchQuery: string;
+  handleSearchQuery(event: React.ChangeEvent<HTMLInputElement>): void;
+}
+
 const SidePanel = ({
   notes,
   tagItems,
   filterTags,
   selectedTags,
-}: {
-  notes: Note[];
-  tagItems: string[];
-  filterTags(arg: string): void;
-  selectedTags: string[];
-}) => {
+  searchQuery,
+  handleSearchQuery,
+}: SidePanelProps) => {
   return (
     <div className="stick top-0 left-0 w-56 h-full xs:hidden">
       <section className="w-full flex py-1 px-2 rounded-lg bg-white border dark:bg-zinc-900 dark:border-zinc-700">
@@ -21,6 +27,8 @@ const SidePanel = ({
         <input
           className="ml-1 1w-full outline-0 text-sm dark:bg-zinc-900"
           placeholder="Search notes..."
+          value={searchQuery}
+          onChange={handleSearchQuery}
         ></input>
       </section>
       <section className="w-full bg-white mt-3 border rounded-lg px-3 py-2 flex flex-col dark:bg-zinc-900 dark:border-zinc-700">

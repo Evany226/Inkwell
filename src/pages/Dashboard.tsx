@@ -56,6 +56,7 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [tagValid, setTagValid] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const { theme } = useTheme();
 
   //finding out all available tags
@@ -63,13 +64,11 @@ const Dashboard = () => {
   notes.forEach((note) => note.tagArr.map((item) => uniqueTags.push(item)));
   const tagItems = [...new Set(uniqueTags)];
 
-  //filtered tags
-  const filteredItems =
-    selectedTags.length === 0
-      ? notes
-      : notes.filter((note) =>
-          selectedTags.every((tag) => note.tagArr.includes(tag))
-        );
+  const filteredItems = notes.filter(
+    (note) =>
+      note.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      selectedTags.every((tag) => note.tagArr.includes(tag))
+  );
 
   const user = auth.currentUser;
 
@@ -94,6 +93,10 @@ const Dashboard = () => {
     console.log(event.target.value);
   };
 
+  const handleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
   useEffect(() => {
     if (textAreaRef.current != null) {
       textAreaRef.current.style.height =
@@ -112,7 +115,9 @@ const Dashboard = () => {
         tagArr: doc.get("tagArr"),
         codeText: doc.get("codeText"),
       }));
-      setNotes(documents);
+      setNotes(
+        documents.sort((a, b) => Date.parse(b.time) - Date.parse(a.time))
+      );
       setIsLoading(false);
     };
 
@@ -498,6 +503,8 @@ const Dashboard = () => {
               tagItems={tagItems}
               filterTags={filterTags}
               selectedTags={selectedTags}
+              searchQuery={searchQuery}
+              handleSearchQuery={handleSearchQuery}
             />
           </section>
         </main>
