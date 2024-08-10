@@ -25,7 +25,7 @@ import CodeModal from "../components/post/modals/CodeModal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import { CheckBox } from "../types/checkedType";
-import { useTheme } from "../functions/useTheme";
+import { useTheme } from "../hooks/useTheme";
 
 import { db } from "../config/firebase";
 import {

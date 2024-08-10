@@ -13,7 +13,7 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import TrashPost from "../components/nav/TrashPost";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { useTheme } from "../functions/useTheme";
+import { useTheme } from "../hooks/useTheme";
 
 const Trash = () => {
   const [trash, setTrash] = useState<Note[]>([]);

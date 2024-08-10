@@ -1,4 +1,4 @@
-import { useTheme } from "../../functions/useTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 const ThemeSwitch = () => {
   const { theme, toggleTheme } = useTheme();

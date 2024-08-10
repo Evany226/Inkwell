@@ -71,7 +71,9 @@ const EditPost = ({
       </form>
 
       <div className="flex flex-col justify-center w-full space-y-1 px-1">
-        <p className="text-base font-semibold">Edit checklist</p>
+        <p className="text-base font-semibold dark:text-gray-300">
+          Edit checklist
+        </p>
         {newCheckList.map((item) => (
           <div className="flex items-center outline-none">
             <input
@@ -101,7 +103,9 @@ const EditPost = ({
       </div>
 
       <div className="w-full flex-col">
-        <p className="text-base font-semibold">Edit code block</p>
+        <p className="text-base font-semibold dark:text-gray-300">
+          Edit code block
+        </p>
         <CodeMirror
           value={newCode}
           theme={tokyoNight}
@@ -116,7 +120,7 @@ const EditPost = ({
       </div>
 
       <div className="flex-col">
-        <p className="text-base font-semibold">Edit tags</p>
+        <p className="text-base font-semibold dark:text-gray-300">Edit tags</p>
         <div className="flex items-center w-full px-2 py-1 bg-white border border-gray-400 rounded-md space-x-2 mt-1 dark:bg-zinc-900 dark:border-zinc-700">
           {newTags.map((tag) => (
             <div
