@@ -3,7 +3,7 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 
 const TagModal = ({
   tagValue,
-  tagHandleChange,
+  handleTagChange,
   addTags,
   tags,
   removeTags,
@@ -11,7 +11,7 @@ const TagModal = ({
   tagValid,
 }: {
   tagValue: string;
-  tagHandleChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  handleTagChange(e: React.ChangeEvent<HTMLInputElement>): void;
   addTags(e: React.KeyboardEvent<HTMLInputElement>): void;
   tags: string[];
   removeTags(arg: string): void;
@@ -41,7 +41,7 @@ const TagModal = ({
           className="resize-none bg-white outline-none px-0 py-1 w-32 text-sm dark:bg-zinc-900 dark:text-gray-300"
           placeholder="Enter tags.."
           value={tagValue}
-          onChange={tagHandleChange}
+          onChange={handleTagChange}
           onKeyDown={addTags}
         ></input>
       </div>

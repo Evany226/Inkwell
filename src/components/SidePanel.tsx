@@ -25,7 +25,7 @@ const SidePanel = ({
       <section className="w-full flex py-1 px-2 rounded-lg bg-white border dark:bg-zinc-900 dark:border-zinc-700">
         <MagnifyingGlassIcon className="w-4 text-gray-500 py-1" />
         <input
-          className="ml-1 1w-full outline-0 text-sm dark:bg-zinc-900"
+          className="ml-1 1w-full outline-0 text-sm dark:bg-zinc-900 dark:text-white"
           placeholder="Search notes..."
           value={searchQuery}
           onChange={handleSearchQuery}

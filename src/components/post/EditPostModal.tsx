@@ -7,7 +7,7 @@ import { CheckBox } from "../../types/checkedType";
 
 const EditPost = ({
   editNote,
-  editHandleChange,
+  handleEditChange,
   setEditOpen,
   newContent,
   newTags,
@@ -27,7 +27,7 @@ const EditPost = ({
   editTagValid,
 }: {
   editNote(e: React.FormEvent<HTMLFormElement>): void;
-  editHandleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
+  handleEditChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
   setEditOpen(arg: boolean): void;
   newContent: string;
   newTags: string[];
@@ -66,7 +66,7 @@ const EditPost = ({
           autoFocus
           onFocus={(e) => e.currentTarget.select()}
           value={newContent}
-          onChange={editHandleChange}
+          onChange={handleEditChange}
         ></textarea>
       </form>
 

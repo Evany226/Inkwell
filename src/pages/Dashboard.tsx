@@ -26,6 +26,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import { CheckBox } from "../types/checkedType";
 import { useTheme } from "../hooks/useTheme";
+import { useInput } from "../hooks/useInput";
 
 import { db } from "../config/firebase";
 import {
@@ -37,26 +38,43 @@ import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const Dashboard = () => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [val, setVal] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
-  const [newNote, setNewNote] = useState<string>("");
-  const [newContent, setNewContent] = useState<string>("");
+  // const [newNote, setNewNote] = useState<string>("");
+  const [
+    newNote,
+    { handleChange: handleNoteChange, resetInput: resetNewNote },
+  ] = useInput();
+
+  // const [newContent, setNewContent] = useState<string>("");
+  const [
+    newContent,
+    { handleChange: handleEditChange, setValue: setNewContent },
+  ] = useInput();
+
+  const [tagValue, { handleChange: handleTagChange, setValue: setTagValue }] =
+    useInput();
+
+  const [
+    listValue,
+    { handleChange: handleListChange, setValue: setListValue },
+  ] = useInput();
+
+  const [searchQuery, { handleChange: handleSearchQuery }] = useInput();
+
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
-  const [tagValue, setTagValue] = useState<string>("");
   const [newTags, setNewTags] = useState<string[]>([]);
   const [listOpen, setListOpen] = useState<boolean>(false);
   const [checkList, setCheckList] = useState<string[]>([]);
   const [newCheckList, setNewCheckList] = useState<CheckBox[]>([]);
-  const [listValue, setListValue] = useState<string>("");
   const [codeOpen, setCodeOpen] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
   const [newCode, setNewCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [tagValid, setTagValid] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+
   const { theme } = useTheme();
 
   //finding out all available tags
@@ -71,31 +89,6 @@ const Dashboard = () => {
   );
 
   const user = auth.currentUser;
-
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setVal(event.target.value);
-    setNewNote(event.target.value);
-    console.log(event.target.value);
-  };
-
-  const editHandleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewContent(event.target.value);
-    console.log(event.target.value);
-  };
-
-  const tagHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTagValue(event.target.value);
-    console.log(event.target.value);
-  };
-
-  const listHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setListValue(event.target.value);
-    console.log(event.target.value);
-  };
-
-  const handleSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
 
   useEffect(() => {
     if (textAreaRef.current != null) {
@@ -134,7 +127,7 @@ const Dashboard = () => {
         console.log("user is logged out");
       }
     });
-  }, [val, theme]);
+  }, [theme]);
 
   const addNote = (event: React.ChangeEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -170,8 +163,7 @@ const Dashboard = () => {
       setTimeout(() => {
         setSuccessMsg("");
       }, 3000);
-      setNewNote("");
-      setVal("");
+      resetNewNote(); // clears new note input
       setTags([]);
       setCheckList([]);
       setCode("");
@@ -325,7 +317,7 @@ const Dashboard = () => {
         <CheckListModal
           setListOpen={setListOpen}
           listValue={listValue}
-          listHandleChange={listHandleChange}
+          handleListChange={handleListChange}
           checkList={checkList}
           addList={(e) => addList(e)}
           removeList={removeList}
@@ -340,7 +332,7 @@ const Dashboard = () => {
       {modalOpen ? (
         <TagModal
           tagValue={tagValue}
-          tagHandleChange={(e) => tagHandleChange(e)}
+          handleTagChange={(e) => handleTagChange(e)}
           addTags={(e) => addTags(e)}
           tags={tags}
           removeTags={removeTags}
@@ -362,11 +354,11 @@ const Dashboard = () => {
               >
                 <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b dark:border-zinc-700">
                   <textarea
-                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break caret-white dark:text-gray-300"
+                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break dark:caret-white dark:text-gray-300"
                     placeholder="Create a note..."
                     rows={1}
-                    value={val}
-                    onChange={(e) => handleChange(e)}
+                    value={newNote}
+                    onChange={(e) => handleNoteChange(e)}
                     ref={textAreaRef}
                   ></textarea>
 
@@ -486,7 +478,7 @@ const Dashboard = () => {
                       newContent={newContent}
                       setNewContent={setNewContent}
                       editNote={(e) => editNote(e, item.id)}
-                      editHandleChange={(e) => editHandleChange(e)}
+                      handleEditChange={(e) => handleEditChange(e)}
                       newTags={newTags}
                       setNewTags={setNewTags}
                       newCode={newCode}

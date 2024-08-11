@@ -4,14 +4,14 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 const CheckListModal = ({
   setListOpen,
   listValue,
-  listHandleChange,
+  handleListChange,
   checkList,
   addList,
   removeList,
 }: {
   setListOpen(arg: boolean): void;
   listValue: string;
-  listHandleChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  handleListChange(e: React.ChangeEvent<HTMLInputElement>): void;
   checkList: string[];
   addList(e: React.KeyboardEvent<HTMLInputElement>): void;
   removeList(arg: string): void;
@@ -48,7 +48,7 @@ const CheckListModal = ({
           className="w-full bg-white outline-none px-0 py-1 w-32 text-sm dark:bg-zinc-900 dark:text-gray-300"
           placeholder="Enter items.."
           value={listValue}
-          onChange={listHandleChange}
+          onChange={handleListChange}
           onKeyDown={addList}
         ></input>
       </div>

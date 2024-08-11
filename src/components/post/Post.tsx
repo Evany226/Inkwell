@@ -19,7 +19,7 @@ const Post = ({
   newContent,
   setNewContent,
   editNote,
-  editHandleChange,
+  handleEditChange,
   tagArr,
   newTags,
   setNewTags,
@@ -36,7 +36,7 @@ const Post = ({
   newContent: string;
   setNewContent(arg: string): void;
   editNote(e: React.ChangeEvent<HTMLFormElement>): void;
-  editHandleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
+  handleEditChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
   tagArr: string[];
   newTags: string[];
   setNewTags(arg: string[]): void;
@@ -145,7 +145,7 @@ const Post = ({
         <EditPostModal
           editNote={editNote}
           newContent={newContent}
-          editHandleChange={editHandleChange}
+          handleEditChange={handleEditChange}
           setEditOpen={setEditOpen}
           newTags={newTags}
           handleEditTags={(e) => handleEditTags(e)}
