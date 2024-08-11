@@ -1,6 +1,7 @@
 import Sidenav from "../components/nav/Sidenav";
 import Post from "../components/post/Post";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+
 import {
   doc,
   getDocs,
@@ -15,29 +16,19 @@ import { auth } from "../config/firebase";
 import { Note } from "../types/noteType";
 import Success from "../components/notifications/Success";
 import SidePanel from "../components/SidePanel";
-import TagModal from "../components/post/modals/TagModal";
-import CheckListModal from "../components/post/modals/CheckListModal";
-import TagButton from "../components/post/buttons/TagButton";
-import CheckListButton from "../components/post/buttons/CheckListButton";
-// import PhotoButton from "../components/post/buttons/PhotoButton";
-import CodeButton from "../components/post/buttons/CodeButton";
-import CodeModal from "../components/post/modals/CodeModal";
+import TagModal from "../components/modals/TagModal";
+import CheckListModal from "../components/modals/CheckListModal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import { CheckBox } from "../types/checkedType";
 import { useTheme } from "../hooks/useTheme";
 import { useInput } from "../hooks/useInput";
+import { PostForm } from "../components/post/PostForm";
 
 import { db } from "../config/firebase";
-import {
-  BellAlertIcon,
-  ChevronDoubleDownIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { PlusCircleIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const Dashboard = () => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [notes, setNotes] = useState<Note[]>([]);
   // const [newNote, setNewNote] = useState<string>("");
   const [
@@ -91,11 +82,6 @@ const Dashboard = () => {
   const user = auth.currentUser;
 
   useEffect(() => {
-    if (textAreaRef.current != null) {
-      textAreaRef.current.style.height =
-        textAreaRef.current.scrollHeight + "px";
-    }
-
     console.log(theme);
 
     const getData = async (uid: string) => {
@@ -348,89 +334,21 @@ const Dashboard = () => {
           </div>
           <section className="w-full max-w-5xl bg-gray-100 px-4 flex gap-4 p-6 mb-0 pb-0 dark:bg-zinc-900 xs:max-w-full xs:pt-3">
             <div className="w-[calc(100%-16rem)] h-full mb-8 xs:w-full ">
-              <form
-                className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white dark:bg-zinc-800 dark:border-zinc-700"
-                onSubmit={addNote}
-              >
-                <div className="pb-2 flex flex-col justify-start items-start relative w-full h-auto max-h-[50vh] bg-inherit border-b dark:border-zinc-700">
-                  <textarea
-                    className="w-full h-full my-2 ml-1 mt-4 text-base resize-none overflow-x-hidden overflow-y-auto bg-transparent outline-none whitespace-pre-wrap word-break dark:caret-white dark:text-gray-300"
-                    placeholder="Create a note..."
-                    rows={1}
-                    value={newNote}
-                    onChange={(e) => handleNoteChange(e)}
-                    ref={textAreaRef}
-                  ></textarea>
-
-                  {checkList.length > 0 ? (
-                    <div className="flex w-full px-1 mb-1 space-x-2">
-                      <div className="flex flex-col w-full px-1 ">
-                        {checkList.map((item) => (
-                          <div className="flex items-center mb-2 outline-none">
-                            <input
-                              disabled
-                              type="checkbox"
-                              className="w-4 h-4 border-gray-500"
-                            ></input>
-                            <label className="ms-2 text-base text-black font-normal dark:text-gray-400">
-                              {item}
-                            </label>
-                            <XMarkIcon
-                              className="w-4 text-gray-600 ml-1 cursor-pointer mt-0.5"
-                              onClick={() => removeList(item)}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {codeOpen ? (
-                    <div className="w-full px-1 mb-1 space-x-2">
-                      <CodeModal
-                        setCodeOpen={setCodeOpen}
-                        code={code}
-                        setCode={setCode}
-                      />
-                    </div>
-                  ) : null}
-
-                  {tags.length > 0 ? (
-                    <div className="flex w-full my-1 px-1 space-x-2">
-                      {tags.map((tag) => (
-                        <div className="text-sm flex items-center bg-gray-100 border border-gray-300 px-2 rounded-md dark:bg-neutral-700 dark:border-zinc-700">
-                          <p className="dark:text-gray-300">{tag}</p>
-                          <XMarkIcon
-                            className="w-4 mt-0.5 ml-1 cursor-pointer text-gray-500"
-                            onClick={() => removeTags(tag)}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
-                  <div className="flex items-center my-2">
-                    <TagButton setModalOpen={setModalOpen} />
-                    <CodeButton setCodeOpen={setCodeOpen} />
-                    {/* <PhotoButton /> */}
-                    <CheckListButton setListOpen={setListOpen} />
-                  </div>
-                </div>
-                <div className="w-full py-4 flex justify-between items-center">
-                  <span className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer dark:bg-zinc-900 dark:border-zinc-700">
-                    <BellAlertIcon className="w-5 text-gray-700 dark:text-gray-300" />
-                    <p className="text-sm font-medium text-gray-700 ml-2 dark:text-gray-300">
-                      Reminders
-                    </p>
-                    <ChevronDoubleDownIcon className="w-5 text-gray-700 ml-2 mt-0.5 dark:text-gray-300" />
-                  </span>
-                  <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border dark:bg-zinc-900 dark:border-zinc-700 dark:hover:bg-zinc-700">
-                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Save
-                    </p>
-                    <PlusCircleIcon className="w-4 text-gray-600 ml-1 dark:text-gray-300" />
-                  </button>
-                </div>
-              </form>
+              <PostForm
+                newNote={newNote}
+                addNote={addNote}
+                handleNoteChange={handleNoteChange}
+                checkList={checkList}
+                removeList={removeList}
+                tags={tags}
+                removeTags={removeTags}
+                codeOpen={codeOpen}
+                setCodeOpen={setCodeOpen}
+                setModalOpen={setModalOpen}
+                setListOpen={setListOpen}
+                code={code}
+                setCode={setCode}
+              />
 
               {selectedTags.length !== 0 ? (
                 <div className="px-4 py-1 mt-4 w-full flex items-center">
@@ -468,11 +386,7 @@ const Dashboard = () => {
                 <div>
                   {filteredItems.map((item) => (
                     <Post
-                      name={item.name}
-                      time={item.time}
-                      tagArr={item.tagArr}
-                      codeText={item.codeText}
-                      id={item.id}
+                      note={item}
                       key={item.id}
                       deleteNote={() => deleteNote(item.id)}
                       newContent={newContent}

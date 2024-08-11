@@ -1,4 +1,4 @@
-import { useLocalStorage } from "../../config/localStorage";
+import { useLocalStorage } from "../../hooks/localStorage";
 
 const CheckListItem = ({
   listItem,

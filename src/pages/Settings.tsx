@@ -8,8 +8,8 @@ import {
   onAuthStateChanged,
   getAuth,
 } from "firebase/auth";
-import EditSettings from "../components/nav/EditSettings";
-import ThemeSwitch from "../components/nav/ThemeSwitch";
+import EditSettings from "../components/settings/EditSettings";
+import ThemeSwitch from "../components/settings/ThemeSwitch";
 
 const Settings = () => {
   const authTest = getAuth();

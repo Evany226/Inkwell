@@ -11,37 +11,36 @@ import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 import { v4 as uuidv4 } from "uuid";
+import { Note } from "../../types/noteType";
+
+// name={item.name}
+// time={item.time}
+// tagArr={item.tagArr}
+// codeText={item.codeText}
+// id={item.id}
 
 const Post = ({
-  name,
-  time,
+  note,
   deleteNote,
   newContent,
   setNewContent,
   editNote,
   handleEditChange,
-  tagArr,
   newTags,
   setNewTags,
-  id,
-  codeText,
   newCode,
   setNewCode,
   newCheckList,
   setNewCheckList,
 }: {
-  name: string;
-  time: string;
+  note: Note;
   deleteNote(): void;
   newContent: string;
   setNewContent(arg: string): void;
   editNote(e: React.ChangeEvent<HTMLFormElement>): void;
   handleEditChange(e: React.ChangeEvent<HTMLTextAreaElement>): void;
-  tagArr: string[];
   newTags: string[];
   setNewTags(arg: string[]): void;
-  id: string;
-  codeText: string;
   newCode: string;
   setNewCode(arg: string): void;
   newCheckList: CheckBox[];
@@ -53,6 +52,9 @@ const Post = ({
   const [checked, setChecked] = useState<CheckBox[]>([]);
   const [newCheckValue, setNewCheckValue] = useState<string>("");
   const [editTagValid, setEditTagValid] = useState<boolean>(true);
+
+  //destructuring note prop
+  const { name, time, tagArr, codeText, id } = note;
 
   const user = auth.currentUser;
 
