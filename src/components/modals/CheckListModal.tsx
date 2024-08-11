@@ -1,5 +1,5 @@
-import { XCircleIcon } from "@heroicons/react/16/solid";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, XCircleIcon } from "@heroicons/react/16/solid";
+import { TrashIcon } from "@heroicons/react/24/solid";
 
 const CheckListModal = ({
   setListOpen,
@@ -8,6 +8,7 @@ const CheckListModal = ({
   checkList,
   addList,
   removeList,
+  removeAllList,
 }: {
   setListOpen(arg: boolean): void;
   listValue: string;
@@ -15,6 +16,7 @@ const CheckListModal = ({
   checkList: string[];
   addList(e: React.KeyboardEvent<HTMLInputElement>): void;
   removeList(arg: string): void;
+  removeAllList(): void;
 }) => {
   return (
     <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col dark:bg-zinc-800 dark:border-zinc-700">
@@ -53,16 +55,23 @@ const CheckListModal = ({
         ></input>
       </div>
       <div className="flex justify-between items-center mt-2 py-1 ">
-        <p className="text-sm ml-1 text-gray-700 dark:text-gray-300">
-          5 characters remaining
-        </p>
+        <p className="text-sm ml-1 text-gray-700 dark:text-gray-300"></p>
         <div className="flex items-center">
           <button
-            onClick={() => setListOpen(false)}
-            className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border"
+            onClick={() => removeAllList()}
+            className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-400 dark:hover:bg-red-300"
           >
-            <p className="text-sm font-medium text-gray-700">Close</p>
-            <XCircleIcon className="w-4 text-gray-700 ml-1" />
+            <p className="text-sm font-medium text-red-900">Remove All</p>
+            <TrashIcon className="w-4 text-red-800 ml-1" />
+          </button>
+          <button
+            onClick={() => setListOpen(false)}
+            className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border dark:bg-zinc-900 dark:border-zinc-700 dark:hover:bg-zinc-800"
+          >
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Close
+            </p>
+            <XCircleIcon className="w-4 text-gray-700 ml-1 dark:text-gray-300" />
           </button>
         </div>
       </div>

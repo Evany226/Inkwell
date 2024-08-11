@@ -35,7 +35,7 @@ const EditPost = ({
   newTagValue: string;
   addEditTags(e: React.KeyboardEvent<HTMLInputElement>): void;
   removeEditTags(arg: string): void;
-  cancelEdit(): void;
+  cancelEdit(arg: boolean): void;
   newCode: string;
   setNewCode(arg: string): void;
   newCheckList: CheckBox[];
@@ -155,7 +155,7 @@ const EditPost = ({
         </p>
         <div className="flex items-center py-2">
           <button
-            onClick={cancelEdit}
+            onClick={() => cancelEdit(false)}
             className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-400 dark:hover:bg-red-300 "
           >
             <p className="text-sm font-medium text-red-900">Cancel</p>

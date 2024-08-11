@@ -14,12 +14,6 @@ import { v4 as uuidv4 } from "uuid";
 import { Note } from "../../types/noteType";
 import { ModalMask } from "../global/ModalMask";
 
-// name={item.name}
-// time={item.time}
-// tagArr={item.tagArr}
-// codeText={item.codeText}
-// id={item.id}
-
 const Post = ({
   note,
   deleteNote,
@@ -93,8 +87,8 @@ const Post = ({
     console.log(e.target.value);
   };
 
-  const cancelEdit = () => {
-    setEditOpen(false);
+  const cancelEdit = (arg: boolean) => {
+    setEditOpen(arg);
     setNewTags([]);
   };
 
@@ -136,15 +130,7 @@ const Post = ({
 
   return (
     <>
-      {editOpen ? (
-        <>
-          <div
-            className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-black bg-opacity-50"
-            onClick={cancelEdit}
-          ></div>
-        </>
-      ) : null}
-      {editOpen ? (
+      <ModalMask modalOpen={editOpen} setModalOpen={cancelEdit}>
         <EditPostModal
           editNote={editNote}
           newContent={newContent}
@@ -166,7 +152,8 @@ const Post = ({
           setChecked={setChecked}
           editTagValid={editTagValid}
         />
-      ) : null}
+      </ModalMask>
+
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:ring-zinc-700">
         {tagArr.length > 0 ? (
           <div className="flex w-full mb-1 space-x-2 mb-2">
@@ -182,12 +169,15 @@ const Post = ({
             ))}
           </div>
         ) : null}
+
         <div className="w-full">
           <p className="text-sm text-gray-400 dark:text-gray-500">{time}</p>
         </div>
+
         <div className="text-base mt-1 text-black break-words dark:text-gray-300">
           {name}
         </div>
+
         {checked.length > 0 ? (
           <div className="flex flex-col justify-center w-full px-1 mt-1">
             {checked.map((item) => (
@@ -199,6 +189,7 @@ const Post = ({
             ))}
           </div>
         ) : null}
+
         {codeText ? (
           <CodeMirror
             value={codeText}
@@ -212,6 +203,7 @@ const Post = ({
             }}
           />
         ) : null}
+
         <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">
           <EllipsisVerticalIcon
             className="w-4 text-gray-600"

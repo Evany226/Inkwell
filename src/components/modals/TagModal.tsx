@@ -1,6 +1,17 @@
 import { XMarkIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
+interface TagModalProps {
+  tagValue: string;
+  handleTagChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  addTags(e: React.KeyboardEvent<HTMLInputElement>): void;
+  tags: string[];
+  removeTags(arg: string): void;
+  setTagOpen(arg: boolean): void;
+  tagValid: boolean;
+  removeAllTags(): void;
+}
+
 const TagModal = ({
   tagValue,
   handleTagChange,
@@ -9,15 +20,8 @@ const TagModal = ({
   removeTags,
   setTagOpen,
   tagValid,
-}: {
-  tagValue: string;
-  handleTagChange(e: React.ChangeEvent<HTMLInputElement>): void;
-  addTags(e: React.KeyboardEvent<HTMLInputElement>): void;
-  tags: string[];
-  removeTags(arg: string): void;
-  setTagOpen(arg: boolean): void;
-  tagValid: boolean;
-}) => {
+  removeAllTags,
+}: TagModalProps) => {
   return (
     <div className="min-w-[30rem] bg-white z-20 fixed left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-4 flex-col dark:bg-zinc-800">
       <h1 className="text-black text-lg font-semibold ml-1 mt-2 dark:text-gray-300">
@@ -57,8 +61,11 @@ const TagModal = ({
           {Math.max(3 - tags.length, 0)} tags remaining
         </p>
         <div className="flex items-center">
-          <button className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-400 dark:hover:bg-red-300 ">
-            <p className="text-sm font-medium text-red-900 ">Remove All</p>
+          <button
+            onClick={() => removeAllTags()}
+            className="flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-400 dark:hover:bg-red-300"
+          >
+            <p className="text-sm font-medium text-red-900">Remove All</p>
             <TrashIcon className="w-4 text-red-800 ml-1" />
           </button>
           <button

@@ -272,6 +272,10 @@ const Dashboard = () => {
     setTags(tags.filter((tag) => tag !== tagName));
   };
 
+  const removeAllTags = () => {
+    setTags([]);
+  };
+
   const filterTags = (tag: string) => {
     if (!selectedTags.includes(tag)) {
       // If the tag is not selected, add it to the selected tags (filter)
@@ -296,6 +300,10 @@ const Dashboard = () => {
     setCheckList(checkList.filter((listItem) => listItem !== itemName));
   };
 
+  const removeAllList = () => {
+    setCheckList([]);
+  };
+
   return (
     <div className="w-full min-h-full">
       <ModalMask modalOpen={listOpen} setModalOpen={setListOpen}>
@@ -306,6 +314,7 @@ const Dashboard = () => {
           checkList={checkList}
           addList={(e) => addList(e)}
           removeList={removeList}
+          removeAllList={removeAllList}
         />
       </ModalMask>
 
@@ -316,6 +325,7 @@ const Dashboard = () => {
           addTags={(e) => addTags(e)}
           tags={tags}
           removeTags={removeTags}
+          removeAllTags={removeAllTags}
           setTagOpen={setTagOpen}
           tagValid={tagValid}
         />
