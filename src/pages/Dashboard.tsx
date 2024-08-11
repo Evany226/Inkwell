@@ -1,5 +1,5 @@
 import Sidenav from "../components/nav/Sidenav";
-import Post from "../components/post/Post";
+import Post from "../components/dashboard/Post";
 import React, { useState, useEffect } from "react";
 
 import {
@@ -18,15 +18,16 @@ import Success from "../components/notifications/Success";
 import SidePanel from "../components/SidePanel";
 import TagModal from "../components/modals/TagModal";
 import CheckListModal from "../components/modals/CheckListModal";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/global/LoadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import { CheckBox } from "../types/checkedType";
 import { useTheme } from "../hooks/useTheme";
 import { useInput } from "../hooks/useInput";
-import { PostForm } from "../components/post/PostForm";
+import { PostForm } from "../components/dashboard/PostForm";
+import { ModalMask } from "../components/global/ModalMask";
+import { FilterNotes } from "../components/dashboard/FilterNotes";
 
 import { db } from "../config/firebase";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const Dashboard = () => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -53,7 +54,7 @@ const Dashboard = () => {
   const [searchQuery, { handleChange: handleSearchQuery }] = useInput();
 
   const [successMsg, setSuccessMsg] = useState<string>("");
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [tagOpen, setTagOpen] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
   const [newTags, setNewTags] = useState<string[]>([]);
   const [listOpen, setListOpen] = useState<boolean>(false);
@@ -252,8 +253,12 @@ const Dashboard = () => {
   const addTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && tagValue !== "") {
       if (tags.length < 3) {
-        setTags([...tags, tagValue]);
-        setTagValue("");
+        if (!tags.includes(tagValue)) {
+          setTags([...tags, tagValue]);
+          setTagValue("");
+        } else {
+          alert("Tag already exists");
+        }
       } else {
         setTagValid(false);
         setTimeout(() => {
@@ -293,13 +298,7 @@ const Dashboard = () => {
 
   return (
     <div className="w-full min-h-full">
-      {listOpen ? (
-        <div
-          className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-black bg-opacity-50"
-          onClick={() => setListOpen(false)}
-        ></div>
-      ) : null}
-      {listOpen ? (
+      <ModalMask modalOpen={listOpen} setModalOpen={setListOpen}>
         <CheckListModal
           setListOpen={setListOpen}
           listValue={listValue}
@@ -308,24 +307,20 @@ const Dashboard = () => {
           addList={(e) => addList(e)}
           removeList={removeList}
         />
-      ) : null}
-      {modalOpen ? (
-        <div
-          className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-black bg-opacity-50"
-          onClick={() => setModalOpen(false)}
-        ></div>
-      ) : null}
-      {modalOpen ? (
+      </ModalMask>
+
+      <ModalMask modalOpen={tagOpen} setModalOpen={setTagOpen}>
         <TagModal
           tagValue={tagValue}
           handleTagChange={(e) => handleTagChange(e)}
           addTags={(e) => addTags(e)}
           tags={tags}
           removeTags={removeTags}
-          setModalOpen={setModalOpen}
+          setTagOpen={setTagOpen}
           tagValid={tagValid}
         />
-      ) : null}
+      </ModalMask>
+
       <div className="w-full transition-all mx-auto flex flex-col justify-center items-center pl-60 xs:pl-0 sm:pl-0">
         <Sidenav />
         <main className="w-full h-auto flex flex-col items-center justify-center shrink bg-gray-100 dark:bg-zinc-900">
@@ -344,41 +339,17 @@ const Dashboard = () => {
                 removeTags={removeTags}
                 codeOpen={codeOpen}
                 setCodeOpen={setCodeOpen}
-                setModalOpen={setModalOpen}
+                setTagOpen={setTagOpen}
                 setListOpen={setListOpen}
                 code={code}
                 setCode={setCode}
               />
 
-              {selectedTags.length !== 0 ? (
-                <div className="px-4 py-1 mt-4 w-full flex items-center">
-                  <p className="text-sm dark:text-white">Filters:</p>
-                  <div className="ml-3 w-full flex items-center gap-x-3">
-                    {selectedTags.map((tag) => {
-                      return (
-                        <div
-                          className="flex items-center bg-white border border-gray-300 px-2 py-0.5 rounded cursor-pointer dark:bg-neutral-700 dark:border-zinc-700 dark:text-white"
-                          key={tag}
-                          onClick={() => unfilterTags(tag)}
-                        >
-                          <p className="text-sm text-gray-700 dark:text-gray-300">
-                            {tag}
-                          </p>
-                          <XMarkIcon className="w-4 ml-1 text-gray-500 dark:text-white" />
-                        </div>
-                      );
-                    })}
-                    <button
-                      className="bg-red-300 px-3 py-0.5 rounded"
-                      onClick={() => {
-                        setSelectedTags([]);
-                      }}
-                    >
-                      <p className="text-sm text-red-800 font-medium">Reset</p>
-                    </button>
-                  </div>
-                </div>
-              ) : null}
+              <FilterNotes
+                selectedTags={selectedTags}
+                setSelectedTags={setSelectedTags}
+                unfilterTags={unfilterTags}
+              />
 
               {isLoading ? (
                 <LoadingSpinner />
@@ -404,6 +375,7 @@ const Dashboard = () => {
                 </div>
               )}
             </div>
+
             <SidePanel
               notes={notes}
               tagItems={tagItems}

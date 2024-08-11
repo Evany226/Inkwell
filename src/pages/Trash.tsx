@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import TrashPost from "../components/nav/TrashPost";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/global/LoadingSpinner";
 import { useTheme } from "../hooks/useTheme";
 
 const Trash = () => {

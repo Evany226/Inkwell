@@ -12,6 +12,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 import { v4 as uuidv4 } from "uuid";
 import { Note } from "../../types/noteType";
+import { ModalMask } from "../global/ModalMask";
 
 // name={item.name}
 // time={item.time}
@@ -167,12 +168,6 @@ const Post = ({
         />
       ) : null}
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:ring-zinc-700">
-        {open ? (
-          <div
-            className="fixed top-0 right-0 bottom-0 left-0 z-10"
-            onClick={() => setOpen(false)}
-          ></div>
-        ) : null}
         {tagArr.length > 0 ? (
           <div className="flex w-full mb-1 space-x-2 mb-2">
             {tagArr.map((tag) => (
@@ -222,12 +217,17 @@ const Post = ({
             className="w-4 text-gray-600"
             onClick={handleOpen}
           />
-          {open ? (
+
+          <ModalMask
+            modalOpen={open}
+            setModalOpen={setOpen}
+            customClass="fixed top-0 right-0 bottom-0 left-0 z-10"
+          >
             <PostDropdown
               deleteNote={deleteNote}
               handleEditOpen={handleEditOpen}
             />
-          ) : null}
+          </ModalMask>
         </div>
       </div>
     </>

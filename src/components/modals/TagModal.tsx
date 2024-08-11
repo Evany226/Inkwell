@@ -7,7 +7,7 @@ const TagModal = ({
   addTags,
   tags,
   removeTags,
-  setModalOpen,
+  setTagOpen,
   tagValid,
 }: {
   tagValue: string;
@@ -15,7 +15,7 @@ const TagModal = ({
   addTags(e: React.KeyboardEvent<HTMLInputElement>): void;
   tags: string[];
   removeTags(arg: string): void;
-  setModalOpen(arg: boolean): void;
+  setTagOpen(arg: boolean): void;
   tagValid: boolean;
 }) => {
   return (
@@ -63,7 +63,7 @@ const TagModal = ({
           </button>
           <button
             className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border dark:bg-zinc-900 dark:border-zinc-700 dark:hover:bg-zinc-800"
-            onClick={() => setModalOpen(false)}
+            onClick={() => setTagOpen(false)}
           >
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Close

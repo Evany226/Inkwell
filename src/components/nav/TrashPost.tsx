@@ -8,7 +8,7 @@ import { ArrowUpCircleIcon } from "@heroicons/react/16/solid";
 import { collection, getDocs } from "firebase/firestore";
 import { db, auth } from "../../config/firebase";
 import { CheckBox } from "../../types/checkedType";
-import CheckListItem from "../post/CheckListItem";
+import CheckListItem from "../dashboard/CheckListItem";
 // import Confirm from "../notifications/Confirm";
 
 const TrashPost = ({

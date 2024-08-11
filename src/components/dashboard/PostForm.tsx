@@ -21,7 +21,7 @@ interface PostFormProps {
   removeTags(item: string): void;
   codeOpen: boolean;
   setCodeOpen(arg: boolean): void;
-  setModalOpen(arg: boolean): void;
+  setTagOpen(arg: boolean): void;
   setListOpen(arg: boolean): void;
   code: string;
   setCode(arg: string): void;
@@ -37,7 +37,7 @@ export function PostForm({
   removeTags,
   codeOpen,
   setCodeOpen,
-  setModalOpen,
+  setTagOpen,
   setListOpen,
   code,
   setCode,
@@ -104,7 +104,7 @@ export function PostForm({
           </div>
         ) : null}
         <div className="flex items-center my-2">
-          <TagButton setModalOpen={setModalOpen} />
+          <TagButton setTagOpen={setTagOpen} />
           <CodeButton setCodeOpen={setCodeOpen} />
           <CheckListButton setListOpen={setListOpen} />
         </div>
