@@ -94,9 +94,16 @@ const Dashboard = () => {
         time: doc.get("time"),
         tagArr: doc.get("tagArr"),
         codeText: doc.get("codeText"),
+        pinned: doc.get("pinned"),
       }));
       setNotes(
-        documents.sort((a, b) => Date.parse(b.time) - Date.parse(a.time))
+        documents.sort((a, b) => {
+          if (a.pinned === b.pinned) {
+            return Date.parse(b.time) - Date.parse(a.time);
+          } else {
+            return Number(b.pinned) - Number(a.pinned);
+          }
+        })
       );
       setIsLoading(false);
     };
@@ -124,6 +131,7 @@ const Dashboard = () => {
         time: new Date().toString(),
         tagArr: tags,
         codeText: code,
+        pinned: false,
       };
 
       const notesRef = collection(db, "users", uid, "notes");
@@ -145,7 +153,16 @@ const Dashboard = () => {
         ...noteObject,
       };
 
-      setNotes(notes.concat(newNoteObject));
+      setNotes(
+        notes.concat(newNoteObject).sort((a, b) => {
+          if (a.pinned === b.pinned) {
+            return Date.parse(b.time) - Date.parse(a.time);
+          } else {
+            return Number(b.pinned) - Number(a.pinned);
+          }
+        })
+      );
+
       setSuccessMsg("Created successfully");
       setTimeout(() => {
         setSuccessMsg("");
@@ -225,6 +242,7 @@ const Dashboard = () => {
         time: docSnap.get("time"),
         tagArr: docSnap.get("tagArr"),
         codeText: docSnap.get("codeText"),
+        pinned: docSnap.get("pinned"),
       };
 
       const checkRef = collection(db, "users", uid, "notes", id, "checkList");
@@ -247,6 +265,42 @@ const Dashboard = () => {
 
     if (user) {
       editData(user.uid);
+    }
+  };
+
+  const pinNote = (id: string): void => {
+    const pinData = async (uid: string, id: string) => {
+      const docRef = doc(db, "users", uid, "notes", id);
+      const docSnap = await getDoc(docRef);
+
+      await updateDoc(docRef, {
+        pinned: !docSnap.get("pinned"),
+      });
+
+      const newObject: Note = {
+        id: docSnap.id,
+        name: docSnap.get("name"),
+        time: docSnap.get("time"),
+        tagArr: docSnap.get("tagArr"),
+        codeText: docSnap.get("codeText"),
+        pinned: !docSnap.get("pinned"),
+      };
+
+      setNotes(
+        notes
+          .map((note) => (note.id !== id ? note : newObject))
+          .sort((a, b) => {
+            if (a.pinned === b.pinned) {
+              return Date.parse(b.time) - Date.parse(a.time);
+            } else {
+              return Number(b.pinned) - Number(a.pinned);
+            }
+          })
+      );
+    };
+
+    if (user) {
+      pinData(user.uid, id);
     }
   };
 
@@ -380,6 +434,7 @@ const Dashboard = () => {
                       setNewCode={setNewCode}
                       newCheckList={newCheckList}
                       setNewCheckList={setNewCheckList}
+                      pinNote={pinNote}
                     />
                   ))}
                 </div>

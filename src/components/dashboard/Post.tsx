@@ -1,4 +1,5 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
+import { PinIcon } from "../global/PinIcon";
 import PostDropdown from "./PostDropdown";
 import { useState, useEffect } from "react";
 import EditPostModal from "./EditPostModal";
@@ -27,6 +28,7 @@ const Post = ({
   setNewCode,
   newCheckList,
   setNewCheckList,
+  pinNote,
 }: {
   note: Note;
   deleteNote(): void;
@@ -40,6 +42,7 @@ const Post = ({
   setNewCode(arg: string): void;
   newCheckList: CheckBox[];
   setNewCheckList(arg: CheckBox[]): void;
+  pinNote(arg: string): void;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
@@ -49,7 +52,7 @@ const Post = ({
   const [editTagValid, setEditTagValid] = useState<boolean>(true);
 
   //destructuring note prop
-  const { name, time, tagArr, codeText, id } = note;
+  const { name, time, tagArr, codeText, id, pinned } = note;
 
   const user = auth.currentUser;
 
@@ -204,11 +207,15 @@ const Post = ({
           />
         ) : null}
 
-        <div className="absolute top-0 right-0 cursor-pointer mr-2 mt-4">
-          <EllipsisVerticalIcon
-            className="w-4 text-gray-600"
-            onClick={handleOpen}
-          />
+        <div className="absolute top-0 right-0 mr-2 mt-4">
+          <div className="flex items-center">
+            {pinned ? <PinIcon /> : null}
+
+            <EllipsisVerticalIcon
+              className="w-4 text-gray-600 cursor-pointer"
+              onClick={handleOpen}
+            />
+          </div>
 
           <ModalMask
             modalOpen={open}
@@ -218,6 +225,9 @@ const Post = ({
             <PostDropdown
               deleteNote={deleteNote}
               handleEditOpen={handleEditOpen}
+              pinNote={() => pinNote(id)}
+              setOpen={setOpen}
+              pinned={pinned}
             />
           </ModalMask>
         </div>

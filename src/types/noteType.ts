@@ -4,4 +4,5 @@ export interface Note {
   time: string;
   tagArr: string[];
   codeText: string;
+  pinned: boolean;
 }
