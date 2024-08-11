@@ -20,8 +20,6 @@ export function useInput(): [string, InputHandlers] {
           | React.ChangeEvent<HTMLInputElement>
           | React.ChangeEvent<HTMLTextAreaElement>
       ) => {
-        console.log(e.target.value);
-        console.log("new system");
         setState(e.target.value);
       },
       resetInput: () => {

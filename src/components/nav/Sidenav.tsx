@@ -66,23 +66,6 @@ const Sidenav = () => {
             )}
           </NavLink>
 
-          {/* <NavLink to="/reminders">
-          {({ isActive }) => (
-            <li
-              className={
-                isActive
-                  ? "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-white border"
-                  : "flex items-center px-4 py-2 rounded-2xl mt-2 cursor-pointer bg-gray-50 border border-transparent"
-              }
-            >
-              <BellAlertIcon className="w-8 text-gray-800" />
-              <p className="text-lg text-gray-800 ml-3 font-medium">
-                Reminders
-              </p>
-            </li>
-          )}
-        </NavLink> */}
-
           <NavLink to="/trash">
             {({ isActive }) => (
               <li

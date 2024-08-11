@@ -34,6 +34,7 @@ const Trash = () => {
         time: doc.get("time"),
         tagArr: doc.get("tagArr"),
         codeText: doc.get("codeText"),
+        pinned: doc.get("pinned"),
       }));
       setTrash(documents);
       setIsLoading(false);
@@ -154,8 +155,6 @@ const Trash = () => {
                         item={item}
                         restoreNote={restoreNote}
                         deleteNote={deleteNote}
-                        // setModalOpen={setModalOpen}
-                        // modalOpen={modalOpen}
                       />
                     ))}
                   </>

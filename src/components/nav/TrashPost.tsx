@@ -53,19 +53,6 @@ const TrashPost = ({
 
   return (
     <>
-      {/* {modalOpen ? (
-        <div
-          className="fixed top-0 right-0 bottom-0 left-0 z-10 bg-zinc-900 bg-opacity-30"
-          onClick={() => setModalOpen(false)}
-        ></div>
-      ) : null}
-      {modalOpen ? (
-        <Confirm
-          deleteNote={deleteNote}
-          setModalOpen={setModalOpen}
-          itemId={item.id}
-        />
-      ) : null} */}
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:ring-zinc-700">
         {item.tagArr.length > 0 ? (
           <div className="flex w-full mb-1 space-x-2 mb-2">
