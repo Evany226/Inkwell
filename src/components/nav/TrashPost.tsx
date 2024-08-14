@@ -9,22 +9,20 @@ import { collection, getDocs } from "firebase/firestore";
 import { db, auth } from "../../config/firebase";
 import { CheckBox } from "../../types/checkedType";
 import CheckListItem from "../dashboard/CheckListItem";
-// import Confirm from "../notifications/Confirm";
+import Confirm from "../notifications/Confirm";
+import { ModalMask } from "../global/ModalMask";
 
 const TrashPost = ({
   item,
   restoreNote,
-  // setModalOpen,
-  // modalOpen,
   deleteNote,
 }: {
   item: Note;
   restoreNote(arg: string): void;
-  // setModalOpen(arg: boolean): void;
-  // modalOpen: boolean;
   deleteNote(arg: string): void;
 }) => {
   const [checked, setChecked] = useState<CheckBox[]>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const user = auth.currentUser;
 
@@ -53,6 +51,13 @@ const TrashPost = ({
 
   return (
     <>
+      <ModalMask modalOpen={modalOpen} setModalOpen={setModalOpen}>
+        <Confirm
+          deleteNote={deleteNote}
+          setModalOpen={setModalOpen}
+          itemId={item.id}
+        />
+      </ModalMask>
       <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:ring-zinc-700">
         {item.tagArr.length > 0 ? (
           <div className="flex w-full mb-1 space-x-2 mb-2">
@@ -104,7 +109,7 @@ const TrashPost = ({
             />
             <TrashIcon
               className="w-4 text-gray-700 dark:text-gray-400"
-              onClick={() => deleteNote(item.id)}
+              onClick={() => setModalOpen(true)}
             />
           </div>
         </div>

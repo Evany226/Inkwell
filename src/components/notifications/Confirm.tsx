@@ -14,7 +14,6 @@ const Confirm = ({
       <h1 className="text-black text-lg font-semibold mt-2 dark:text-gray-300">
         Delete Permanently
       </h1>
-      <div>{itemId}</div>
       <p className="text-red-700 text-base font-normal mt-1 mb-1 pb-0 text-center dark:text-red-400">
         If you click confirm, this item will be permanently deleted. This action
         is irreversible.
@@ -23,13 +22,15 @@ const Confirm = ({
         <div className="flex items-center">
           <button
             onClick={() => deleteNote(itemId)}
-            className="ml-2 flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-600 dark"
+            className="ml-2 flex justify-center items-center bg-red-300 hover:bg-red-400 py-1 px-2 rounded-md border border-red-400 dark:bg-red-400 dark:hover:bg-red-600"
           >
-            <p className="text-sm font-medium text-red-900 ">Confirm</p>
+            <p className="text-sm font-medium text-red-700 dark:hover:text-red-300">
+              Confirm
+            </p>
           </button>
           <button
             onClick={() => setModalOpen(false)}
-            className="ml-2 flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border"
+            className="ml-2 flex justify-center items-center bg-gray-100 py-1 px-2 rounded-md border hover:bg-gray-300 "
           >
             <p className="text-sm font-medium text-gray-700">Close</p>
             <XCircleIcon className="w-4 text-gray-700 ml-1" />

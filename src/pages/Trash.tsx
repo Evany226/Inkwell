@@ -19,7 +19,6 @@ const Trash = () => {
   const [trash, setTrash] = useState<Note[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { theme } = useTheme();
-  // const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const user = auth.currentUser;
 
