@@ -66,6 +66,13 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [tagValid, setTagValid] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [dateValue, setDateValue] = useState<string>("");
+
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // const dateParsed = new Date(Date.parse(event.target.value));
+    setDateValue(event.target.value);
+    console.log(event.target.value);
+  };
 
   const { theme } = useTheme();
 
@@ -163,6 +170,24 @@ const Dashboard = () => {
         })
       );
 
+      const dateParsed = new Date(Date.parse(dateValue));
+      const newDate = dateParsed.toISOString();
+
+      const data = {
+        subject: newNote,
+        date: newDate,
+      };
+
+      fetch("http://localhost:3000/api/send", {
+        method: "POST", // Specify the HTTP method
+        headers: {
+          "Content-Type": "application/json", // Set the content type to JSON
+        },
+        body: JSON.stringify(data), // Convert data to a JSON string
+      }).then((data) => {
+        console.log(data); // Update the state with the response data
+      });
+
       setSuccessMsg("Created successfully");
       setTimeout(() => {
         setSuccessMsg("");
@@ -172,6 +197,7 @@ const Dashboard = () => {
       setCheckList([]);
       setCode("");
       setCodeOpen(false);
+      setDateValue("");
     };
     if (user) {
       addData(user.uid);
@@ -407,6 +433,8 @@ const Dashboard = () => {
                 setListOpen={setListOpen}
                 code={code}
                 setCode={setCode}
+                dateValue={dateValue}
+                handleDateChange={handleDateChange}
               />
 
               <FilterNotes

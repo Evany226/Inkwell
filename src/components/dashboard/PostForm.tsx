@@ -10,6 +10,7 @@ import CheckListButton from "./buttons/CheckListButton";
 import CodeButton from "./buttons/CodeButton";
 import CodeModal from "../modals/CodeModal";
 import TextareaAutosize from "react-textarea-autosize";
+import { useState } from "react";
 
 interface PostFormProps {
   newNote: string;
@@ -25,6 +26,8 @@ interface PostFormProps {
   setListOpen(arg: boolean): void;
   code: string;
   setCode(arg: string): void;
+  dateValue: string;
+  handleDateChange(event: React.ChangeEvent<HTMLInputElement>): void;
 }
 
 export function PostForm({
@@ -41,7 +44,11 @@ export function PostForm({
   setListOpen,
   code,
   setCode,
+  dateValue,
+  handleDateChange,
 }: PostFormProps) {
+  const [dateOpen, setDateOpen] = useState<boolean>(false);
+
   return (
     <form
       className="rounded-lg w-full h-full flex flex-col justify-start items-start px-4 py-2 border bg-white dark:bg-zinc-800 dark:border-zinc-700"
@@ -109,8 +116,11 @@ export function PostForm({
           <CheckListButton setListOpen={setListOpen} />
         </div>
       </div>
-      <div className="w-full py-4 flex justify-between items-center">
-        <span className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer dark:bg-zinc-900 dark:border-zinc-700">
+      <div className="w-full pt-4 pb-2 flex justify-between items-center">
+        <span
+          onClick={() => setDateOpen(!dateOpen)}
+          className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer dark:bg-zinc-900 dark:border-zinc-700"
+        >
           <BellAlertIcon className="w-5 text-gray-700 dark:text-gray-300" />
           <p className="text-sm font-medium text-gray-700 ml-2 dark:text-gray-300">
             Reminders
@@ -124,6 +134,19 @@ export function PostForm({
           <PlusCircleIcon className="w-4 text-gray-600 ml-1 dark:text-gray-300" />
         </button>
       </div>
+
+      {dateOpen ? (
+        <div className="pb-2">
+          <input
+            className="p-1 rounded-md bg-gray-100 dark:bg-zinc-700"
+            aria-label="Date and time"
+            type="datetime-local"
+            value={dateValue}
+            onChange={(e) => handleDateChange(e)}
+            min={new Date().toString()}
+          />
+        </div>
+      ) : null}
     </form>
   );
 }
