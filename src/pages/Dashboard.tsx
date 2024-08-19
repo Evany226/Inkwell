@@ -178,7 +178,7 @@ const Dashboard = () => {
         date: newDate,
       };
 
-      fetch("http://localhost:3000/api/send", {
+      fetch("https://inkwell1.vercel.app/api/send", {
         method: "POST", // Specify the HTTP method
         headers: {
           "Content-Type": "application/json", // Set the content type to JSON
