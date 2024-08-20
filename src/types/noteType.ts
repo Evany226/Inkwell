@@ -5,4 +5,5 @@ export interface Note {
   tagArr: string[];
   codeText: string;
   pinned: boolean;
+  scheduled?: string;
 }

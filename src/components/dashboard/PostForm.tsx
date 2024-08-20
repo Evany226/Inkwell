@@ -118,7 +118,9 @@ export function PostForm({
       </div>
       <div className="w-full pt-4 pb-2 flex justify-between items-center">
         <span
-          onClick={() => setDateOpen(!dateOpen)}
+          onClick={() => {
+            setDateOpen(!dateOpen);
+          }}
           className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 py-1 px-2 rounded-md border cursor-pointer dark:bg-zinc-900 dark:border-zinc-700"
         >
           <BellAlertIcon className="w-5 text-gray-700 dark:text-gray-300" />
@@ -138,7 +140,7 @@ export function PostForm({
       {dateOpen ? (
         <div className="pb-2">
           <input
-            className="p-1 rounded-md bg-gray-100 dark:bg-zinc-700"
+            className="p-1 rounded-md border bg-gray-100 dark:text-gray-300 dark:bg-zinc-900 dark:border-zinc-700"
             aria-label="Date and time"
             type="datetime-local"
             value={dateValue}

@@ -15,4 +15,8 @@
     min-height: 100svh;
     @apply dark:bg-zinc-900;
   }
+
+  ::-webkit-calendar-picker-indicator {
+    @apply dark:invert;
+  }
 }

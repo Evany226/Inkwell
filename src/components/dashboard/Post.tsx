@@ -1,4 +1,5 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
+import { BellIcon } from "@heroicons/react/24/outline";
 import { PinIcon } from "../global/PinIcon";
 import PostDropdown from "./PostDropdown";
 import { useState, useEffect } from "react";
@@ -52,7 +53,7 @@ const Post = ({
   const [editTagValid, setEditTagValid] = useState<boolean>(true);
 
   //destructuring note prop
-  const { name, time, tagArr, codeText, id, pinned } = note;
+  const { name, time, tagArr, codeText, id, pinned, scheduled } = note;
 
   const user = auth.currentUser;
 
@@ -157,7 +158,7 @@ const Post = ({
         />
       </ModalMask>
 
-      <div className="bg-white w-full p-4 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:ring-zinc-700">
+      <div className="bg-white w-full p-4 pb-3 flex-col justify-center items-center rounded-lg mt-4 text-wrap whitespace-break-spaces relative border hover:ring-1 ring-gray-300 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:ring-zinc-700">
         {tagArr.length > 0 ? (
           <div className="flex w-full mb-1 space-x-2 mb-2">
             {tagArr.map((tag) => (
@@ -205,6 +206,18 @@ const Post = ({
               fontSize: "0.875rem",
             }}
           />
+        ) : null}
+
+        {scheduled ? (
+          <div className="w-full flex justify-start space-x-1 mt-1">
+            <BellIcon className="w-4 fill-yellow-300" />
+            <p className="text-sm text-gray-400 dark:text-gray-500">
+              Reminder:{" "}
+              {new Date(scheduled).toLocaleString("en-US", {
+                timeZoneName: "short",
+              })}
+            </p>
+          </div>
         ) : null}
 
         <div className="absolute top-0 right-0 mr-2 mt-4">

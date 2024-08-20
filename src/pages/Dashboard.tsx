@@ -102,6 +102,7 @@ const Dashboard = () => {
         tagArr: doc.get("tagArr"),
         codeText: doc.get("codeText"),
         pinned: doc.get("pinned"),
+        scheduled: doc.get("scheduled"),
       }));
       setNotes(
         documents.sort((a, b) => {
@@ -130,7 +131,7 @@ const Dashboard = () => {
     });
   }, [theme]);
 
-  const addNote = (event: React.ChangeEvent<HTMLFormElement>): void => {
+  const addNote = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     const addData = async (uid: string) => {
       const noteObject = {
@@ -139,6 +140,7 @@ const Dashboard = () => {
         tagArr: tags,
         codeText: code,
         pinned: false,
+        scheduled: dateValue || "",
       };
 
       const notesRef = collection(db, "users", uid, "notes");
@@ -170,28 +172,31 @@ const Dashboard = () => {
         })
       );
 
-      const dateParsed = new Date(Date.parse(dateValue));
-      const newDate = dateParsed.toISOString();
+      if (dateValue !== "") {
+        const dateParsed = new Date(Date.parse(dateValue));
+        const newDate = dateParsed.toISOString();
 
-      const data = {
-        subject: newNote,
-        date: newDate,
-      };
+        const data = {
+          subject: newNote,
+          date: newDate,
+        };
 
-      fetch("/api/send", {
-        method: "POST", // Specify the HTTP method
-        headers: {
-          "Content-Type": "application/json", // Set the content type to JSON
-        },
-        body: JSON.stringify(data), // Convert data to a JSON string
-      }).then((data) => {
-        console.log(data); // Update the state with the response data
-      });
+        await fetch("/api/send", {
+          method: "POST", // Specify the HTTP method
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+          body: JSON.stringify(data), // Convert data to a JSON string
+        }).then((data) => {
+          console.log(data); // Update the state with the response data
+        });
+      }
 
       setSuccessMsg("Created successfully");
       setTimeout(() => {
         setSuccessMsg("");
       }, 3000);
+
       resetNewNote(); // clears new note input
       setTags([]);
       setCheckList([]);
@@ -269,6 +274,7 @@ const Dashboard = () => {
         tagArr: docSnap.get("tagArr"),
         codeText: docSnap.get("codeText"),
         pinned: docSnap.get("pinned"),
+        scheduled: docSnap.get("scheduled"),
       };
 
       const checkRef = collection(db, "users", uid, "notes", id, "checkList");
@@ -310,6 +316,7 @@ const Dashboard = () => {
         tagArr: docSnap.get("tagArr"),
         codeText: docSnap.get("codeText"),
         pinned: !docSnap.get("pinned"),
+        scheduled: docSnap.get("scheduled"),
       };
 
       setNotes(
